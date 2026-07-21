@@ -11,6 +11,7 @@ from typing import Iterator
 from langchain_core.messages import (
     AIMessage,
     HumanMessage,
+    SystemMessage,
 )
 from langchain_ollama import ChatOllama
 
@@ -33,7 +34,7 @@ class OllamaProvider(BaseLLMProvider):
             model=llm.model_name,
             base_url=llm.base_url,
             temperature=llm.temperature,
-            num_predict=512,
+            num_predict=1024,
             num_ctx=2048,
         )
 
@@ -55,7 +56,25 @@ class OllamaProvider(BaseLLMProvider):
 
         start = time.time()
 
-        messages = []
+        # --------------------------------------------------
+        # Build conversation
+        # --------------------------------------------------
+
+        messages = [
+            SystemMessage(
+                content="""
+You are Personal AI Assistant.
+
+Answer directly.
+
+Do not reveal your reasoning.
+
+Return only the final answer.
+
+Be concise unless the user asks for more detail.
+""".strip()
+            )
+        ]
 
         if history:
 
@@ -84,11 +103,22 @@ class OllamaProvider(BaseLLMProvider):
 
         else:
 
+            logger.info("No conversation history found.")
+
             messages.append(
                 HumanMessage(
                     content=prompt,
                 )
             )
+
+        logger.info(
+            "Sending {} messages to Ollama.",
+            len(messages),
+        )
+
+        # --------------------------------------------------
+        # Generate response
+        # --------------------------------------------------
 
         response = self._llm.invoke(messages)
 
@@ -99,7 +129,30 @@ class OllamaProvider(BaseLLMProvider):
             elapsed,
         )
 
-        return response.content or ""
+        logger.info(
+            "Response type: {}",
+            type(response).__name__,
+        )
+
+        logger.info(
+            "Response content length: {}",
+            len(response.content or ""),
+        )
+
+        if not response.content:
+
+            logger.warning(
+                "LLM returned an empty response."
+            )
+
+            logger.debug(
+                "Response metadata: {}",
+                response.response_metadata,
+            )
+
+            return ""
+
+        return response.content.strip()
 
     def stream(
         self,
@@ -113,13 +166,25 @@ class OllamaProvider(BaseLLMProvider):
 
         start = time.time()
 
-        for chunk in self._llm.stream(
-            [
-                HumanMessage(
-                    content=prompt,
-                )
-            ]
-        ):
+        messages = [
+            SystemMessage(
+                content="""
+You are Personal AI Assistant.
+
+Answer directly.
+
+Do not reveal your reasoning.
+
+Return only the final answer.
+""".strip()
+            ),
+            HumanMessage(
+                content=prompt,
+            ),
+        ]
+
+        for chunk in self._llm.stream(messages):
+
             if chunk.content:
                 yield chunk.content
 
@@ -139,7 +204,10 @@ class OllamaProvider(BaseLLMProvider):
 
         try:
 
-            self.generate("Hello")
+            self.generate(
+                prompt="Hello",
+                history=None,
+            )
 
             logger.info(
                 "Ollama health check passed."

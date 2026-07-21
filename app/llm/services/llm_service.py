@@ -12,6 +12,7 @@ from app.llm.providers import (
     BaseLLMProvider,
     LLMProviderFactory,
 )
+from app.memory.models import ChatMessage
 from app.memory.service import MemoryService
 
 
@@ -24,9 +25,6 @@ class LLMService:
         self,
         provider: BaseLLMProvider | None = None,
     ) -> None:
-        """
-        Initialize the LLM service.
-        """
 
         self._provider = provider or LLMProviderFactory.create()
 
@@ -42,7 +40,7 @@ class LLMService:
         prompt: str,
     ) -> str:
         """
-        Generate a response while maintaining conversation memory.
+        Generate a complete response.
         """
 
         logger.info("Saving user message...")
@@ -69,21 +67,35 @@ class LLMService:
 
         return response
 
+    def get_history(
+        self,
+    ) -> list[ChatMessage]:
+        """
+        Return the conversation history.
+        """
+
+        return self.memory.get_history()
+
+    def clear_history(
+        self,
+    ) -> None:
+        """
+        Clear the conversation history.
+        """
+
+        logger.info("Clearing conversation history...")
+
+        self.memory.clear()
+
     def stream(
         self,
         prompt: str,
     ) -> Iterator[str]:
-        """
-        Stream the response.
-        """
 
         yield from self._provider.stream(prompt)
 
     def health_check(
         self,
     ) -> bool:
-        """
-        Check provider health.
-        """
 
         return self._provider.health_check()

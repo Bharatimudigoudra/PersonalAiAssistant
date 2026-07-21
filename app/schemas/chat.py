@@ -23,4 +23,12 @@ class ChatResponse(BaseModel):
     Chat response model.
     """
 
-    response: str
+    response: str = Field(
+        ...,
+        description="Assistant response",
+    )
+
+    history_size: int = Field(
+        ...,
+        description="Number of messages currently stored in memory.",
+    )

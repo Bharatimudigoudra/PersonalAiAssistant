@@ -13,7 +13,6 @@ class MemoryService:
     """
 
     def __init__(self) -> None:
-
         self._memory = MemoryManager()
 
         logger.info(
@@ -53,7 +52,7 @@ class MemoryService:
         self,
     ) -> None:
         """
-        Clear memory.
+        Clear all conversation history.
         """
 
         self._memory.clear()
@@ -62,7 +61,7 @@ class MemoryService:
         self,
     ) -> int:
         """
-        Return total messages.
+        Return the total number of stored messages.
         """
 
         return self._memory.size()

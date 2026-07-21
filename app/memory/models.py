@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 class ChatMessage(BaseModel):
     """
-    Single chat message.
+    Represents a single chat message.
     """
 
     role: str
