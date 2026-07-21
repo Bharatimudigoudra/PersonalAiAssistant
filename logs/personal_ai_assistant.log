@@ -1,0 +1,109 @@
+2026-07-18 12:28:40,977 | INFO | __name__ | Logging test successful!
+2026-07-18 12:29:51,725 | INFO | __name__ | Logging test successful!
+2026-07-18 13:18:05,759 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 13:18:06,192 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 13:18:12,097 | INFO | __name__ | Generating response...
+2026-07-18 13:18:25,531 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 13:18:37,659 | INFO | __name__ | Ollama health check passed.
+2026-07-18 13:18:42,709 | INFO | __name__ | Generating response...
+2026-07-18 13:18:45,357 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 21:42:12,641 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-18 21:42:12,642 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 21:42:13,425 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 21:42:26,385 | INFO | __name__ | Generating response...
+2026-07-18 21:42:41,272 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 21:42:58,184 | INFO | __name__ | Ollama health check passed.
+2026-07-18 21:43:15,949 | INFO | __name__ | Generating response...
+2026-07-18 21:43:19,162 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 21:48:19,956 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-18 21:48:19,957 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 21:48:20,757 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 21:48:20,758 | INFO | __name__ | LLMService initialized with OllamaProvider
+2026-07-18 21:49:15,625 | INFO | __name__ | Generating response...
+2026-07-18 21:49:25,260 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 21:49:50,115 | INFO | __name__ | Ollama health check passed.
+2026-07-18 21:50:01,228 | INFO | __name__ | Generating response...
+2026-07-18 21:50:04,631 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 21:59:40,583 | INFO | __name__ | ============================================================
+2026-07-18 21:59:40,584 | INFO | __name__ | Starting Personal AI Assistant
+2026-07-18 21:59:40,584 | INFO | __name__ | Model : qwen3:4b
+2026-07-18 21:59:40,584 | INFO | __name__ | Ollama : http://localhost:11434
+2026-07-18 21:59:40,584 | INFO | __name__ | ============================================================
+2026-07-18 22:05:18,691 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-18 22:05:18,692 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 22:05:19,641 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 22:05:19,642 | INFO | __name__ | LLMService initialized with OllamaProvider
+2026-07-18 22:05:19,643 | INFO | __name__ | Generating response...
+2026-07-18 22:05:34,522 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 22:15:19,312 | INFO | __name__ | ============================================================
+2026-07-18 22:15:19,312 | INFO | __name__ | Starting Personal AI Assistant
+2026-07-18 22:15:19,313 | INFO | __name__ | Model : qwen3:4b
+2026-07-18 22:15:19,313 | INFO | __name__ | Ollama : http://localhost:11434
+2026-07-18 22:15:19,313 | INFO | __name__ | ============================================================
+2026-07-18 22:16:58,232 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-18 22:16:58,233 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 22:16:59,094 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 22:16:59,094 | INFO | __name__ | LLMService initialized with OllamaProvider
+2026-07-18 22:16:59,096 | INFO | __name__ | Generating response...
+2026-07-18 22:17:13,166 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 22:49:12,462 | INFO | __name__ | ============================================================
+2026-07-18 22:49:12,464 | INFO | __name__ | Starting Personal AI Assistant
+2026-07-18 22:49:12,464 | INFO | __name__ | Model : qwen3:4b
+2026-07-18 22:49:12,464 | INFO | __name__ | Ollama : http://localhost:11434
+2026-07-18 22:49:12,465 | INFO | __name__ | ============================================================
+2026-07-18 22:50:03,780 | INFO | __name__ | ============================================================
+2026-07-18 22:50:03,780 | INFO | __name__ | Starting Personal AI Assistant
+2026-07-18 22:50:03,781 | INFO | __name__ | Model : qwen3:4b
+2026-07-18 22:50:03,781 | INFO | __name__ | Ollama : http://localhost:11434
+2026-07-18 22:50:03,781 | INFO | __name__ | ============================================================
+2026-07-18 22:50:39,759 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-18 22:50:39,759 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-18 22:50:40,769 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-18 22:50:40,770 | INFO | __name__ | LLMService initialized with OllamaProvider
+2026-07-18 22:50:40,781 | INFO | __name__ | Generating response...
+2026-07-18 22:50:56,024 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-19 17:34:18,013 | INFO | __name__ | ============================================================
+2026-07-19 17:34:18,014 | INFO | __name__ | Starting Personal AI Assistant
+2026-07-19 17:34:18,014 | INFO | __name__ | Version : 1.0.0
+2026-07-19 17:34:18,015 | INFO | __name__ | Model   : qwen3:4b
+2026-07-19 17:34:18,015 | INFO | __name__ | Ollama  : http://localhost:11434
+2026-07-19 17:34:18,015 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,653 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,653 | INFO | __name__ | Incoming Request
+2026-07-19 17:34:54,654 | INFO | __name__ | Request ID : 94f13b93
+2026-07-19 17:34:54,654 | INFO | __name__ | Method     : GET
+2026-07-19 17:34:54,655 | INFO | __name__ | Path       : /docs
+2026-07-19 17:34:54,656 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,657 | INFO | __name__ | Completed Request
+2026-07-19 17:34:54,658 | INFO | __name__ | Request ID : 94f13b93
+2026-07-19 17:34:54,658 | INFO | __name__ | Status     : 200
+2026-07-19 17:34:54,659 | INFO | __name__ | Time       : 0.00 sec
+2026-07-19 17:34:54,659 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,795 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,795 | INFO | __name__ | Incoming Request
+2026-07-19 17:34:54,795 | INFO | __name__ | Request ID : 428c1613
+2026-07-19 17:34:54,795 | INFO | __name__ | Method     : GET
+2026-07-19 17:34:54,796 | INFO | __name__ | Path       : /openapi.json
+2026-07-19 17:34:54,796 | INFO | __name__ | ============================================================
+2026-07-19 17:34:54,810 | INFO | __name__ | Completed Request
+2026-07-19 17:34:54,810 | INFO | __name__ | Request ID : 428c1613
+2026-07-19 17:34:54,811 | INFO | __name__ | Status     : 200
+2026-07-19 17:34:54,811 | INFO | __name__ | Time       : 0.02 sec
+2026-07-19 17:34:54,811 | INFO | __name__ | ============================================================
+2026-07-19 17:35:27,162 | INFO | __name__ | ============================================================
+2026-07-19 17:35:27,162 | INFO | __name__ | Incoming Request
+2026-07-19 17:35:27,163 | INFO | __name__ | Request ID : 536680f3
+2026-07-19 17:35:27,163 | INFO | __name__ | Method     : POST
+2026-07-19 17:35:27,164 | INFO | __name__ | Path       : /chat
+2026-07-19 17:35:27,164 | INFO | __name__ | ============================================================
+2026-07-19 17:35:27,168 | INFO | __name__ | Selected LLM Provider: ollama
+2026-07-19 17:35:27,169 | INFO | __name__ | Initializing Ollama Provider...
+2026-07-19 17:35:28,185 | INFO | __name__ | Model Loaded: qwen3:4b
+2026-07-19 17:35:28,185 | INFO | __name__ | LLMService initialized with OllamaProvider
+2026-07-19 17:35:28,196 | INFO | __name__ | Generating response...
+2026-07-19 17:35:42,005 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-19 17:38:11,589 | INFO | __name__ | Completed Request
+2026-07-19 17:38:11,594 | INFO | __name__ | Request ID : 536680f3
+2026-07-19 17:38:11,595 | INFO | __name__ | Status     : 200
+2026-07-19 17:38:11,595 | INFO | __name__ | Time       : 164.42 sec
+2026-07-19 17:38:11,596 | INFO | __name__ | ============================================================

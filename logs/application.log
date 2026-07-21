@@ -1,0 +1,618 @@
+2026-07-17 21:20:41,489 | INFO | PersonalAiAssistant | ============================================================
+2026-07-17 21:20:41,490 | INFO | PersonalAiAssistant | Starting Personal AI Assistant
+2026-07-17 21:20:41,491 | INFO | PersonalAiAssistant | Model : qwen3:8b
+2026-07-17 21:20:41,491 | INFO | PersonalAiAssistant | Ollama : http://localhost:11434
+2026-07-17 21:20:41,491 | INFO | PersonalAiAssistant | ============================================================
+2026-07-18 12:03:35,556 | INFO | PersonalAiAssistant | Initializing Ollama provider...
+2026-07-18 12:03:35,986 | INFO | PersonalAiAssistant | Generating response...
+2026-07-18 12:03:50,211 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-18 12:04:32,586 | INFO | PersonalAiAssistant | Generating response...
+2026-07-18 12:04:35,249 | INFO | httpx | HTTP Request: POST http://localhost:11434/api/chat "HTTP/1.1 200 OK"
+2026-07-19 17:46:32.463 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-19 17:46:32.463 | INFO     | app.main:startup_event:39 - Starting %s
+2026-07-19 17:46:32.464 | INFO     | app.main:startup_event:40 - Version : %s
+2026-07-19 17:46:32.465 | INFO     | app.main:startup_event:41 - Model   : %s
+2026-07-19 17:46:32.465 | INFO     | app.main:startup_event:42 - Ollama  : %s
+2026-07-19 17:46:32.465 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-19 17:46:42.099 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-19 17:46:42.100 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-19 17:46:42.100 | INFO     | app.core.middleware:dispatch:31 - Request ID : %s
+2026-07-19 17:46:42.101 | INFO     | app.core.middleware:dispatch:32 - Method     : %s
+2026-07-19 17:46:42.102 | INFO     | app.core.middleware:dispatch:33 - Path       : %s
+2026-07-19 17:46:42.103 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-19 17:46:42.105 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-19 17:46:42.105 | INFO     | app.core.middleware:dispatch:41 - Request ID : %s
+2026-07-19 17:46:42.106 | INFO     | app.core.middleware:dispatch:42 - Status     : %s
+2026-07-19 17:46:42.106 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-19 17:46:42.107 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-19 17:46:42.297 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-19 17:46:42.297 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-19 17:46:42.298 | INFO     | app.core.middleware:dispatch:31 - Request ID : %s
+2026-07-19 17:46:42.298 | INFO     | app.core.middleware:dispatch:32 - Method     : %s
+2026-07-19 17:46:42.299 | INFO     | app.core.middleware:dispatch:33 - Path       : %s
+2026-07-19 17:46:42.300 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-19 17:46:42.318 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-19 17:46:42.319 | INFO     | app.core.middleware:dispatch:41 - Request ID : %s
+2026-07-19 17:46:42.320 | INFO     | app.core.middleware:dispatch:42 - Status     : %s
+2026-07-19 17:46:42.320 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-19 17:46:42.321 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-19 17:47:17.461 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-19 17:47:17.461 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-19 17:47:17.462 | INFO     | app.core.middleware:dispatch:31 - Request ID : %s
+2026-07-19 17:47:17.462 | INFO     | app.core.middleware:dispatch:32 - Method     : %s
+2026-07-19 17:47:17.463 | INFO     | app.core.middleware:dispatch:33 - Path       : %s
+2026-07-19 17:47:17.463 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-19 17:47:17.490 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: %s
+2026-07-19 17:47:17.491 | INFO     | app.llm.providers.ollama_provider:__init__:24 - Initializing Ollama Provider...
+2026-07-19 17:47:18.435 | INFO     | app.llm.providers.ollama_provider:__init__:32 - Model Loaded: qwen3:4b
+2026-07-19 17:47:18.435 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with %s
+2026-07-19 17:47:18.437 | INFO     | app.llm.providers.ollama_provider:generate:39 - Generating response...
+2026-07-19 17:49:11.918 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-19 17:49:11.925 | INFO     | app.core.middleware:dispatch:41 - Request ID : %s
+2026-07-19 17:49:11.925 | INFO     | app.core.middleware:dispatch:42 - Status     : %s
+2026-07-19 17:49:11.930 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-19 17:49:11.931 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-19 18:25:56.502 | INFO     | app.embeddings.bge_embedding:__init__:19 - Loading embedding model: %s
+2026-07-19 18:26:04.903 | INFO     | app.embeddings.bge_embedding:__init__:29 - Embedding model loaded.
+2026-07-19 18:26:08.483 | INFO     | app.embeddings.bge_embedding:health_check:63 - Embedding health check passed.
+2026-07-19 18:40:36.052 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 18:40:42.705 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 18:47:46.538 | INFO     | app.embeddings.bge_embedding:health_check:70 - Embedding health check passed.
+2026-07-19 18:55:17.907 | INFO     | app.rag.loaders.text_loader:load:21 - Loading text document: %s
+2026-07-19 18:55:17.908 | INFO     | app.rag.loaders.text_loader:load:30 - Loaded %d characters.
+2026-07-19 19:06:11.940 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 19:06:11.990 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded %d characters.
+2026-07-19 19:19:36.005 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 19:19:36.009 | INFO     | app.rag.chunking.text_chunker:split:47 - Created %d chunks.
+2026-07-19 19:20:17.527 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 19:20:17.571 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded %d characters.
+2026-07-19 19:20:17.573 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 19:20:17.575 | INFO     | app.rag.chunking.text_chunker:split:47 - Created %d chunks.
+2026-07-19 20:16:43.158 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:16:44.492 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:16:47.289 | INFO     | app.vectorstore.chroma_vectorstore:health_check:74 - ChromaDB healthy.
+2026-07-19 20:18:04.644 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:18:04.645 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:18:04.894 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:19:07.181 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:19:07.181 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:19:07.298 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:19:08.676 | INFO     | app.vectorstore.chroma_vectorstore:health_check:74 - ChromaDB healthy.
+2026-07-19 20:28:06.339 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:28:06.340 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:28:14.530 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:28:14.531 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:28:14.531 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:28:14.791 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:28:14.791 | INFO     | app.rag.ingestion:ingest:31 - Starting ingestion: %s
+2026-07-19 20:28:14.792 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:28:14.838 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded %d characters.
+2026-07-19 20:28:14.839 | INFO     | app.rag.chunking.text_chunker:split:47 - Created %d chunks.
+2026-07-19 20:29:33.937 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:29:33.937 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:29:41.775 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:29:41.775 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:29:41.775 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:29:41.982 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:29:41.982 | INFO     | app.rag.ingestion:ingest:31 - Starting ingestion: %s
+2026-07-19 20:29:41.982 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:29:59.304 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:29:59.305 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:30:06.942 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:30:06.942 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:30:06.943 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:30:07.110 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:30:07.111 | INFO     | app.rag.ingestion:ingest:31 - Starting ingestion: %s
+2026-07-19 20:30:07.111 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:30:49.564 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:30:49.564 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:30:56.934 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:30:56.935 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:30:56.935 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:30:57.116 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:30:57.116 | INFO     | app.rag.ingestion:ingest:31 - Starting ingestion: %s
+2026-07-19 20:30:57.116 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:34:21.285 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:34:21.285 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:34:29.011 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:34:29.012 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:34:29.012 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:34:29.175 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:34:29.176 | INFO     | app.rag.ingestion:ingest:31 - Starting ingestion: %s
+2026-07-19 20:34:29.176 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:34:29.220 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded %d characters.
+2026-07-19 20:34:29.221 | INFO     | app.rag.chunking.text_chunker:split:47 - Created %d chunks.
+2026-07-19 20:44:56.997 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=%d, overlap=%d)
+2026-07-19 20:44:56.998 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: %s
+2026-07-19 20:48:26.840 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 20:48:26.840 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: %s
+2026-07-19 20:48:26.841 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 20:48:27.086 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: %s
+2026-07-19 20:48:27.087 | INFO     | app.rag.ingestion:ingest:30 - Starting ingestion: data\documents\resume.pdf
+2026-07-19 20:48:27.087 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: %s
+2026-07-19 20:48:27.138 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded %d characters.
+2026-07-19 20:48:27.140 | INFO     | app.rag.chunking.text_chunker:split:47 - Created %d chunks.
+2026-07-19 20:48:28.703 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted %d documents.
+2026-07-19 20:48:28.704 | INFO     | app.rag.ingestion:ingest:66 - Document successfully ingested (8 chunks).
+2026-07-19 21:03:57.352 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-07-19 21:03:57.353 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-19 21:04:05.254 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 21:04:05.254 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-19 21:04:05.255 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 21:04:05.508 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-19 21:04:05.508 | INFO     | app.rag.ingestion:ingest:30 - Starting ingestion: data\documents\resume.pdf
+2026-07-19 21:04:05.509 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\resume.pdf
+2026-07-19 21:04:05.551 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-07-19 21:04:05.552 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-07-19 21:04:06.858 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 8 documents.
+2026-07-19 21:04:06.858 | INFO     | app.rag.ingestion:ingest:66 - Document successfully ingested (8 chunks).
+2026-07-19 21:11:01.831 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-19 21:11:08.802 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 21:11:08.802 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-19 21:11:08.803 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 21:11:09.057 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-19 21:11:09.058 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-19 21:11:09.443 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-19 21:15:57.083 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-19 21:16:03.611 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 21:16:03.612 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-19 21:16:03.613 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 21:16:03.928 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-19 21:16:03.928 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-19 21:16:03.929 | INFO     | app.llm.providers.ollama_provider:__init__:24 - Initializing Ollama Provider...
+2026-07-19 21:16:04.739 | INFO     | app.llm.providers.ollama_provider:__init__:32 - Model Loaded: qwen3:4b
+2026-07-19 21:16:04.739 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-19 21:16:04.739 | INFO     | app.rag.rag_service:ask:27 - Running RAG pipeline...
+2026-07-19 21:16:04.740 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-19 21:16:05.143 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-19 21:23:02.505 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-19 21:23:10.628 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-19 21:23:10.628 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-19 21:23:10.628 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-19 21:23:10.920 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-19 21:23:10.920 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-19 21:23:10.921 | INFO     | app.llm.providers.ollama_provider:__init__:24 - Initializing Ollama Provider...
+2026-07-19 21:23:11.701 | INFO     | app.llm.providers.ollama_provider:__init__:32 - Model Loaded: qwen3:4b
+2026-07-19 21:23:11.701 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-19 21:23:11.702 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-19 21:23:11.704 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-19 21:23:12.097 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-19 21:23:12.098 | INFO     | app.rag.rag_service:ask:43 - Generating response from LLM...
+2026-07-19 21:23:12.098 | INFO     | app.llm.providers.ollama_provider:generate:39 - Generating response...
+2026-07-20 21:35:48.176 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 21:35:57.721 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 21:35:57.722 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 21:35:57.722 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 21:35:59.689 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 21:35:59.689 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 21:35:59.690 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 21:36:00.807 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 21:36:00.807 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 21:36:00.808 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 21:36:00.809 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-20 21:36:01.320 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-20 21:36:01.321 | INFO     | app.rag.rag_service:ask:43 - Generating response from LLM...
+2026-07-20 21:36:01.321 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 21:37:57.150 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 115.82 seconds.
+2026-07-20 21:37:57.188 | INFO     | app.rag.rag_service:ask:48 - RAG pipeline completed successfully.
+2026-07-20 21:43:33.883 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 21:43:42.206 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 21:43:42.206 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 21:43:42.207 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 21:43:42.591 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 21:43:42.591 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 21:43:42.592 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 21:43:43.734 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 21:43:43.735 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 21:43:43.758 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 21:43:43.759 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 21:43:43.760 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 21:43:43.762 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 21:43:43.764 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 21:43:43.765 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-20 21:43:51.309 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:43:51.310 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:43:51.311 | INFO     | app.core.middleware:dispatch:31 - Request ID : f6cd6497
+2026-07-20 21:43:51.312 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 21:43:51.314 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-20 21:43:51.315 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:43:51.320 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:43:51.321 | INFO     | app.core.middleware:dispatch:41 - Request ID : f6cd6497
+2026-07-20 21:43:51.323 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:43:51.325 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:43:51.325 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:43:51.506 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:43:51.507 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:43:51.508 | INFO     | app.core.middleware:dispatch:31 - Request ID : 905204ec
+2026-07-20 21:43:51.509 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 21:43:51.510 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-20 21:43:51.511 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:43:51.536 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:43:51.538 | INFO     | app.core.middleware:dispatch:41 - Request ID : 905204ec
+2026-07-20 21:43:51.540 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:43:51.541 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:43:51.542 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:43:59.601 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:43:59.603 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:43:59.603 | INFO     | app.core.middleware:dispatch:31 - Request ID : c4562a83
+2026-07-20 21:43:59.604 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 21:43:59.606 | INFO     | app.core.middleware:dispatch:33 - Path       : /
+2026-07-20 21:43:59.606 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:43:59.613 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:43:59.614 | INFO     | app.core.middleware:dispatch:41 - Request ID : c4562a83
+2026-07-20 21:43:59.614 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:43:59.615 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:43:59.616 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:44:49.964 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:44:49.965 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:44:49.966 | INFO     | app.core.middleware:dispatch:31 - Request ID : fed5fffe
+2026-07-20 21:44:49.966 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 21:44:49.968 | INFO     | app.core.middleware:dispatch:33 - Path       : /chat
+2026-07-20 21:44:49.970 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:44:49.976 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 21:44:49.978 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 21:44:51.191 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 21:44:51.192 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 21:44:51.194 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 21:45:11.563 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:45:11.595 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:45:11.596 | INFO     | app.core.middleware:dispatch:31 - Request ID : 0288f384
+2026-07-20 21:45:11.597 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 21:45:11.605 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-20 21:45:11.606 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:45:11.874 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 21:45:11.877 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-20 21:45:14.038 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-20 21:45:14.047 | INFO     | app.rag.rag_service:ask:43 - Generating response from LLM...
+2026-07-20 21:45:14.051 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 21:45:45.233 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 54.04 seconds.
+2026-07-20 21:45:45.273 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:45:45.274 | INFO     | app.core.middleware:dispatch:41 - Request ID : fed5fffe
+2026-07-20 21:45:45.275 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:45:45.276 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:45:45.278 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:47:22.441 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 128.39 seconds.
+2026-07-20 21:47:22.450 | INFO     | app.rag.rag_service:ask:48 - RAG pipeline completed successfully.
+2026-07-20 21:47:22.472 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:47:22.473 | INFO     | app.core.middleware:dispatch:41 - Request ID : 0288f384
+2026-07-20 21:47:22.475 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:47:22.475 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:47:22.476 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:53:00.928 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 21:53:10.336 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 21:53:10.336 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 21:53:10.337 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 21:53:10.726 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 21:53:10.728 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 21:53:10.729 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 21:53:11.906 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 21:53:11.906 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 21:53:11.936 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 21:53:11.938 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 21:53:11.939 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 21:53:11.940 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 21:53:11.941 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 21:53:11.944 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-20 21:53:30.391 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:53:30.392 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:53:30.393 | INFO     | app.core.middleware:dispatch:31 - Request ID : 44ef0940
+2026-07-20 21:53:30.394 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 21:53:30.396 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-20 21:53:30.396 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:53:30.399 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:53:30.401 | INFO     | app.core.middleware:dispatch:41 - Request ID : 44ef0940
+2026-07-20 21:53:30.403 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:53:30.404 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:53:30.405 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:53:30.602 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:53:30.603 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:53:30.603 | INFO     | app.core.middleware:dispatch:31 - Request ID : c5efbebc
+2026-07-20 21:53:30.604 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 21:53:30.605 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-20 21:53:30.605 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:53:30.623 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:53:30.624 | INFO     | app.core.middleware:dispatch:41 - Request ID : c5efbebc
+2026-07-20 21:53:30.625 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:53:30.626 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:53:30.627 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 21:53:57.339 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 21:53:57.339 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 21:53:57.340 | INFO     | app.core.middleware:dispatch:31 - Request ID : 4fb4a161
+2026-07-20 21:53:57.341 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 21:53:57.342 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-20 21:53:57.342 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 21:53:57.374 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 21:53:57.375 | INFO     | app.rag.retrieval:retrieve:29 - Searching for: What is Bharati's work experience?
+2026-07-20 21:53:57.934 | INFO     | app.rag.retrieval:retrieve:40 - Retrieved 5 chunks.
+2026-07-20 21:53:57.936 | INFO     | app.rag.rag_service:ask:43 - Generating response from LLM...
+2026-07-20 21:53:57.937 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 21:55:59.602 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 121.65 seconds.
+2026-07-20 21:55:59.678 | INFO     | app.llm.providers.ollama_provider:generate:58 - Raw LLM response type: <class 'langchain_core.messages.ai.AIMessage'>
+2026-07-20 21:55:59.681 | INFO     | app.llm.providers.ollama_provider:generate:59 - Raw LLM response: content='' additional_kwargs={} response_metadata={'model': 'qwen3:4b', 'created_at': '2026-07-20T16:25:59.4773Z', 'done': True, 'done_reason': 'length', 'total_duration': 119434270000, 'load_duration': 16549714800, 'prompt_eval_count': 1218, 'prompt_eval_duration': 58594614000, 'eval_count': 256, 'eval_duration': 43726909000, 'logprobs': None, 'model_name': 'qwen3:4b', 'model_provider': 'ollama'} id='lc_run--019f8057-610c-7db1-a029-662449459609-0' tool_calls=[] invalid_tool_calls=[] usage_metadata={'input_tokens': 1218, 'output_tokens': 256, 'total_tokens': 1474}
+2026-07-20 21:55:59.722 | INFO     | app.llm.providers.ollama_provider:generate:60 - Response content: ''
+2026-07-20 21:55:59.726 | INFO     | app.llm.providers.ollama_provider:generate:63 - Additional kwargs: {}
+2026-07-20 21:55:59.728 | INFO     | app.llm.providers.ollama_provider:generate:69 - Response metadata: {'model': 'qwen3:4b', 'created_at': '2026-07-20T16:25:59.4773Z', 'done': True, 'done_reason': 'length', 'total_duration': 119434270000, 'load_duration': 16549714800, 'prompt_eval_count': 1218, 'prompt_eval_duration': 58594614000, 'eval_count': 256, 'eval_duration': 43726909000, 'logprobs': None, 'model_name': 'qwen3:4b', 'model_provider': 'ollama'}
+2026-07-20 21:55:59.733 | INFO     | app.rag.rag_service:ask:48 - RAG pipeline completed successfully.
+2026-07-20 21:55:59.844 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 21:55:59.849 | INFO     | app.core.middleware:dispatch:41 - Request ID : 4fb4a161
+2026-07-20 21:55:59.851 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 21:55:59.852 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 21:55:59.853 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:19:42.497 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 22:19:50.157 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 22:19:50.158 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 22:19:50.160 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 22:19:50.614 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 22:19:50.615 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 22:19:50.616 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 22:19:51.801 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 22:19:51.802 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 22:19:51.837 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 22:19:51.838 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 22:19:51.839 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 22:19:51.840 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 22:19:51.841 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 22:19:51.843 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-20 22:19:52.459 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:19:52.460 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:19:52.462 | INFO     | app.core.middleware:dispatch:31 - Request ID : 717ab310
+2026-07-20 22:19:52.463 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:19:52.465 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-20 22:19:52.467 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:19:52.471 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:19:52.473 | INFO     | app.core.middleware:dispatch:41 - Request ID : 717ab310
+2026-07-20 22:19:52.474 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:19:52.477 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:19:52.478 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:19:52.742 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:19:52.743 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:19:52.744 | INFO     | app.core.middleware:dispatch:31 - Request ID : 84a9dcfc
+2026-07-20 22:19:52.745 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:19:52.746 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-20 22:19:52.747 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:19:52.776 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:19:52.777 | INFO     | app.core.middleware:dispatch:41 - Request ID : 84a9dcfc
+2026-07-20 22:19:52.778 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:19:52.779 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:19:52.780 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:21:00.658 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:21:00.659 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:21:00.660 | INFO     | app.core.middleware:dispatch:31 - Request ID : 887938bf
+2026-07-20 22:21:00.661 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 22:21:00.661 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-20 22:21:00.662 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:21:00.675 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 22:21:00.677 | INFO     | app.rag.retrieval:retrieve:28 - Searching for: What is Bharati's work experience?
+2026-07-20 22:21:01.335 | INFO     | app.rag.retrieval:retrieve:42 - Retrieved 2 unique chunks.
+2026-07-20 22:21:01.336 | INFO     | app.rag.rag_service:ask:42 - Retrieved 2 unique chunks.
+2026-07-20 22:21:01.337 | INFO     | app.rag.rag_service:ask:47 - Context length: 1852 characters
+2026-07-20 22:21:01.338 | INFO     | app.rag.rag_service:ask:58 - Prompt length: 2468 characters
+2026-07-20 22:21:01.339 | INFO     | app.rag.rag_service:ask:68 - Generating response from LLM...
+2026-07-20 22:21:01.340 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 22:22:22.762 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 81.42 seconds.
+2026-07-20 22:22:22.780 | INFO     | app.llm.providers.ollama_provider:generate:58 - Raw LLM response type: <class 'langchain_core.messages.ai.AIMessage'>
+2026-07-20 22:22:22.782 | INFO     | app.llm.providers.ollama_provider:generate:59 - Raw LLM response: content='' additional_kwargs={} response_metadata={'model': 'qwen3:4b', 'created_at': '2026-07-20T16:52:22.7191019Z', 'done': True, 'done_reason': 'length', 'total_duration': 79260280200, 'load_duration': 18730421100, 'prompt_eval_count': 575, 'prompt_eval_duration': 26061126000, 'eval_count': 256, 'eval_duration': 34054432999, 'logprobs': None, 'model_name': 'qwen3:4b', 'model_provider': 'ollama'} id='lc_run--019f8070-267d-7812-9107-3e32e0521cea-0' tool_calls=[] invalid_tool_calls=[] usage_metadata={'input_tokens': 575, 'output_tokens': 256, 'total_tokens': 831}
+2026-07-20 22:22:22.794 | INFO     | app.llm.providers.ollama_provider:generate:60 - Response content: ''
+2026-07-20 22:22:22.797 | INFO     | app.llm.providers.ollama_provider:generate:63 - Additional kwargs: {}
+2026-07-20 22:22:22.798 | INFO     | app.llm.providers.ollama_provider:generate:69 - Response metadata: {'model': 'qwen3:4b', 'created_at': '2026-07-20T16:52:22.7191019Z', 'done': True, 'done_reason': 'length', 'total_duration': 79260280200, 'load_duration': 18730421100, 'prompt_eval_count': 575, 'prompt_eval_duration': 26061126000, 'eval_count': 256, 'eval_duration': 34054432999, 'logprobs': None, 'model_name': 'qwen3:4b', 'model_provider': 'ollama'}
+2026-07-20 22:22:22.801 | INFO     | app.rag.rag_service:ask:72 - RAG pipeline completed successfully.
+2026-07-20 22:22:22.856 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:22:22.860 | INFO     | app.core.middleware:dispatch:41 - Request ID : 887938bf
+2026-07-20 22:22:22.861 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:22:22.862 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:22:22.863 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:50:37.377 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 22:50:44.177 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 22:50:44.177 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 22:50:44.178 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 22:50:44.927 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 22:50:44.928 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 22:50:44.928 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 22:50:45.365 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 22:50:45.365 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 22:50:45.376 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 22:50:45.376 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 22:50:45.377 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 22:50:45.377 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 22:50:45.377 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 22:50:45.378 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-20 22:51:03.975 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:51:03.975 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:51:03.976 | INFO     | app.core.middleware:dispatch:31 - Request ID : 0ecd16a3
+2026-07-20 22:51:03.976 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:51:03.977 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-20 22:51:03.977 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:51:03.979 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:51:03.980 | INFO     | app.core.middleware:dispatch:41 - Request ID : 0ecd16a3
+2026-07-20 22:51:03.980 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:51:03.981 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:51:03.981 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:51:04.201 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:51:04.202 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:51:04.202 | INFO     | app.core.middleware:dispatch:31 - Request ID : f4226ba7
+2026-07-20 22:51:04.202 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:51:04.202 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-20 22:51:04.202 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:51:04.214 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:51:04.215 | INFO     | app.core.middleware:dispatch:41 - Request ID : f4226ba7
+2026-07-20 22:51:04.215 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:51:04.215 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:51:04.216 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:54:00.488 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 22:54:06.247 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 22:54:06.247 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 22:54:06.247 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 22:54:06.343 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 22:54:06.343 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 22:54:06.344 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 22:54:06.768 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 22:54:06.769 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 22:54:06.775 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 22:54:06.775 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 22:54:06.775 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 22:54:06.776 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 22:54:06.776 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 22:54:06.776 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-20 22:54:39.654 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:54:39.654 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:54:39.655 | INFO     | app.core.middleware:dispatch:31 - Request ID : cf60d807
+2026-07-20 22:54:39.655 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:54:39.656 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-20 22:54:39.656 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:54:39.657 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:54:39.658 | INFO     | app.core.middleware:dispatch:41 - Request ID : cf60d807
+2026-07-20 22:54:39.658 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:54:39.658 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:54:39.659 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:54:39.747 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:54:39.748 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:54:39.748 | INFO     | app.core.middleware:dispatch:31 - Request ID : 17964e3e
+2026-07-20 22:54:39.749 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-20 22:54:39.749 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-20 22:54:39.750 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:54:39.759 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:54:39.759 | INFO     | app.core.middleware:dispatch:41 - Request ID : 17964e3e
+2026-07-20 22:54:39.759 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:54:39.760 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:54:39.760 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 22:55:05.204 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 22:55:05.205 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 22:55:05.205 | INFO     | app.core.middleware:dispatch:31 - Request ID : 5b05d6b6
+2026-07-20 22:55:05.205 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 22:55:05.206 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-20 22:55:05.206 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 22:55:05.225 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 22:55:05.226 | INFO     | app.rag.retrieval:retrieve:28 - Searching for: What is python?
+2026-07-20 22:55:05.593 | INFO     | app.rag.retrieval:retrieve:42 - Retrieved 2 unique chunks.
+2026-07-20 22:55:05.594 | INFO     | app.rag.rag_service:ask:42 - Retrieved 2 unique chunks.
+2026-07-20 22:55:05.594 | INFO     | app.rag.rag_service:ask:53 - Context length: 1341 characters
+2026-07-20 22:55:05.594 | INFO     | app.rag.rag_service:ask:63 - Prompt length: 1938 characters
+2026-07-20 22:55:05.596 | INFO     | app.rag.rag_service:ask:76 - Generating response from LLM...
+2026-07-20 22:55:05.596 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 22:56:26.987 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 81.39 seconds.
+2026-07-20 22:56:27.033 | INFO     | app.rag.rag_service:ask:80 - LLM returned 324 characters.
+2026-07-20 22:56:27.035 | INFO     | app.rag.rag_service:ask:88 - RAG pipeline completed successfully.
+2026-07-20 22:56:27.085 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 22:56:27.087 | INFO     | app.core.middleware:dispatch:41 - Request ID : 5b05d6b6
+2026-07-20 22:56:27.090 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 22:56:27.090 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 22:56:27.091 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 23:00:02.883 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-20 23:00:02.890 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-20 23:00:02.893 | INFO     | app.core.middleware:dispatch:31 - Request ID : 8488c686
+2026-07-20 23:00:02.895 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-20 23:00:02.897 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-20 23:00:02.898 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-20 23:00:02.934 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-20 23:00:02.936 | INFO     | app.rag.retrieval:retrieve:28 - Searching for: What is Bharati's work experience?
+2026-07-20 23:00:03.518 | INFO     | app.rag.retrieval:retrieve:42 - Retrieved 2 unique chunks.
+2026-07-20 23:00:03.518 | INFO     | app.rag.rag_service:ask:42 - Retrieved 2 unique chunks.
+2026-07-20 23:00:03.519 | INFO     | app.rag.rag_service:ask:53 - Context length: 1852 characters
+2026-07-20 23:00:03.520 | INFO     | app.rag.rag_service:ask:63 - Prompt length: 2468 characters
+2026-07-20 23:00:03.522 | INFO     | app.rag.rag_service:ask:76 - Generating response from LLM...
+2026-07-20 23:00:03.523 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-20 23:02:34.887 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 151.36 seconds.
+2026-07-20 23:02:34.926 | INFO     | app.rag.rag_service:ask:80 - LLM returned 0 characters.
+2026-07-20 23:02:34.927 | WARNING  | app.rag.rag_service:ask:86 - LLM returned an empty response.
+2026-07-20 23:02:34.928 | INFO     | app.rag.rag_service:ask:88 - RAG pipeline completed successfully.
+2026-07-20 23:02:34.959 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-20 23:02:34.960 | INFO     | app.core.middleware:dispatch:41 - Request ID : 8488c686
+2026-07-20 23:02:34.960 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-20 23:02:34.963 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-20 23:02:34.963 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-20 23:03:00.534 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-20 23:03:06.790 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-20 23:03:06.790 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-20 23:03:06.791 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-20 23:03:07.000 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-20 23:03:07.001 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-20 23:03:07.001 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-20 23:03:07.435 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-20 23:03:07.436 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-20 23:03:07.446 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-20 23:03:07.446 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-20 23:03:07.447 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-20 23:03:07.447 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-20 23:03:07.447 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-20 23:03:07.448 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-21 14:28:17.646 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-07-21 14:28:25.668 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-07-21 14:28:25.669 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-07-21 14:28:25.669 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-07-21 14:28:26.799 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-07-21 14:28:26.799 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 14:28:26.800 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-21 14:28:27.577 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-21 14:28:27.577 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-21 14:28:27.598 | INFO     | app.main:startup_event:38 - ============================================================
+2026-07-21 14:28:27.599 | INFO     | app.main:startup_event:39 - Starting Personal AI Assistant
+2026-07-21 14:28:27.599 | INFO     | app.main:startup_event:40 - Version : 1.0.0
+2026-07-21 14:28:27.600 | INFO     | app.main:startup_event:41 - Model   : qwen3:4b
+2026-07-21 14:28:27.600 | INFO     | app.main:startup_event:42 - Ollama  : http://localhost:11434
+2026-07-21 14:28:27.600 | INFO     | app.main:startup_event:43 - ============================================================
+2026-07-21 14:28:28.752 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-21 14:28:28.754 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-21 14:28:28.756 | INFO     | app.core.middleware:dispatch:31 - Request ID : 3b83393b
+2026-07-21 14:28:28.757 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-21 14:28:28.758 | INFO     | app.core.middleware:dispatch:33 - Path       : /docs
+2026-07-21 14:28:28.758 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-21 14:28:28.761 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-21 14:28:28.761 | INFO     | app.core.middleware:dispatch:41 - Request ID : 3b83393b
+2026-07-21 14:28:28.763 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-21 14:28:28.765 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-21 14:28:28.766 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-21 14:28:28.957 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-21 14:28:28.958 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-21 14:28:28.958 | INFO     | app.core.middleware:dispatch:31 - Request ID : 793a8ddd
+2026-07-21 14:28:28.959 | INFO     | app.core.middleware:dispatch:32 - Method     : GET
+2026-07-21 14:28:28.960 | INFO     | app.core.middleware:dispatch:33 - Path       : /openapi.json
+2026-07-21 14:28:28.961 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-21 14:28:28.982 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-21 14:28:28.983 | INFO     | app.core.middleware:dispatch:41 - Request ID : 793a8ddd
+2026-07-21 14:28:28.984 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-21 14:28:28.985 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-21 14:28:28.987 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-21 14:29:22.451 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-21 14:29:22.452 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-21 14:29:22.453 | INFO     | app.core.middleware:dispatch:31 - Request ID : 0ebe766e
+2026-07-21 14:29:22.454 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-21 14:29:22.455 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-21 14:29:22.456 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-21 14:29:22.475 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-21 14:29:22.476 | INFO     | app.rag.retrieval:retrieve:28 - Searching for: What is Bharati's work experience?
+2026-07-21 14:29:23.008 | INFO     | app.rag.retrieval:retrieve:42 - Retrieved 2 unique chunks.
+2026-07-21 14:29:23.009 | INFO     | app.rag.rag_service:ask:42 - Retrieved 2 unique chunks.
+2026-07-21 14:29:23.010 | INFO     | app.rag.rag_service:ask:53 - Context length: 1852 characters
+2026-07-21 14:29:23.011 | INFO     | app.rag.rag_service:ask:63 - Prompt length: 2763 characters
+2026-07-21 14:29:23.014 | INFO     | app.rag.rag_service:ask:76 - Generating response from LLM...
+2026-07-21 14:29:23.014 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-21 14:31:33.557 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 130.54 seconds.
+2026-07-21 14:31:33.627 | INFO     | app.rag.rag_service:ask:80 - LLM returned 1134 characters.
+2026-07-21 14:31:33.628 | INFO     | app.rag.rag_service:ask:88 - RAG pipeline completed successfully.
+2026-07-21 14:31:33.689 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-21 14:31:33.692 | INFO     | app.core.middleware:dispatch:41 - Request ID : 0ebe766e
+2026-07-21 14:31:33.692 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-21 14:31:33.693 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-21 14:31:33.694 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-21 14:34:22.995 | INFO     | app.core.middleware:dispatch:29 - ============================================================
+2026-07-21 14:34:23.003 | INFO     | app.core.middleware:dispatch:30 - Incoming Request
+2026-07-21 14:34:23.007 | INFO     | app.core.middleware:dispatch:31 - Request ID : 97f0e67d
+2026-07-21 14:34:23.008 | INFO     | app.core.middleware:dispatch:32 - Method     : POST
+2026-07-21 14:34:23.012 | INFO     | app.core.middleware:dispatch:33 - Path       : /rag/chat
+2026-07-21 14:34:23.015 | INFO     | app.core.middleware:dispatch:34 - ============================================================
+2026-07-21 14:34:23.066 | INFO     | app.rag.rag_service:ask:29 - Running RAG pipeline...
+2026-07-21 14:34:23.069 | INFO     | app.rag.retrieval:retrieve:28 - Searching for: What are Bharati's technical skills?
+2026-07-21 14:34:23.790 | INFO     | app.rag.retrieval:retrieve:42 - Retrieved 2 unique chunks.
+2026-07-21 14:34:23.791 | INFO     | app.rag.rag_service:ask:42 - Retrieved 2 unique chunks.
+2026-07-21 14:34:23.792 | INFO     | app.rag.rag_service:ask:53 - Context length: 1807 characters
+2026-07-21 14:34:23.793 | INFO     | app.rag.rag_service:ask:63 - Prompt length: 2720 characters
+2026-07-21 14:34:23.798 | INFO     | app.rag.rag_service:ask:76 - Generating response from LLM...
+2026-07-21 14:34:23.799 | INFO     | app.llm.providers.ollama_provider:generate:42 - Generating response...
+2026-07-21 14:36:43.793 | INFO     | app.llm.providers.ollama_provider:generate:52 - LLM completed in 139.99 seconds.
+2026-07-21 14:36:43.840 | INFO     | app.rag.rag_service:ask:80 - LLM returned 785 characters.
+2026-07-21 14:36:43.841 | INFO     | app.rag.rag_service:ask:88 - RAG pipeline completed successfully.
+2026-07-21 14:36:43.890 | INFO     | app.core.middleware:dispatch:40 - Completed Request
+2026-07-21 14:36:43.892 | INFO     | app.core.middleware:dispatch:41 - Request ID : 97f0e67d
+2026-07-21 14:36:43.894 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
+2026-07-21 14:36:43.894 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
+2026-07-21 14:36:43.895 | INFO     | app.core.middleware:dispatch:44 - ============================================================

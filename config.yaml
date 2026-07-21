@@ -1,0 +1,51 @@
+application:
+  name: PersonalAiAssistant
+  author: Bharati
+  version: 1.0.0
+  environment: development
+  debug: true
+
+llm:
+  provider: ollama
+
+  model_name: qwen3:4b
+  base_url: http://localhost:11434
+
+  temperature: 0.2
+  max_tokens: 2048
+  timeout: 120
+
+  streaming: true
+
+embedding:
+  provider: huggingface
+  model_name: BAAI/bge-small-en-v1.5
+  device: cpu
+  normalize_embeddings: true
+
+vectorstore:
+  provider: chroma
+  persist_directory: data/vectorstore
+  collection_name: personal_ai
+  
+rag:
+  chunk_size: 1000
+  chunk_overlap: 200
+
+  top_k: 5
+  similarity_threshold: 0.5
+
+memory:
+  max_history: 10
+
+speech:
+  whisper_model: base
+  piper_voice: en_US-lessac-medium
+
+logging:
+  level: INFO
+  log_file: logs/personal_ai_assistant.log
+
+api:
+  host: 127.0.0.1
+  port: 8000
