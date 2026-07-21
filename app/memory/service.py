@@ -1,30 +1,68 @@
 """
-Memory service.
+Conversation memory service.
 """
 
+from app.core.logging import logger
 from app.memory.manager import MemoryManager
+from app.memory.models import ChatMessage
 
 
 class MemoryService:
+    """
+    High-level interface for conversation memory.
+    """
 
-    def __init__(self):
+    def __init__(self) -> None:
 
-        self.manager = MemoryManager()
+        self._memory = MemoryManager()
 
-    def save_conversation(
+        logger.info(
+            "MemoryService initialized."
+        )
+
+    def add_user_message(
         self,
-        question: str,
-        answer: str,
-    ):
+        content: str,
+    ) -> None:
+        """
+        Store a user message.
+        """
 
-        self.manager.add_user_message(question)
+        self._memory.add_user_message(content)
 
-        self.manager.add_assistant_message(answer)
+    def add_assistant_message(
+        self,
+        content: str,
+    ) -> None:
+        """
+        Store an assistant message.
+        """
 
-    def history(self):
+        self._memory.add_assistant_message(content)
 
-        return self.manager.get_history()
+    def get_history(
+        self,
+    ) -> list[ChatMessage]:
+        """
+        Return the conversation history.
+        """
 
-    def clear(self):
+        return self._memory.get_history()
 
-        self.manager.clear()
+    def clear(
+        self,
+    ) -> None:
+        """
+        Clear memory.
+        """
+
+        self._memory.clear()
+
+    def size(
+        self,
+    ) -> int:
+        """
+        Return total messages.
+        """
+
+        return self._memory.size()

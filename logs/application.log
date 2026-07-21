@@ -616,3 +616,54 @@
 2026-07-21 14:36:43.894 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
 2026-07-21 14:36:43.894 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
 2026-07-21 14:36:43.895 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-07-21 16:10:04.399 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:10:04.399 | INFO     | app.memory.manager:clear:85 - Conversation memory cleared.
+2026-07-21 16:14:08.770 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:14:08.771 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:14:08.771 | INFO     | app.memory.manager:clear:85 - Conversation memory cleared.
+2026-07-21 16:22:15.254 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 16:22:15.254 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-21 16:22:15.966 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-21 16:22:15.966 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:22:15.967 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:22:15.967 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-21 16:22:15.967 | INFO     | app.llm.services.llm_service:generate:45 - Saving user message...
+2026-07-21 16:22:34.172 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 16:22:34.173 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-21 16:22:34.898 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-21 16:22:34.898 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:22:34.899 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:22:34.899 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-21 16:22:34.899 | INFO     | app.llm.services.llm_service:generate:45 - Saving user message...
+2026-07-21 16:27:17.314 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 16:27:17.315 | INFO     | app.llm.providers.ollama_provider:__init__:25 - Initializing Ollama Provider...
+2026-07-21 16:27:18.027 | INFO     | app.llm.providers.ollama_provider:__init__:35 - Model Loaded: qwen3:4b
+2026-07-21 16:27:18.028 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:27:18.028 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:27:18.028 | INFO     | app.llm.services.llm_service:__init__:32 - LLMService initialized with OllamaProvider
+2026-07-21 16:27:18.028 | INFO     | app.llm.services.llm_service:generate:45 - Saving user message...
+2026-07-21 16:27:18.028 | INFO     | app.llm.services.llm_service:generate:51 - Conversation contains 1 messages.
+2026-07-21 16:35:17.339 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 16:35:17.339 | INFO     | app.llm.providers.ollama_provider:__init__:30 - Initializing Ollama Provider...
+2026-07-21 16:35:18.051 | INFO     | app.llm.providers.ollama_provider:__init__:40 - Model Loaded: qwen3:4b
+2026-07-21 16:35:18.052 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:35:18.052 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:35:18.052 | INFO     | app.llm.services.llm_service:__init__:35 - LLMService initialized with OllamaProvider
+2026-07-21 16:35:18.052 | INFO     | app.llm.services.llm_service:generate:48 - Saving user message...
+2026-07-21 16:35:18.052 | INFO     | app.llm.services.llm_service:generate:54 - Conversation contains 1 messages.
+2026-07-21 16:35:18.053 | INFO     | app.llm.providers.ollama_provider:generate:54 - Generating response...
+2026-07-21 16:35:18.053 | INFO     | app.llm.providers.ollama_provider:generate:62 - Loading 1 history messages.
+2026-07-21 16:37:17.683 | INFO     | app.llm.providers.ollama_provider:generate:97 - LLM completed in 119.63 seconds.
+2026-07-21 16:37:17.701 | INFO     | app.llm.services.llm_service:generate:64 - Saving assistant message...
+2026-07-21 16:39:49.516 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-07-21 16:39:49.517 | INFO     | app.llm.providers.ollama_provider:__init__:30 - Initializing Ollama Provider...
+2026-07-21 16:39:50.241 | INFO     | app.llm.providers.ollama_provider:__init__:40 - Model Loaded: qwen3:4b
+2026-07-21 16:39:50.241 | INFO     | app.memory.manager:__init__:28 - MemoryManager initialized (max_history=10)
+2026-07-21 16:39:50.241 | INFO     | app.memory.service:__init__:19 - MemoryService initialized.
+2026-07-21 16:39:50.242 | INFO     | app.llm.services.llm_service:__init__:35 - LLMService initialized with OllamaProvider
+2026-07-21 16:39:50.242 | INFO     | app.llm.services.llm_service:generate:48 - Saving user message...
+2026-07-21 16:39:50.242 | INFO     | app.llm.services.llm_service:generate:54 - Conversation contains 1 messages.
+2026-07-21 16:39:50.242 | INFO     | app.llm.providers.ollama_provider:generate:54 - Generating response...
+2026-07-21 16:39:50.243 | INFO     | app.llm.providers.ollama_provider:generate:62 - Loading 1 history messages.
+2026-07-21 16:40:54.475 | INFO     | app.llm.providers.ollama_provider:generate:97 - LLM completed in 64.23 seconds.
+2026-07-21 16:40:54.487 | INFO     | app.llm.services.llm_service:generate:64 - Saving assistant message...

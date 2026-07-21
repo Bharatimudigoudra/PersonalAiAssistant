@@ -9,6 +9,8 @@ with any LLM in a consistent way.
 from abc import ABC, abstractmethod
 from typing import Iterator
 
+from app.memory.models import ChatMessage
+
 
 class BaseLLMProvider(ABC):
     """
@@ -16,12 +18,20 @@ class BaseLLMProvider(ABC):
     """
 
     @abstractmethod
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+        history: list[ChatMessage] | None = None,
+    ) -> str:
         """
         Generate a complete response.
 
         Args:
-            prompt: User input prompt.
+            prompt:
+                User input prompt.
+
+            history:
+                Previous conversation messages.
 
         Returns:
             Model response as a string.
@@ -29,12 +39,16 @@ class BaseLLMProvider(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def stream(self, prompt: str) -> Iterator[str]:
+    def stream(
+        self,
+        prompt: str,
+    ) -> Iterator[str]:
         """
         Stream the response token-by-token.
 
         Args:
-            prompt: User input prompt.
+            prompt:
+                User input prompt.
 
         Yields:
             Individual text chunks from the model.
@@ -42,7 +56,9 @@ class BaseLLMProvider(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def health_check(self) -> bool:
+    def health_check(
+        self,
+    ) -> bool:
         """
         Check whether the LLM service is available.
 

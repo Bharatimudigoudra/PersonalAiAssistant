@@ -8,7 +8,11 @@ language model provider.
 from typing import Iterator
 
 from app.core.logging import logger
-from app.llm.providers import BaseLLMProvider, LLMProviderFactory
+from app.llm.providers import (
+    BaseLLMProvider,
+    LLMProviderFactory,
+)
+from app.memory.service import MemoryService
 
 
 class LLMService:
@@ -16,39 +20,68 @@ class LLMService:
     Service layer for LLM interactions.
     """
 
-    def __init__(self, provider: BaseLLMProvider | None = None) -> None:
+    def __init__(
+        self,
+        provider: BaseLLMProvider | None = None,
+    ) -> None:
         """
-        Initialize the service.
-
-        Args:
-            provider:
-                Optional provider for dependency injection.
-                If omitted, the configured provider is created
-                using the factory.
+        Initialize the LLM service.
         """
 
         self._provider = provider or LLMProviderFactory.create()
+
+        self.memory = MemoryService()
 
         logger.info(
             "LLMService initialized with {}",
             self._provider.__class__.__name__,
         )
 
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+    ) -> str:
         """
-        Generate a complete response.
+        Generate a response while maintaining conversation memory.
         """
 
-        return self._provider.generate(prompt)
+        logger.info("Saving user message...")
 
-    def stream(self, prompt: str) -> Iterator[str]:
+        self.memory.add_user_message(prompt)
+
+        history = self.memory.get_history()
+
+        logger.info(
+            "Conversation contains {} messages.",
+            len(history),
+        )
+
+        response = self._provider.generate(
+            prompt,
+            history,
+        )
+
+        logger.info("Saving assistant message...")
+
+        self.memory.add_assistant_message(
+            response,
+        )
+
+        return response
+
+    def stream(
+        self,
+        prompt: str,
+    ) -> Iterator[str]:
         """
         Stream the response.
         """
 
         yield from self._provider.stream(prompt)
 
-    def health_check(self) -> bool:
+    def health_check(
+        self,
+    ) -> bool:
         """
         Check provider health.
         """
