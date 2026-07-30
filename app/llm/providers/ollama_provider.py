@@ -1,24 +1,16 @@
 """
-Ollama provider implementation.
-
-This provider communicates with the local Ollama server using
-LangChain's ChatOllama integration.
+Ollama provider implementation using the official Ollama Python client.
 """
 
 import time
 from typing import Iterator
 
-from langchain_core.messages import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage,
-)
-from langchain_ollama import ChatOllama
+import ollama
 
 from app.core.config import llm
 from app.core.logging import logger
 from app.llm.providers.base_provider import BaseLLMProvider
-from app.memory.models import ChatMessage
+from app.memory.memory import ChatMessage
 
 
 class OllamaProvider(BaseLLMProvider):
@@ -30,18 +22,45 @@ class OllamaProvider(BaseLLMProvider):
 
         logger.info("Initializing Ollama Provider...")
 
-        self._llm = ChatOllama(
-            model=llm.model_name,
-            base_url=llm.base_url,
-            temperature=llm.temperature,
-            num_predict=1024,
-            num_ctx=2048,
+        self._client = ollama.Client(
+            host=llm.base_url,
         )
 
         logger.info(
-            "Model Loaded: {}",
+            "Loaded model: {}",
             llm.model_name,
         )
+
+    def _build_messages(
+        self,
+        prompt: str,
+        history: list[ChatMessage] | None = None,
+    ) -> list[dict]:
+        """
+        Build Ollama chat messages.
+        """
+
+        messages: list[dict] = []
+
+        if history:
+
+            for message in history:
+
+                messages.append(
+                    {
+                        "role": message.role,
+                        "content": message.content,
+                    }
+                )
+
+        messages.append(
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        )
+
+        return messages
 
     def generate(
         self,
@@ -54,166 +73,149 @@ class OllamaProvider(BaseLLMProvider):
 
         logger.info("Generating response...")
 
-        start = time.time()
+        start = time.perf_counter()
 
-        # --------------------------------------------------
-        # Build conversation
-        # --------------------------------------------------
+        try:
 
-        messages = [
-            SystemMessage(
-                content="""
-You are Personal AI Assistant.
-
-Answer directly.
-
-Do not reveal your reasoning.
-
-Return only the final answer.
-
-Be concise unless the user asks for more detail.
-""".strip()
-            )
-        ]
-
-        if history:
-
-            logger.info(
-                "Loading {} history messages.",
-                len(history),
+            response = self._client.chat(
+                model=llm.model_name,
+                messages=self._build_messages(
+                    prompt=prompt,
+                    history=history,
+                ),
+                think=False,
+                options={
+                    "temperature": 0,
+                    "num_ctx": 2048,
+                    "num_predict": 150,
+                },
             )
 
-            for message in history:
+        except Exception as exc:
 
-                if message.role == "user":
-
-                    messages.append(
-                        HumanMessage(
-                            content=message.content,
-                        )
-                    )
-
-                elif message.role == "assistant":
-
-                    messages.append(
-                        AIMessage(
-                            content=message.content,
-                        )
-                    )
-
-        else:
-
-            logger.info("No conversation history found.")
-
-            messages.append(
-                HumanMessage(
-                    content=prompt,
-                )
+            logger.exception(
+                "Ollama request failed: {}",
+                exc,
             )
 
-        logger.info(
-            "Sending {} messages to Ollama.",
-            len(messages),
-        )
+            return ""
 
-        # --------------------------------------------------
-        # Generate response
-        # --------------------------------------------------
-
-        response = self._llm.invoke(messages)
-
-        elapsed = time.time() - start
+        elapsed = time.perf_counter() - start
 
         logger.info(
             "LLM completed in {:.2f} seconds.",
             elapsed,
         )
 
-        logger.info(
-            "Response type: {}",
-            type(response).__name__,
+        content = (
+            response.get("message", {})
+            .get("content", "")
+            .strip()
         )
 
         logger.info(
-            "Response content length: {}",
-            len(response.content or ""),
+            "Response length: {} characters.",
+            len(content),
         )
 
-        if not response.content:
+        if not content:
 
             logger.warning(
                 "LLM returned an empty response."
             )
 
-            logger.debug(
-                "Response metadata: {}",
-                response.response_metadata,
-            )
-
             return ""
 
-        return response.content.strip()
+        return content
 
     def stream(
         self,
         prompt: str,
+        history: list[ChatMessage] | None = None,
     ) -> Iterator[str]:
         """
-        Stream the model response.
+        Stream tokens from Ollama.
         """
 
         logger.info("Streaming response...")
 
-        start = time.time()
+        start = time.perf_counter()
 
-        messages = [
-            SystemMessage(
-                content="""
-You are Personal AI Assistant.
+        try:
 
-Answer directly.
+            stream = self._client.chat(
+                model=llm.model_name,
+                messages=self._build_messages(
+                    prompt=prompt,
+                    history=history,
+                ),
+                think=False,
+                stream=True,
+                options={
+                    "temperature": 0,
+                    "num_ctx": 2048,
+                    "num_predict": 150,
+                },
+            )
 
-Do not reveal your reasoning.
+            total_chars = 0
 
-Return only the final answer.
-""".strip()
-            ),
-            HumanMessage(
-                content=prompt,
-            ),
-        ]
+            for chunk in stream:
 
-        for chunk in self._llm.stream(messages):
+                token = (
+                    chunk.get("message", {})
+                    .get("content", "")
+                )
 
-            if chunk.content:
-                yield chunk.content
+                if token:
 
-        elapsed = time.time() - start
+                    total_chars += len(token)
 
-        logger.info(
-            "Streaming completed in {:.2f} seconds.",
-            elapsed,
-        )
+                    yield token
+
+            logger.info(
+                "Streaming completed ({} chars, {:.2f} sec).",
+                total_chars,
+                time.perf_counter() - start,
+            )
+
+        except Exception as exc:
+
+            logger.exception(
+                "Streaming failed: {}",
+                exc,
+            )
+
+            yield ""
 
     def health_check(
         self,
     ) -> bool:
         """
-        Check whether Ollama is available.
+        Verify Ollama is available.
         """
 
         try:
 
-            self.generate(
+            response = self.generate(
                 prompt="Hello",
-                history=None,
             )
 
-            logger.info(
-                "Ollama health check passed."
-            )
+            healthy = bool(response)
 
-            return True
+            if healthy:
+
+                logger.info(
+                    "Ollama health check passed."
+                )
+
+            else:
+
+                logger.warning(
+                    "Health check returned an empty response."
+                )
+
+            return healthy
 
         except Exception as exc:
 

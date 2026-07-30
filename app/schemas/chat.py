@@ -14,7 +14,10 @@ class ChatRequest(BaseModel):
         ...,
         min_length=1,
         max_length=4000,
-        description="User prompt",
+        description="User prompt.",
+        examples=[
+            "Explain what Retrieval-Augmented Generation is."
+        ],
     )
 
 
@@ -25,10 +28,11 @@ class ChatResponse(BaseModel):
 
     response: str = Field(
         ...,
-        description="Assistant response",
+        description="Assistant response.",
     )
 
     history_size: int = Field(
         ...,
-        description="Number of messages currently stored in memory.",
+        ge=0,
+        description="Current number of messages stored in memory.",
     )

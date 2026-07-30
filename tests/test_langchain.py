@@ -3,7 +3,7 @@ from langchain_core.messages import HumanMessage
 
 llm = ChatOllama(
     model="qwen3:4b",
-    temperature=0,
+    temperature=0.2,
 )
 
 response = llm.invoke(

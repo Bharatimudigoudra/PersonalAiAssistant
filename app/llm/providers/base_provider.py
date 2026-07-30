@@ -21,7 +21,7 @@ class BaseLLMProvider(ABC):
     def generate(
         self,
         prompt: str,
-        history: list[ChatMessage] | None = None,
+        history=None,
     ) -> str:
         """
         Generate a complete response.
@@ -42,6 +42,7 @@ class BaseLLMProvider(ABC):
     def stream(
         self,
         prompt: str,
+        history=None,
     ) -> Iterator[str]:
         """
         Stream the response token-by-token.

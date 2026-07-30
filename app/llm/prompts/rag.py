@@ -1,10 +1,8 @@
 """
-RAG prompt templates.
+RAG prompt template.
 """
 
 RAG_PROMPT = """
-Use ONLY the following context.
-
 Context:
 
 {context}
@@ -13,6 +11,5 @@ Question:
 
 {question}
 
-If the answer is not found in the context,
-say that the information is unavailable.
+Answer:
 """.strip()

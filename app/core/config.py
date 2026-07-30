@@ -82,10 +82,19 @@ class RAGConfig(BaseModel):
     chunk_overlap: int
     top_k: int
     similarity_threshold: float
+    max_context_chars: int
 
+class RerankerConfig(BaseModel):
+    """
+    Cross-encoder reranker configuration.
+    """
+
+    enabled: bool
+    model_name: str
+    top_k: int
 
 class MemoryConfig(BaseModel):
-    max_history: int
+    max_history: int = 20
 
 
 class SpeechConfig(BaseModel):
@@ -151,6 +160,8 @@ vectorstore = VectorStoreConfig(**yaml_config["vectorstore"])
 embedding = EmbeddingConfig(**yaml_config["embedding"])
 
 rag = RAGConfig(**yaml_config["rag"])
+
+reranker = RerankerConfig(**yaml_config["reranker"])
 
 memory = MemoryConfig(**yaml_config["memory"])
 

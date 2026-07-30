@@ -1,4 +1,9 @@
+"""
+Application entry point.
+"""
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
@@ -14,42 +19,72 @@ app = FastAPI(
     description="Offline Personal AI Assistant",
 )
 
+# ---------------------------------------------------------------------
+# Exception Handlers
+# ---------------------------------------------------------------------
 
-# Register global exception handlers
 app.add_exception_handler(
     PersonalAIException,
     application_exception_handler,
 )
 
+# ---------------------------------------------------------------------
+# Middleware
+# ---------------------------------------------------------------------
+
 app.add_middleware(
-    RequestLoggingMiddleware
+    CORSMiddleware,
+    allow_origins=[
+        "*",  # Restrict this in production
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# Register API routes
+app.add_middleware(
+    RequestLoggingMiddleware,
+)
+
+# ---------------------------------------------------------------------
+# API Routes
+# ---------------------------------------------------------------------
+
 app.include_router(api_router)
+
+# ---------------------------------------------------------------------
+# Startup
+# ---------------------------------------------------------------------
 
 
 @app.on_event("startup")
 async def startup_event() -> None:
     """
-    Startup event.
+    Application startup.
     """
 
     logger.info("=" * 60)
     logger.info("Starting {}", settings.APP_NAME)
     logger.info("Version : {}", settings.APP_VERSION)
-    logger.info("Model   : {}", settings.MODEL_NAME)
-    logger.info("Ollama  : {}", settings.OLLAMA_BASE_URL)
+    logger.info("Environment : {}", settings.DEBUG)
+    logger.info("Model : {}", settings.MODEL_NAME)
+    logger.info("Ollama : {}", settings.OLLAMA_BASE_URL)
+    logger.info("Host : {}:{}", settings.HOST, settings.PORT)
     logger.info("=" * 60)
+
+
+# ---------------------------------------------------------------------
+# Root Endpoint
+# ---------------------------------------------------------------------
 
 
 @app.get(
     "/",
     tags=["Root"],
 )
-def root():
+def root() -> dict:
     """
-    Root endpoint.
+    Health endpoint.
     """
 
     return {

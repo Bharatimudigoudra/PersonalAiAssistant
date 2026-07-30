@@ -32,11 +32,17 @@ rag:
   chunk_size: 1000
   chunk_overlap: 200
 
-  top_k: 5
+  top_k: 10
   similarity_threshold: 0.5
+  max_context_chars: 3000
+
+reranker:
+  enabled: true
+  model_name: BAAI/bge-reranker-base
+  top_k: 3
 
 memory:
-  max_history: 10
+  max_history: 20
 
 speech:
   whisper_model: base
