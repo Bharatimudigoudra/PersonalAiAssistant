@@ -9,6 +9,9 @@ from app.core.logging import logger
 from app.llm.prompts.prompt_manager import PromptManager
 from app.llm.services.llm_service import LLMService
 from app.memory.memory_service import get_memory_service
+from app.rag.query_rewriter.query_rewriter_service import (
+    get_query_rewriter_service,
+)
 from app.rag.retrieval import (
     DocumentRetriever,
     RetrievedDocument,
@@ -26,6 +29,9 @@ class RAGService:
         self.prompt_manager = PromptManager()
         self.llm = LLMService()
         self.memory = get_memory_service()
+        self.query_rewriter = (
+            get_query_rewriter_service()
+        )
 
         logger.info(
             "RAGService initialized."
@@ -105,11 +111,47 @@ class RAGService:
         try:
 
             # --------------------------------------------
+            # Conversation history
+            # --------------------------------------------
+
+            history = self.memory.history_text()
+
+            logger.debug(
+                "Conversation history length: {} characters.",
+                len(history),
+            )
+
+            # --------------------------------------------
+            # Rewrite follow-up question
+            # --------------------------------------------
+
+            logger.info(
+                "Rewriting question..."
+            )
+
+            rewritten_question = (
+                self.query_rewriter.rewrite(
+                    history=history,
+                    question=question,
+                )
+            )
+
+            logger.info(
+                "Original question: {}",
+                question,
+            )
+
+            logger.info(
+                "Rewritten question: {}",
+                rewritten_question,
+            )
+
+            # --------------------------------------------
             # Retrieve documents
             # --------------------------------------------
 
             documents = self.retriever.retrieve(
-                question,
+                rewritten_question,
             )
 
             if not documents:
@@ -170,30 +212,21 @@ class RAGService:
                 len(context),
             )
 
-            # --------------------------------------------
-            # Conversation history
-            # --------------------------------------------
-                        
-            history = self.memory.history_text()
-
             logger.info(
                 "Using {} context chunks.",
                 len(documents),
             )
 
-            logger.debug(
-                "Conversation history length: {} characters.",
-                len(history),
-            )
-
             # --------------------------------------------
-            # Prompt
+            # Build prompt
             # --------------------------------------------
 
-            prompt = self.prompt_manager.build_rag_prompt(
-                history=history,
-                context=context,
-                question=question,
+            prompt = (
+                self.prompt_manager.build_rag_prompt(
+                    history=history,
+                    context=context,
+                    question=rewritten_question,
+                )
             )
 
             logger.info(
@@ -202,7 +235,7 @@ class RAGService:
             )
 
             # --------------------------------------------
-            # LLM
+            # Generate response
             # --------------------------------------------
 
             response = self.llm.generate_rag(
