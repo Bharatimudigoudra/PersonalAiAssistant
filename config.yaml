@@ -55,3 +55,11 @@ logging:
 api:
   host: 127.0.0.1
   port: 8000
+
+whisper:
+
+  model_name: base
+
+  device: cpu
+
+  compute_type: int8

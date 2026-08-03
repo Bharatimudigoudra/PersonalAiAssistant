@@ -1630,3 +1630,34 @@
 2026-07-22 22:49:38.652 | INFO     | app.core.middleware:dispatch:42 - Status     : 200
 2026-07-22 22:49:38.653 | INFO     | app.core.middleware:dispatch:43 - Time       : %.2f sec
 2026-07-22 22:49:38.654 | INFO     | app.core.middleware:dispatch:44 - ============================================================
+2026-08-03 10:25:21.333 | INFO     | __main__:record:36 - Recording 5 seconds...
+2026-08-03 10:25:26.679 | INFO     | __main__:record:58 - Saved recording: recording.wav
+2026-08-03 10:32:48.741 | INFO     | __main__:record:36 - Recording 5 seconds...
+2026-08-03 10:32:53.964 | INFO     | __main__:record:63 - Saved recording: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-03 10:59:06.436 | INFO     | __main__:__init__:37 - Loading Whisper model: base
+2026-08-03 10:59:14.440 | INFO     | __main__:__init__:55 - Whisper model loaded in 8.00 sec.
+2026-08-03 10:59:14.441 | ERROR    | __main__:transcribe:74 - Audio file not found: recordings\recording.wav
+2026-08-03 11:04:19.154 | INFO     | __main__:__init__:37 - Loading Whisper model: base
+2026-08-03 11:04:20.227 | INFO     | __main__:__init__:52 - Whisper model loaded in 1.07 sec.
+2026-08-03 11:04:20.227 | INFO     | __main__:transcribe:78 - Transcribing: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-03 11:04:21.704 | INFO     | __main__:transcribe:115 - Detected language: en
+2026-08-03 11:04:21.704 | INFO     | __main__:transcribe:120 - Transcription completed in 1.48 sec.
+2026-08-03 11:04:21.705 | INFO     | __main__:transcribe:125 - Transcript length: 0 characters.
+2026-08-03 11:04:21.705 | WARNING  | __main__:transcribe:132 - Whisper returned an empty transcript.
+2026-08-03 11:07:12.068 | INFO     | __main__:record:36 - Recording 5 seconds...
+2026-08-03 11:07:17.331 | INFO     | __main__:record:63 - Saved recording: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-03 11:07:33.402 | INFO     | __main__:__init__:37 - Loading Whisper model: base
+2026-08-03 11:07:34.524 | INFO     | __main__:__init__:52 - Whisper model loaded in 1.12 sec.
+2026-08-03 11:07:34.526 | INFO     | __main__:transcribe:78 - Transcribing: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-03 11:07:35.728 | INFO     | __main__:transcribe:115 - Detected language: en
+2026-08-03 11:07:35.728 | INFO     | __main__:transcribe:120 - Transcription completed in 1.20 sec.
+2026-08-03 11:07:35.728 | INFO     | __main__:transcribe:125 - Transcript length: 0 characters.
+2026-08-03 11:07:35.728 | WARNING  | __main__:transcribe:132 - Whisper returned an empty transcript.
+2026-08-03 11:16:05.945 | INFO     | __main__:record:38 - Recording 5 seconds...
+2026-08-03 11:17:39.922 | INFO     | __main__:__init__:37 - Loading Whisper model: base
+2026-08-03 11:17:40.949 | INFO     | __main__:__init__:52 - Whisper model loaded in 1.03 sec.
+2026-08-03 11:17:40.950 | INFO     | __main__:transcribe:78 - Transcribing: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-03 11:17:41.991 | INFO     | __main__:transcribe:115 - Detected language: en
+2026-08-03 11:17:41.991 | INFO     | __main__:transcribe:120 - Transcription completed in 1.04 sec.
+2026-08-03 11:17:41.991 | INFO     | __main__:transcribe:125 - Transcript length: 0 characters.
+2026-08-03 11:17:41.992 | WARNING  | __main__:transcribe:132 - Whisper returned an empty transcript.

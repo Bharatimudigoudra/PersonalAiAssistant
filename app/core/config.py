@@ -111,6 +111,10 @@ class APIConfig(BaseModel):
     host: str
     port: int
 
+class WhisperSettings(BaseModel):
+    model_name: str = "base"
+    device: str = "cpu"
+    compute_type: str = "int8"
 
 # ---------------------------------------------------------------------
 # Environment Settings
@@ -170,3 +174,5 @@ speech = SpeechConfig(**yaml_config["speech"])
 logging_config = LoggingConfig(**yaml_config["logging"])
 
 api = APIConfig(**yaml_config["api"])
+
+whisper = WhisperSettings()
