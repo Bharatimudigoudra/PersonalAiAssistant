@@ -1686,3 +1686,13 @@
 2026-08-04 22:56:26.410 | INFO     | __main__:transcribe:115 - Detected language: en
 2026-08-04 22:56:26.411 | INFO     | __main__:transcribe:120 - Transcription completed in 4.55 sec.
 2026-08-04 22:56:26.411 | INFO     | __main__:transcribe:125 - Transcript length: 53 characters.
+2026-08-04 23:07:04.613 | INFO     | __main__:__init__:35 - Connecting to Ollama at http://localhost:11434
+2026-08-04 23:07:05.156 | INFO     | __main__:__init__:47 - LLMService initialized (model=qwen3:4b).
+2026-08-04 23:07:05.157 | INFO     | __main__:generate:63 - Generating response...
+2026-08-04 23:07:58.394 | INFO     | __main__:__init__:35 - Connecting to Ollama at http://localhost:11434
+2026-08-04 23:07:59.250 | INFO     | __main__:__init__:47 - LLMService initialized (model=qwen3:4b).
+2026-08-04 23:07:59.251 | INFO     | __main__:generate:63 - Generating response...
+2026-08-04 23:08:28.620 | INFO     | __main__:generate:106 - Generation completed in 83.46 sec.
+2026-08-04 23:08:28.640 | INFO     | __main__:generate:111 - Generated 141 characters.
+2026-08-04 23:09:16.944 | INFO     | __main__:generate:106 - Generation completed in 77.69 sec.
+2026-08-04 23:09:16.960 | INFO     | __main__:generate:111 - Generated 116 characters.
