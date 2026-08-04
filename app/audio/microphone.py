@@ -1,5 +1,7 @@
 """
 Microphone Recorder.
+
+Records audio from the system microphone and saves it as a WAV file.
 """
 
 from pathlib import Path
@@ -17,14 +19,21 @@ class MicrophoneRecorder:
 
     def __init__(
         self,
-        sample_rate: int = 16000,
+        sample_rate: int = 44100,
         channels: int = 1,
-        device: int = 2,
+        device: int | None = None,
     ) -> None:
 
         self.sample_rate = sample_rate
         self.channels = channels
         self.device = device
+
+        logger.info(
+            "Using microphone device {} @ {} Hz ({} channels).",
+            self.device,
+            self.sample_rate,
+            self.channels,
+        )
 
     def record(
         self,
@@ -32,16 +41,16 @@ class MicrophoneRecorder:
         output_file: str,
     ) -> Path:
         """
-        Record audio.
+        Record microphone audio.
         """
 
         logger.info(
-            "Recording {} seconds...",
+            "Recording for {} seconds...",
             duration,
         )
 
         audio = sd.rec(
-            int(duration * self.sample_rate),
+            frames=int(duration * self.sample_rate),
             samplerate=self.sample_rate,
             channels=self.channels,
             dtype="float32",
@@ -58,13 +67,13 @@ class MicrophoneRecorder:
         )
 
         sf.write(
-            output_path,
-            audio,
-            self.sample_rate,
+            file=output_path,
+            data=audio,
+            samplerate=self.sample_rate,
         )
 
         logger.info(
-            "Saved recording: {}",
+            "Recording saved to {}",
             output_path,
         )
 

@@ -1661,3 +1661,28 @@
 2026-08-03 11:17:41.991 | INFO     | __main__:transcribe:120 - Transcription completed in 1.04 sec.
 2026-08-03 11:17:41.991 | INFO     | __main__:transcribe:125 - Transcript length: 0 characters.
 2026-08-03 11:17:41.992 | WARNING  | __main__:transcribe:132 - Whisper returned an empty transcript.
+2026-08-04 22:26:48.018 | INFO     | __main__:record:38 - Recording 5 seconds...
+2026-08-04 22:32:26.156 | INFO     | __main__:__init__:31 - Using microphone device 1 @ 44100 Hz (2 channels).
+2026-08-04 22:32:26.157 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:32:31.808 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:34:08.240 | INFO     | __main__:__init__:31 - Using microphone device 1 @ 44100 Hz (2 channels).
+2026-08-04 22:34:08.241 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:34:13.509 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:35:35.625 | INFO     | __main__:__init__:31 - Using microphone device 1 @ 44100 Hz (2 channels).
+2026-08-04 22:35:35.626 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:35:40.857 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:39:15.033 | INFO     | __main__:__init__:31 - Using microphone device None @ 44100 Hz (1 channels).
+2026-08-04 22:39:15.035 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:39:16.001 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:39:29.059 | INFO     | __main__:__init__:31 - Using microphone device None @ 44100 Hz (1 channels).
+2026-08-04 22:39:29.060 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:39:34.292 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:52:28.672 | INFO     | __main__:__init__:31 - Using microphone device None @ 44100 Hz (1 channels).
+2026-08-04 22:52:28.673 | INFO     | __main__:record:47 - Recording for 5 seconds...
+2026-08-04 22:52:33.915 | INFO     | __main__:record:75 - Recording saved to E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:56:19.237 | INFO     | __main__:__init__:37 - Loading Whisper model: base
+2026-08-04 22:56:21.858 | INFO     | __main__:__init__:52 - Whisper model loaded in 2.62 sec.
+2026-08-04 22:56:21.861 | INFO     | __main__:transcribe:78 - Transcribing: E:\AiProjects\PersonalAiAssistant\app\data\audio\recording.wav
+2026-08-04 22:56:26.410 | INFO     | __main__:transcribe:115 - Detected language: en
+2026-08-04 22:56:26.411 | INFO     | __main__:transcribe:120 - Transcription completed in 4.55 sec.
+2026-08-04 22:56:26.411 | INFO     | __main__:transcribe:125 - Transcript length: 53 characters.
