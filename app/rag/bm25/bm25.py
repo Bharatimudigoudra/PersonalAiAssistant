@@ -5,8 +5,7 @@ BM25 retrieval implementation.
 from rank_bm25 import BM25Okapi
 
 from app.core.logging import logger
-from app.rag.retrieval import RetrievedDocument
-
+from app.models.retrieved_document import RetrievedDocument
 
 class BM25Retriever:
     """

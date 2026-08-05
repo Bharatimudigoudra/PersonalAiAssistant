@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from app.core.config import rag
 from app.core.logging import logger
-from app.rag.retrieval import RetrievedDocument
+from app.models.retrieved_document import RetrievedDocument
 
 
 class PromptBuilder:

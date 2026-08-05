@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections import defaultdict
 
 from app.core.logging import logger
-from app.rag.retrieval import RetrievedDocument
+from app.models.retrieved_document import RetrievedDocument
 
 
 def reciprocal_rank_fusion(

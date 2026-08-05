@@ -6,8 +6,7 @@ Provides a singleton interface for BM25 retrieval.
 
 from app.core.logging import logger
 from app.rag.bm25.bm25 import BM25Retriever
-from app.rag.retrieval import RetrievedDocument
-
+from app.models.retrieved_document import RetrievedDocument
 
 # ---------------------------------------------------------
 # Singleton BM25 Retriever

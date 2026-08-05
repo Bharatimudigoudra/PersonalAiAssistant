@@ -9,7 +9,7 @@ from app.embeddings.embedding_service import EmbeddingService
 from app.rag.bm25.bm25_service import get_bm25_service
 from app.rag.chunking.text_chunker import TextChunker
 from app.rag.loaders.loader_factory import LoaderFactory
-from app.rag.retrieval import RetrievedDocument
+from app.models.retrieved_document import RetrievedDocument
 from app.vectorstore.vectorstore_service import VectorStoreService
 
 

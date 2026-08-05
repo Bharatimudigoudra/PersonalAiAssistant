@@ -5,9 +5,8 @@ Hybrid document retrieval.
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
-from typing import Any
 
+from app.models.retrieved_document import RetrievedDocument
 from app.core.config import rag, reranker
 from app.core.logging import logger
 from app.embeddings.embedding_service import EmbeddingService
@@ -29,18 +28,6 @@ _embedding_service = EmbeddingService()
 _vectorstore_service = VectorStoreService()
 _query_rewriter = get_query_rewriter_service()
 _bm25_service = get_bm25_service()
-
-
-@dataclass(slots=True)
-class RetrievedDocument:
-    """
-    Retrieved document.
-    """
-
-    content: str
-    distance: float
-    metadata: dict[str, Any] = field(default_factory=dict)
-    rerank_score: float = 0.0
 
 
 class DocumentRetriever:

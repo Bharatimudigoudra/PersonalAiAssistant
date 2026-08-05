@@ -6,7 +6,7 @@ from sentence_transformers import CrossEncoder
 
 from app.core.config import reranker
 from app.core.logging import logger
-from app.rag.retrieval import RetrievedDocument
+from app.models.retrieved_document import RetrievedDocument
 
 
 class DocumentReranker:

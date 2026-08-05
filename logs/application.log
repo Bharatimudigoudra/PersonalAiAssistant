@@ -1696,3 +1696,159 @@
 2026-08-04 23:08:28.640 | INFO     | __main__:generate:111 - Generated 141 characters.
 2026-08-04 23:09:16.944 | INFO     | __main__:generate:106 - Generation completed in 77.69 sec.
 2026-08-04 23:09:16.960 | INFO     | __main__:generate:111 - Generated 116 characters.
+2026-08-05 21:15:32.567 | INFO     | __main__:__init__:21 - PromptBuilder initialized.
+2026-08-05 21:15:32.568 | INFO     | __main__:build_context:90 - Context built (123 chars).
+2026-08-05 21:15:32.568 | INFO     | __main__:build_user_prompt:135 - User prompt built.
+2026-08-05 22:01:22.690 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-05 22:01:24.609 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 1.92 sec.
+2026-08-05 22:01:31.912 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-05 22:01:31.912 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-05 22:01:32.398 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-05 22:01:32.399 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-05 22:01:32.399 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-05 22:01:32.785 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-05 22:01:32.785 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-05 22:01:32.786 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-05 22:01:32.786 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-05 22:01:32.805 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-05 22:02:42.546 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-05 22:02:45.036 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-05 22:02:45.037 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-05 22:02:51.778 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-05 22:02:51.778 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:02:51.778 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:02:51.779 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:02:52.928 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 22:02:52.934 | INFO     | app.llm.prompt_builder:__init__:21 - PromptBuilder initialized.
+2026-08-05 22:02:52.937 | INFO     | app.llm.llm_service:__init__:35 - Connecting to Ollama at http://localhost:11434
+2026-08-05 22:02:53.350 | INFO     | app.llm.llm_service:__init__:47 - LLMService initialized (model=qwen3:4b).
+2026-08-05 22:02:53.350 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-05 22:02:53.351 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-05 22:02:53.351 | INFO     | __main__:__init__:52 - InterviewAssistant initialized.
+2026-08-05 22:23:18.831 | INFO     | __main__:answer_question:66 - Question: Tell me about yourself
+2026-08-05 22:23:18.896 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-05 22:23:18.901 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-05 22:23:18.910 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-05 22:23:18.921 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-05 22:23:18.932 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-05 22:23:18.933 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-05 22:23:19.926 | INFO     | app.rag.retrieval:retrieve:123 - Vector search returned 0 documents.
+2026-08-05 22:23:19.927 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-05 22:23:19.928 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-05 22:23:19.929 | INFO     | app.rag.retrieval:retrieve:133 - BM25 returned 0 documents.
+2026-08-05 22:23:19.930 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-05 22:23:19.932 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-05 22:23:19.933 | INFO     | app.rag.retrieval:retrieve:144 - RRF produced 0 documents.
+2026-08-05 22:23:19.934 | INFO     | app.rag.retrieval:retrieve:165 - Retrieval completed in 1.041 sec.
+2026-08-05 22:23:19.934 | WARNING  | app.llm.prompt_builder:build_context:62 - No retrieved documents.
+2026-08-05 22:23:19.934 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-05 22:28:29.263 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-05 22:28:31.042 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 1.78 sec.
+2026-08-05 22:28:39.941 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-05 22:28:39.942 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-05 22:28:40.445 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-05 22:28:40.445 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-05 22:28:40.446 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-05 22:28:40.814 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-05 22:28:40.815 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-05 22:28:40.815 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-05 22:28:40.815 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-05 22:28:40.820 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-05 22:28:49.732 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-05 22:28:51.257 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-05 22:28:51.257 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-05 22:28:58.311 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-05 22:28:58.312 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:28:58.312 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:28:58.312 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:28:58.606 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 22:28:58.609 | INFO     | app.llm.prompt_builder:__init__:21 - PromptBuilder initialized.
+2026-08-05 22:28:58.618 | INFO     | app.llm.llm_service:__init__:35 - Connecting to Ollama at http://localhost:11434
+2026-08-05 22:28:59.028 | INFO     | app.llm.llm_service:__init__:47 - LLMService initialized (model=qwen3:4b).
+2026-08-05 22:28:59.029 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-05 22:28:59.029 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-05 22:28:59.030 | INFO     | __main__:__init__:52 - InterviewAssistant initialized.
+2026-08-05 22:33:08.677 | INFO     | __main__:answer_question:66 - Question: Tell me about yourself
+2026-08-05 22:33:08.695 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-05 22:33:08.697 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-05 22:33:08.697 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-05 22:33:08.698 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-05 22:33:08.699 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-05 22:33:08.699 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-05 22:33:09.290 | INFO     | app.rag.retrieval:retrieve:123 - Vector search returned 0 documents.
+2026-08-05 22:33:09.291 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-05 22:33:09.291 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-05 22:33:09.292 | INFO     | app.rag.retrieval:retrieve:133 - BM25 returned 0 documents.
+2026-08-05 22:33:09.293 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-05 22:33:09.293 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-05 22:33:09.295 | INFO     | app.rag.retrieval:retrieve:144 - RRF produced 0 documents.
+2026-08-05 22:33:09.295 | INFO     | app.rag.retrieval:retrieve:165 - Retrieval completed in 0.601 sec.
+2026-08-05 22:33:09.295 | WARNING  | app.llm.prompt_builder:build_context:62 - No retrieved documents.
+2026-08-05 22:33:09.296 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-05 22:33:09.297 | INFO     | app.llm.llm_service:generate:86 - Generating response...
+2026-08-05 22:34:05.408 | INFO     | app.llm.llm_service:generate:124 - Generation completed in 56.11 sec.
+2026-08-05 22:34:05.429 | INFO     | app.llm.llm_service:generate:129 - Generated 58 characters.
+2026-08-05 22:34:05.431 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 56.74 sec.
+2026-08-05 22:34:58.151 | INFO     | __main__:answer_question:66 - Question: What projects have I worked on?
+2026-08-05 22:34:58.165 | INFO     | app.rag.retrieval:retrieve:66 - Original query: What projects have I worked on?
+2026-08-05 22:34:58.174 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-05 22:34:58.176 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-05 22:34:58.178 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-05 22:34:58.180 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-05 22:34:58.182 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: What projects have I worked on?
+2026-08-05 22:34:58.874 | INFO     | app.rag.retrieval:retrieve:123 - Vector search returned 0 documents.
+2026-08-05 22:34:58.875 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-05 22:34:58.876 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-05 22:34:58.877 | INFO     | app.rag.retrieval:retrieve:133 - BM25 returned 0 documents.
+2026-08-05 22:34:58.878 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-05 22:34:58.878 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-05 22:34:58.879 | INFO     | app.rag.retrieval:retrieve:144 - RRF produced 0 documents.
+2026-08-05 22:34:58.880 | INFO     | app.rag.retrieval:retrieve:165 - Retrieval completed in 0.718 sec.
+2026-08-05 22:34:58.881 | WARNING  | app.llm.prompt_builder:build_context:62 - No retrieved documents.
+2026-08-05 22:34:58.885 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-05 22:34:58.887 | INFO     | app.llm.llm_service:generate:86 - Generating response...
+2026-08-05 22:35:33.840 | INFO     | app.llm.llm_service:generate:124 - Generation completed in 34.95 sec.
+2026-08-05 22:35:33.843 | INFO     | app.llm.llm_service:generate:129 - Generated 58 characters.
+2026-08-05 22:35:33.845 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 35.68 sec.
+2026-08-05 22:39:35.683 | INFO     | __main__:answer_question:66 - Question: exit()
+2026-08-05 22:39:35.705 | INFO     | app.rag.retrieval:retrieve:66 - Original query: exit()
+2026-08-05 22:39:35.711 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-05 22:39:35.713 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-05 22:39:35.714 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-05 22:39:35.715 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-05 22:39:35.718 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: exit()
+2026-08-05 22:39:36.276 | INFO     | app.rag.retrieval:retrieve:123 - Vector search returned 0 documents.
+2026-08-05 22:39:36.277 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-05 22:39:36.277 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-05 22:39:36.278 | INFO     | app.rag.retrieval:retrieve:133 - BM25 returned 0 documents.
+2026-08-05 22:39:36.279 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-05 22:39:36.281 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-05 22:39:36.281 | INFO     | app.rag.retrieval:retrieve:144 - RRF produced 0 documents.
+2026-08-05 22:39:36.282 | INFO     | app.rag.retrieval:retrieve:165 - Retrieval completed in 0.577 sec.
+2026-08-05 22:39:36.282 | WARNING  | app.llm.prompt_builder:build_context:62 - No retrieved documents.
+2026-08-05 22:39:36.283 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-05 22:39:36.284 | INFO     | app.llm.llm_service:generate:86 - Generating response...
+2026-08-05 22:45:08.338 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:45:08.338 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:45:08.338 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:45:09.547 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 22:45:24.066 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:45:24.066 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:45:24.067 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:45:24.296 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 22:48:48.136 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:48:48.137 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:48:48.138 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:48:49.286 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 22:50:08.801 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 22:50:08.802 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 22:50:08.805 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 22:50:09.061 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 23:07:29.976 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 23:07:29.977 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 23:07:29.977 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 23:07:30.300 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-05 23:07:34.915 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-05 23:07:34.915 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-05 23:07:34.916 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-05 23:07:35.175 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai

@@ -6,7 +6,7 @@ Provides a singleton interface for CrossEncoder document reranking.
 
 from app.core.logging import logger
 from app.rag.reranker import DocumentReranker
-from app.rag.retrieval import RetrievedDocument
+from app.models.retrieved_document import RetrievedDocument
 
 # ---------------------------------------------------------------------
 # Singleton Reranker
