@@ -33,7 +33,7 @@ rag:
   chunk_overlap: 200
 
   top_k: 10
-  similarity_threshold: 0.5
+  similarity_threshold: 2.0
   max_context_chars: 3000
 
 reranker:

@@ -1852,3 +1852,244 @@
 2026-08-05 23:07:34.915 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
 2026-08-05 23:07:34.916 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
 2026-08-05 23:07:35.175 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:12:06.266 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:12:06.267 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:12:08.575 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-08-07 22:12:08.576 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:12:08.576 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:12:14.248 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:12:14.248 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:12:14.249 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:12:14.249 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:12:14.922 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:12:14.922 | INFO     | app.rag.ingestion.ingestion_service:__init__:30 - DocumentIngestion initialized.
+2026-08-07 22:12:14.923 | INFO     | app.rag.ingestion.ingestion_service:ingest:42 - Starting ingestion: data\documents\resume.pdf
+2026-08-07 22:12:14.923 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\resume.pdf
+2026-08-07 22:12:14.972 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-08-07 22:12:14.973 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-08-07 22:12:14.973 | INFO     | app.rag.ingestion.ingestion_service:ingest:75 - Generated 8 chunks.
+2026-08-07 22:12:15.985 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 8 documents.
+2026-08-07 22:12:15.986 | INFO     | app.rag.ingestion.ingestion_service:ingest:133 - Stored 8 chunks in vector database.
+2026-08-07 22:12:15.986 | INFO     | app.rag.bm25.bm25_service:build_index:39 - Building BM25 index...
+2026-08-07 22:12:15.987 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 8 documents.
+2026-08-07 22:12:15.988 | INFO     | app.rag.ingestion.ingestion_service:ingest:163 - BM25 index updated (8 chunks).
+2026-08-07 22:12:15.989 | INFO     | app.rag.ingestion.ingestion_service:ingest:168 - Document ingestion completed successfully.
+2026-08-07 22:14:47.329 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:14:47.329 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:14:47.329 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:14:47.586 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:18:39.193 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:18:39.194 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:18:39.527 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-07 22:18:39.527 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-07 22:18:39.527 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-07 22:18:39.750 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-07 22:18:39.750 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-07 22:18:39.750 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-07 22:18:39.750 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-07 22:18:39.753 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-07 22:18:47.621 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-07 22:18:48.650 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:18:48.650 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:18:54.172 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:18:54.173 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:18:54.174 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:18:54.174 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:18:54.397 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:18:54.398 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-07 22:18:54.398 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-07 22:18:54.398 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-07 22:18:54.399 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-07 22:18:54.399 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-07 22:18:54.399 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-07 22:18:54.400 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-07 22:18:54.400 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-07 22:18:54.752 | INFO     | app.rag.retrieval:retrieve:123 - Vector search returned 0 documents.
+2026-08-07 22:18:54.752 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-07 22:18:54.752 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-07 22:18:54.753 | INFO     | app.rag.retrieval:retrieve:133 - BM25 returned 0 documents.
+2026-08-07 22:18:54.753 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-07 22:18:54.753 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-07 22:18:54.753 | INFO     | app.rag.retrieval:retrieve:144 - RRF produced 0 documents.
+2026-08-07 22:18:54.753 | INFO     | app.rag.retrieval:retrieve:165 - Retrieval completed in 0.355 sec.
+2026-08-07 22:19:54.019 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:19:54.020 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:19:54.327 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-07 22:19:54.328 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-07 22:19:54.328 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-07 22:19:54.546 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-07 22:19:54.546 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-07 22:19:54.546 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-07 22:19:54.546 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-07 22:19:54.557 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-07 22:20:01.749 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-07 22:20:02.590 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:20:02.590 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:20:08.065 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:20:08.066 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:20:08.066 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:20:08.066 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:20:08.278 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:20:08.279 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-07 22:20:08.279 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-07 22:20:08.279 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-07 22:20:08.279 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-07 22:20:08.279 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-07 22:20:08.280 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-07 22:20:08.280 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-07 22:20:08.280 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-07 22:20:08.692 | INFO     | app.rag.retrieval:retrieve:127 - Vector search returned 0 documents.
+2026-08-07 22:20:08.693 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-07 22:20:08.693 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-07 22:20:08.694 | INFO     | app.rag.retrieval:retrieve:137 - BM25 returned 0 documents.
+2026-08-07 22:20:08.694 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-07 22:20:08.695 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-07 22:20:08.695 | INFO     | app.rag.retrieval:retrieve:148 - RRF produced 0 documents.
+2026-08-07 22:20:08.696 | INFO     | app.rag.retrieval:retrieve:169 - Retrieval completed in 0.417 sec.
+2026-08-07 22:28:46.143 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:28:46.143 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:28:47.646 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-08-07 22:28:47.646 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:28:47.647 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:28:53.593 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:28:53.593 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:28:53.594 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:28:53.594 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:28:53.845 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:28:53.845 | INFO     | app.rag.ingestion.ingestion_service:__init__:30 - DocumentIngestion initialized.
+2026-08-07 22:28:53.846 | INFO     | app.rag.ingestion.ingestion_service:ingest:42 - Starting ingestion: data\documents\resume.pdf
+2026-08-07 22:28:53.846 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\resume.pdf
+2026-08-07 22:28:53.901 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-08-07 22:28:53.902 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-08-07 22:28:53.902 | INFO     | app.rag.ingestion.ingestion_service:ingest:75 - Generated 8 chunks.
+2026-08-07 22:28:55.043 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 8 documents.
+2026-08-07 22:28:55.044 | INFO     | app.rag.ingestion.ingestion_service:ingest:133 - Stored 8 chunks in vector database.
+2026-08-07 22:28:55.044 | INFO     | app.rag.bm25.bm25_service:build_index:39 - Building BM25 index...
+2026-08-07 22:28:55.045 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 8 documents.
+2026-08-07 22:28:55.045 | INFO     | app.rag.ingestion.ingestion_service:ingest:163 - BM25 index updated (8 chunks).
+2026-08-07 22:28:55.046 | INFO     | app.rag.ingestion.ingestion_service:ingest:168 - Document ingestion completed successfully.
+2026-08-07 22:29:08.938 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:29:08.939 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:29:08.939 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:29:09.096 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:29:29.865 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:29:29.866 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:29:30.166 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-07 22:29:30.166 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-07 22:29:30.167 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-07 22:29:30.421 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-07 22:29:30.421 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-07 22:29:30.421 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-07 22:29:30.422 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-07 22:29:30.425 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-07 22:29:37.335 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-07 22:29:38.020 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:29:38.020 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:29:43.197 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:29:43.197 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:29:43.198 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:29:43.198 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:29:43.298 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:29:43.298 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-07 22:29:43.299 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-07 22:29:43.299 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-07 22:29:43.299 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-07 22:29:43.299 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-07 22:29:43.300 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-07 22:29:43.300 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-07 22:29:43.300 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-07 22:29:43.418 | INFO     | app.rag.retrieval:retrieve:127 - Vector search returned 0 documents.
+2026-08-07 22:29:43.418 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-07 22:29:43.419 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-07 22:29:43.419 | INFO     | app.rag.retrieval:retrieve:137 - BM25 returned 0 documents.
+2026-08-07 22:29:43.419 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-07 22:29:43.420 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-07 22:29:43.420 | INFO     | app.rag.retrieval:retrieve:148 - RRF produced 0 documents.
+2026-08-07 22:29:43.420 | INFO     | app.rag.retrieval:retrieve:169 - Retrieval completed in 0.121 sec.
+2026-08-07 22:32:06.754 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:32:06.755 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:32:08.012 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-08-07 22:32:08.013 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:32:08.013 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:32:13.611 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:32:13.611 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:32:13.611 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:32:13.612 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:32:13.746 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:32:13.746 | INFO     | app.rag.ingestion.ingestion_service:__init__:30 - DocumentIngestion initialized.
+2026-08-07 22:32:13.747 | INFO     | app.rag.ingestion.ingestion_service:ingest:42 - Starting ingestion: data\documents\resume.pdf
+2026-08-07 22:32:13.747 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\resume.pdf
+2026-08-07 22:32:13.759 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-08-07 22:32:13.760 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-08-07 22:32:13.760 | INFO     | app.rag.ingestion.ingestion_service:ingest:75 - Generated 8 chunks.
+2026-08-07 22:32:14.561 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 8 documents.
+2026-08-07 22:32:14.562 | INFO     | app.rag.ingestion.ingestion_service:ingest:133 - Stored 8 chunks in vector database.
+2026-08-07 22:32:14.562 | INFO     | app.rag.bm25.bm25_service:build_index:39 - Building BM25 index...
+2026-08-07 22:32:14.563 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 8 documents.
+2026-08-07 22:32:14.564 | INFO     | app.rag.ingestion.ingestion_service:ingest:163 - BM25 index updated (8 chunks).
+2026-08-07 22:32:14.564 | INFO     | app.rag.ingestion.ingestion_service:ingest:168 - Document ingestion completed successfully.
+2026-08-07 22:32:28.176 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:32:28.176 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:32:28.177 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:32:28.331 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:32:45.265 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-07 22:32:46.380 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 1.11 sec.
+2026-08-07 22:32:50.822 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-07 22:32:50.823 | INFO     | app.rag.bm25.bm25_service:__init__:27 - BM25Service initialized.
+2026-08-07 22:32:51.135 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-07 22:32:51.135 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-07 22:32:51.136 | INFO     | app.llm.providers.ollama_provider:__init__:23 - Initializing Ollama Provider...
+2026-08-07 22:32:51.374 | INFO     | app.llm.providers.ollama_provider:__init__:29 - Loaded model: qwen3:4b
+2026-08-07 22:32:51.375 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-07 22:32:51.375 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-07 22:32:51.375 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-07 22:32:51.379 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-07 22:32:58.090 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-07 22:32:59.062 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:32:59.062 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:33:04.384 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:33:04.384 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:33:04.385 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:33:04.385 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:33:04.586 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:33:04.588 | INFO     | app.llm.prompt_builder:__init__:21 - PromptBuilder initialized.
+2026-08-07 22:33:04.589 | INFO     | app.llm.llm_service:__init__:35 - Connecting to Ollama at http://localhost:11434
+2026-08-07 22:33:04.813 | INFO     | app.llm.llm_service:__init__:47 - LLMService initialized (model=qwen3:4b).
+2026-08-07 22:33:04.813 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-07 22:33:04.814 | INFO     | app.rag.retrieval:__init__:51 - DocumentRetriever initialized.
+2026-08-07 22:33:04.814 | INFO     | __main__:__init__:52 - InterviewAssistant initialized.
+2026-08-07 22:33:41.246 | INFO     | __main__:answer_question:66 - Question: Tell me about yourself
+2026-08-07 22:33:41.246 | INFO     | app.rag.retrieval:retrieve:66 - Original query: Tell me about yourself
+2026-08-07 22:33:41.247 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-07 22:33:41.247 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-07 22:33:41.247 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-07 22:33:41.247 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-07 22:33:41.247 | INFO     | app.rag.retrieval:retrieve:76 - Standalone query: Tell me about yourself
+2026-08-07 22:33:41.617 | INFO     | app.rag.retrieval:retrieve:127 - Vector search returned 0 documents.
+2026-08-07 22:33:41.618 | INFO     | app.rag.bm25.bm25_service:search:56 - Running BM25 retrieval...
+2026-08-07 22:33:41.618 | WARNING  | app.rag.bm25.bm25:search:62 - BM25 index is empty.
+2026-08-07 22:33:41.618 | INFO     | app.rag.retrieval:retrieve:137 - BM25 returned 0 documents.
+2026-08-07 22:33:41.619 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-07 22:33:41.619 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 0 unique documents.
+2026-08-07 22:33:41.619 | INFO     | app.rag.retrieval:retrieve:148 - RRF produced 0 documents.
+2026-08-07 22:33:41.619 | INFO     | app.rag.retrieval:retrieve:169 - Retrieval completed in 0.373 sec.
+2026-08-07 22:33:41.619 | WARNING  | app.llm.prompt_builder:build_context:62 - No retrieved documents.
+2026-08-07 22:33:41.620 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-07 22:33:41.620 | INFO     | app.llm.llm_service:generate:86 - Generating response...
+2026-08-07 22:34:29.874 | INFO     | app.llm.llm_service:generate:124 - Generation completed in 48.25 sec.
+2026-08-07 22:34:29.901 | INFO     | app.llm.llm_service:generate:129 - Generated 58 characters.
+2026-08-07 22:34:29.902 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 48.66 sec.
+2026-08-07 22:37:22.933 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:37:22.933 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:37:22.933 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:37:23.159 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:37:23.159 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:37:23.160 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:37:29.016 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-07 22:43:10.788 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-07 22:43:10.789 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-07 22:43:10.789 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-07 22:43:10.996 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-07 22:43:10.996 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-07 22:43:10.996 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-07 22:43:16.736 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.

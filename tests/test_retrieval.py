@@ -1,15 +1,18 @@
+from pprint import pprint
+
 from app.rag.retrieval import DocumentRetriever
 
 retriever = DocumentRetriever()
 
-results = retriever.retrieve(
-    "What is Bharati's work experience?"
+docs = retriever.retrieve(
+    "Tell me about yourself"
 )
 
-print("\nRetrieved Chunks:\n")
+print("\nRetrieved:", len(docs))
 
-for index, chunk in enumerate(results, start=1):
-    print(f"Chunk {index}")
-    print("-" * 60)
-    print(chunk)
-    print()
+for i, doc in enumerate(docs, 1):
+    print("\n", "=" * 80)
+    print(i)
+    print("Distance:", doc.distance)
+    pprint(doc.metadata)
+    print(doc.content[:300])

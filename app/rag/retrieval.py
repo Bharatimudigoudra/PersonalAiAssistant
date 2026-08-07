@@ -6,23 +6,17 @@ from __future__ import annotations
 
 import time
 
-from app.models.retrieved_document import RetrievedDocument
 from app.core.config import rag, reranker
 from app.core.logging import logger
 from app.embeddings.embedding_service import EmbeddingService
-from app.rag.bm25.bm25_service import (
-    get_bm25_service,
-)
+from app.models.retrieved_document import RetrievedDocument
+from app.rag.bm25.bm25_service import get_bm25_service
 from app.rag.query_rewriter.query_rewriter_service import (
     get_query_rewriter_service,
 )
-from app.rag.reciprocal_rank_fusion import (
-    reciprocal_rank_fusion,
-)
+from app.rag.reciprocal_rank_fusion import reciprocal_rank_fusion
 from app.rag.reranker_service import RerankerService
-from app.vectorstore.vectorstore_service import (
-    VectorStoreService,
-)
+from app.vectorstore.vectorstore_service import VectorStoreService
 
 _embedding_service = EmbeddingService()
 _vectorstore_service = VectorStoreService()
@@ -32,7 +26,19 @@ _bm25_service = get_bm25_service()
 
 class DocumentRetriever:
     """
-    Hybrid Retriever.
+    Hybrid Retrieval Pipeline
+
+    Query
+       │
+       ├── Query Rewriter
+       │
+       ├── Dense Retrieval (Chroma)
+       │
+       ├── Sparse Retrieval (BM25)
+       │
+       ├── Reciprocal Rank Fusion
+       │
+       └── CrossEncoder Reranker
     """
 
     def __init__(self) -> None:
@@ -68,20 +74,18 @@ class DocumentRetriever:
             question,
         )
 
-        rewritten_question = self.query_rewriter.rewrite(
+        rewritten_query = self.query_rewriter.rewrite(
             history="",
             question=question,
         )
 
         logger.info(
             "Standalone query: {}",
-            rewritten_question,
+            rewritten_query,
         )
 
-        query_embedding = (
-            self.embedding_service.embed_query(
-                rewritten_question,
-            )
+        query_embedding = self.embedding_service.embed_query(
+            rewritten_query,
         )
 
         vector_results = self.vectorstore.search(
@@ -89,11 +93,16 @@ class DocumentRetriever:
             k=k,
         )
 
-        vector_documents: list[RetrievedDocument] = []
+        docs = vector_results.get("documents", [[]])
+        metas = vector_results.get("metadatas", [[]])
+        dists = vector_results.get("distances", [[]])
 
-        docs = vector_results.get("documents") or [[]]
-        dists = vector_results.get("distances") or [[]]
-        metas = vector_results.get("metadatas") or [[]]
+        logger.info(
+            "Raw Chroma returned {} documents.",
+            len(docs[0]) if docs else 0,
+        )
+
+        vector_documents: list[RetrievedDocument] = []
 
         if docs and docs[0]:
 
@@ -109,24 +118,28 @@ class DocumentRetriever:
                 metadata_list,
             ):
 
-                if distance > rag.similarity_threshold:
-                    continue
+                logger.info(
+                    "Vector candidate distance = {:.4f}",
+                    distance,
+                )
 
+                # Do NOT filter here.
+                # Let the reranker decide.
                 vector_documents.append(
                     RetrievedDocument(
                         content=document,
-                        distance=distance,
+                        distance=float(distance),
                         metadata=metadata or {},
                     )
                 )
 
         logger.info(
-            "Vector search returned {} documents.",
+            "Vector search accepted {} documents.",
             len(vector_documents),
         )
 
         bm25_documents = self.bm25.search(
-            query=rewritten_question,
+            query=rewritten_query,
             top_k=k,
         )
 
@@ -142,7 +155,7 @@ class DocumentRetriever:
         )
 
         logger.info(
-            "RRF produced {} documents.",
+            "RRF returned {} documents.",
             len(retrieved),
         )
 
@@ -152,12 +165,17 @@ class DocumentRetriever:
         ):
 
             logger.info(
-                "Running CrossEncoder..."
+                "Running CrossEncoder reranker..."
             )
 
             retrieved = self.reranker.rerank(
-                query=rewritten_question,
+                query=rewritten_query,
                 documents=retrieved,
+            )
+
+            logger.info(
+                "Reranker returned {} documents.",
+                len(retrieved),
             )
 
         elapsed = time.perf_counter() - start
