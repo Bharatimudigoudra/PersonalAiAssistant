@@ -1,9 +1,13 @@
 """
-Ollama provider implementation using the official Ollama Python client.
+Ollama LLM provider.
+
+Uses the official Ollama Python client for local inference.
 """
 
+from __future__ import annotations
+
 import time
-from typing import Iterator
+from collections.abc import Iterator
 
 import ollama
 
@@ -15,32 +19,37 @@ from app.memory.memory import ChatMessage
 
 class OllamaProvider(BaseLLMProvider):
     """
-    Concrete implementation of BaseLLMProvider using Ollama.
+    Concrete LLM provider using local Ollama inference.
     """
 
     def __init__(self) -> None:
 
-        logger.info("Initializing Ollama Provider...")
+        logger.info(
+            "Initializing Ollama Provider..."
+        )
 
         self._client = ollama.Client(
             host=llm.base_url,
         )
 
+        self.model = llm.model_name
+
         logger.info(
             "Loaded model: {}",
-            llm.model_name,
+            self.model,
         )
 
+    # -----------------------------------------------------------------
+    # Message Builder
+    # -----------------------------------------------------------------
+
+    @staticmethod
     def _build_messages(
-        self,
         prompt: str,
         history: list[ChatMessage] | None = None,
-    ) -> list[dict]:
-        """
-        Build Ollama chat messages.
-        """
+    ) -> list[dict[str, str]]:
 
-        messages: list[dict] = []
+        messages: list[dict[str, str]] = []
 
         if history:
 
@@ -62,55 +71,86 @@ class OllamaProvider(BaseLLMProvider):
 
         return messages
 
+    # -----------------------------------------------------------------
+    # Generate
+    # -----------------------------------------------------------------
+
     def generate(
         self,
         prompt: str,
         history: list[ChatMessage] | None = None,
     ) -> str:
-        """
-        Generate a complete response.
-        """
 
-        logger.info("Generating response...")
+        prompt = prompt.strip()
+
+        if not prompt:
+            raise ValueError(
+                "Prompt cannot be empty."
+            )
+
+        logger.info(
+            "Generating response with {}...",
+            self.model,
+        )
+
+        logger.info(
+            "Prompt length: {} characters.",
+            len(prompt),
+        )
 
         start = time.perf_counter()
 
         try:
 
             response = self._client.chat(
-                model=llm.model_name,
+                model=self.model,
                 messages=self._build_messages(
                     prompt=prompt,
                     history=history,
                 ),
+
+                # Disable Qwen3 reasoning for fast interview answers.
                 think=False,
+
+                stream=False,
+
                 options={
-                    "temperature": 0,
-                    "num_ctx": 2048,
-                    "num_predict": 150,
+                    "temperature": llm.temperature,
+                    "num_ctx": 4096,
+                    "num_predict": min(
+                        int(llm.max_tokens),
+                        512,
+                    ),
                 },
             )
 
-        except Exception as exc:
+        except Exception:
+
+            elapsed = time.perf_counter() - start
 
             logger.exception(
-                "Ollama request failed: {}",
-                exc,
+                "Ollama request failed after {:.2f} sec.",
+                elapsed,
             )
 
             return ""
 
         elapsed = time.perf_counter() - start
 
-        logger.info(
-            "LLM completed in {:.2f} seconds.",
-            elapsed,
+        content = (
+            response
+            .get("message", {})
+            .get("content", "")
         )
 
-        content = (
-            response.get("message", {})
-            .get("content", "")
-            .strip()
+        if content is None:
+            content = ""
+
+        content = str(content).strip()
+
+        logger.info(
+            "LLM completed in {:.2f} sec.",
+            elapsed,
         )
 
         logger.info(
@@ -121,49 +161,66 @@ class OllamaProvider(BaseLLMProvider):
         if not content:
 
             logger.warning(
-                "LLM returned an empty response."
+                "Ollama returned an empty response."
             )
 
             return ""
 
         return content
 
+    # -----------------------------------------------------------------
+    # Streaming
+    # -----------------------------------------------------------------
+
     def stream(
         self,
         prompt: str,
         history: list[ChatMessage] | None = None,
     ) -> Iterator[str]:
-        """
-        Stream tokens from Ollama.
-        """
 
-        logger.info("Streaming response...")
+        prompt = prompt.strip()
+
+        if not prompt:
+            raise ValueError(
+                "Prompt cannot be empty."
+            )
+
+        logger.info(
+            "Streaming response from {}...",
+            self.model,
+        )
 
         start = time.perf_counter()
+        total_chars = 0
 
         try:
 
-            stream = self._client.chat(
-                model=llm.model_name,
+            response_stream = self._client.chat(
+                model=self.model,
                 messages=self._build_messages(
                     prompt=prompt,
                     history=history,
                 ),
+
                 think=False,
+
                 stream=True,
+
                 options={
-                    "temperature": 0,
-                    "num_ctx": 2048,
-                    "num_predict": 150,
+                    "temperature": llm.temperature,
+                    "num_ctx": 4096,
+                    "num_predict": min(
+                        int(llm.max_tokens),
+                        512,
+                    ),
                 },
             )
 
-            total_chars = 0
-
-            for chunk in stream:
+            for chunk in response_stream:
 
                 token = (
-                    chunk.get("message", {})
+                    chunk
+                    .get("message", {})
                     .get("content", "")
                 )
 
@@ -173,55 +230,58 @@ class OllamaProvider(BaseLLMProvider):
 
                     yield token
 
+            elapsed = time.perf_counter() - start
+
             logger.info(
-                "Streaming completed ({} chars, {:.2f} sec).",
-                total_chars,
-                time.perf_counter() - start,
+                "Streaming completed in {:.2f} sec.",
+                elapsed,
             )
 
-        except Exception as exc:
+            logger.info(
+                "Generated {} characters.",
+                total_chars,
+            )
+
+        except Exception:
+
+            elapsed = time.perf_counter() - start
 
             logger.exception(
-                "Streaming failed: {}",
-                exc,
+                "Streaming failed after {:.2f} sec.",
+                elapsed,
             )
 
-            yield ""
+    # -----------------------------------------------------------------
+    # Health Check
+    # -----------------------------------------------------------------
 
-    def health_check(
-        self,
-    ) -> bool:
-        """
-        Verify Ollama is available.
-        """
+    def health_check(self) -> bool:
 
         try:
 
             response = self.generate(
-                prompt="Hello",
+                prompt="Reply with exactly: OK"
             )
 
-            healthy = bool(response)
-
-            if healthy:
+            if response == "OK":
 
                 logger.info(
                     "Ollama health check passed."
                 )
 
-            else:
+                return True
 
-                logger.warning(
-                    "Health check returned an empty response."
-                )
+            logger.warning(
+                "Ollama health check returned: {!r}",
+                response,
+            )
 
-            return healthy
+            return False
 
-        except Exception as exc:
+        except Exception:
 
             logger.exception(
-                "Ollama health check failed: {}",
-                exc,
+                "Ollama health check failed."
             )
 
             return False

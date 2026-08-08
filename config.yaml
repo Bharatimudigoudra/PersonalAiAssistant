@@ -12,7 +12,7 @@ llm:
   base_url: http://localhost:11434
 
   temperature: 0.2
-  max_tokens: 2048
+  max_tokens: 512
   timeout: 120
 
   streaming: true
@@ -32,8 +32,8 @@ rag:
   chunk_size: 1000
   chunk_overlap: 200
 
-  top_k: 10
-  similarity_threshold: 2.0
+  top_k: 8
+  similarity_threshold: 1.2
   max_context_chars: 3000
 
 reranker:

@@ -2,11 +2,19 @@
 LLM Service.
 
 Provides a singleton interface for the local Ollama LLM.
+
+Designed for:
+- Ollama local inference
+- Qwen3 models
+- Non-thinking interview responses
+- Streaming and non-streaming generation
+- Robust response extraction
 """
 
 from __future__ import annotations
 
 import time
+from collections.abc import Iterator
 
 import ollama
 
@@ -23,15 +31,13 @@ _client: ollama.Client | None = None
 
 class LLMService:
     """
-    Wrapper around a local Ollama model.
+    High-level wrapper around a local Ollama model.
     """
 
     def __init__(self) -> None:
-
         global _client
 
         if _client is None:
-
             logger.info(
                 "Connecting to Ollama at {}",
                 llm.base_url,
@@ -50,170 +56,340 @@ class LLMService:
         )
 
     # -----------------------------------------------------------------
+    # Message Builder
+    # -----------------------------------------------------------------
 
-    def generate(
-            self,
-            prompt: str | None = None,
-            system_prompt: str | None = None,
-            user_prompt: str | None = None,
-        ) -> str:
-            """
-            Generate a response from the local LLM.
+    @staticmethod
+    def _build_messages(
+        prompt: str,
+        system_prompt: str | None = None,
+    ) -> list[dict[str, str]]:
+        """
+        Build Ollama chat messages.
+        """
 
-            Supports both styles:
+        messages: list[dict[str, str]] = []
 
-                generate(prompt="...")
-
-            and
-
-                generate(
-                    system_prompt="...",
-                    user_prompt="...",
-                )
-            """
-
-            # ---------------------------------------------
-            # Backward compatibility
-            # ---------------------------------------------
-            if user_prompt is not None:
-                prompt = user_prompt
-
-            if prompt is None:
-                raise ValueError(
-                    "Either 'prompt' or 'user_prompt' must be provided."
-                )
-
-            logger.info("Generating response...")
-
-            start = time.perf_counter()
-
-            messages = []
-
-            if system_prompt:
-
-                messages.append(
-                    {
-                        "role": "system",
-                        "content": system_prompt,
-                    }
-                )
-
+        if system_prompt:
             messages.append(
                 {
-                    "role": "user",
-                    "content": prompt,
+                    "role": "system",
+                    "content": system_prompt,
                 }
             )
 
-            try:
+        messages.append(
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        )
 
-                response = self.client.chat(
-                    model=self.model,
-                    messages=messages,
-                    stream=False,
-                    options={
-                        "temperature": llm.temperature,
-                        "num_predict": llm.max_tokens,
-                    },
+        return messages
+
+    # -----------------------------------------------------------------
+    # Response Extraction
+    # -----------------------------------------------------------------
+
+    @staticmethod
+    def _extract_content(response) -> str:
+        """
+        Safely extract generated text from an Ollama response.
+        """
+
+        try:
+            message = response.get("message", {})
+
+            content = message.get("content", "")
+
+            if content is None:
+                return ""
+
+            return str(content).strip()
+
+        except Exception:
+            logger.exception(
+                "Failed to extract Ollama response content."
+            )
+
+            return ""
+
+    # -----------------------------------------------------------------
+    # Generate
+    # -----------------------------------------------------------------
+
+    def generate(
+        self,
+        prompt: str | None = None,
+        system_prompt: str | None = None,
+        user_prompt: str | None = None,
+    ) -> str:
+        """
+        Generate a complete response from Ollama.
+
+        Supports:
+
+            generate(prompt="...")
+
+        or:
+
+            generate(
+                system_prompt="...",
+                user_prompt="...",
+            )
+        """
+
+        if user_prompt is not None:
+            prompt = user_prompt
+
+        if prompt is None:
+            raise ValueError(
+                "Either 'prompt' or 'user_prompt' must be provided."
+            )
+
+        prompt = prompt.strip()
+
+        if not prompt:
+            raise ValueError(
+                "Prompt cannot be empty."
+            )
+
+        logger.info(
+            "Generating response with model={}",
+            self.model,
+        )
+
+        logger.info(
+            "Prompt length: {} characters.",
+            len(prompt),
+        )
+
+        start = time.perf_counter()
+
+        messages = self._build_messages(
+            prompt=prompt,
+            system_prompt=system_prompt,
+        )
+
+        try:
+            response = self.client.chat(
+                model=self.model,
+                messages=messages,
+
+                # IMPORTANT FOR QWEN3:
+                # Disable internal thinking for interview answers.
+                think=False,
+
+                # Non-streaming generation.
+                stream=False,
+
+                options={
+                    "temperature": llm.temperature,
+
+                    # Keep the context reasonable for local CPU inference.
+                    "num_ctx": 4096,
+
+                    # Do NOT generate thousands of tokens for an
+                    # interview answer.
+                    "num_predict": min(
+                        int(llm.max_tokens),
+                        512,
+                    ),
+                },
+            )
+
+            answer = self._extract_content(response)
+
+            elapsed = time.perf_counter() - start
+
+            if not answer:
+                logger.warning(
+                    "Ollama returned an empty response."
                 )
 
-                answer = response["message"]["content"].strip()
-
-                elapsed = time.perf_counter() - start
-
-                logger.info(
-                    "Generation completed in {:.2f} sec.",
-                    elapsed,
-                )
-
-                logger.info(
-                    "Generated {} characters.",
-                    len(answer),
-                )
-
-                return answer
-
-            except Exception:
-
-                logger.exception(
-                    "LLM generation failed."
+                logger.warning(
+                    "Raw Ollama response type: {}",
+                    type(response).__name__,
                 )
 
                 return ""
 
+            logger.info(
+                "Generation completed in {:.2f} sec.",
+                elapsed,
+            )
+
+            logger.info(
+                "Generated {} characters.",
+                len(answer),
+            )
+
+            return answer
+
+        except Exception:
+            elapsed = time.perf_counter() - start
+
+            logger.exception(
+                "LLM generation failed after {:.2f} sec.",
+                elapsed,
+            )
+
+            return ""
+
+    # -----------------------------------------------------------------
+    # Stream
     # -----------------------------------------------------------------
 
     def stream(
-            self,
-            prompt: str | None = None,
-            system_prompt: str | None = None,
-            user_prompt: str | None = None,
-        ):
-            """
-            Stream tokens from Ollama.
+        self,
+        prompt: str | None = None,
+        system_prompt: str | None = None,
+        user_prompt: str | None = None,
+    ) -> Iterator[str]:
+        """
+        Stream generated tokens from Ollama.
+        """
 
-            Supports both:
+        if user_prompt is not None:
+            prompt = user_prompt
 
-                stream(prompt="...")
-
-            and
-
-                stream(
-                    system_prompt="...",
-                    user_prompt="...",
-                )
-            """
-
-            if user_prompt is not None:
-                prompt = user_prompt
-
-            if prompt is None:
-                raise ValueError(
-                    "Either 'prompt' or 'user_prompt' must be provided."
-                )
-
-            logger.info("Streaming response...")
-
-            messages = []
-
-            if system_prompt:
-
-                messages.append(
-                    {
-                        "role": "system",
-                        "content": system_prompt,
-                    }
-                )
-
-            messages.append(
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
+        if prompt is None:
+            raise ValueError(
+                "Either 'prompt' or 'user_prompt' must be provided."
             )
 
-            try:
+        prompt = prompt.strip()
 
-                stream = self.client.chat(
-                    model=self.model,
-                    messages=messages,
-                    stream=True,
-                    options={
-                        "temperature": llm.temperature,
-                        "num_predict": llm.max_tokens,
-                    },
+        if not prompt:
+            raise ValueError(
+                "Prompt cannot be empty."
+            )
+
+        logger.info(
+            "Streaming response with model={}",
+            self.model,
+        )
+
+        logger.info(
+            "Prompt length: {} characters.",
+            len(prompt),
+        )
+
+        start = time.perf_counter()
+        total_chars = 0
+
+        messages = self._build_messages(
+            prompt=prompt,
+            system_prompt=system_prompt,
+        )
+
+        try:
+            response_stream = self.client.chat(
+                model=self.model,
+                messages=messages,
+
+                # IMPORTANT FOR QWEN3.
+                think=False,
+
+                stream=True,
+
+                options={
+                    "temperature": llm.temperature,
+                    "num_ctx": 4096,
+                    "num_predict": min(
+                        int(llm.max_tokens),
+                        512,
+                    ),
+                },
+            )
+
+            for chunk in response_stream:
+
+                try:
+                    message = chunk.get(
+                        "message",
+                        {},
+                    )
+
+                    token = message.get(
+                        "content",
+                        "",
+                    )
+
+                except Exception:
+                    logger.exception(
+                        "Failed to read Ollama stream chunk."
+                    )
+                    continue
+
+                if token:
+
+                    total_chars += len(token)
+
+                    yield token
+
+            elapsed = time.perf_counter() - start
+
+            logger.info(
+                "Streaming completed in {:.2f} sec.",
+                elapsed,
+            )
+
+            logger.info(
+                "Generated {} characters.",
+                total_chars,
+            )
+
+            if total_chars == 0:
+                logger.warning(
+                    "Ollama streaming completed with zero characters."
                 )
 
-                for chunk in stream:
-                    yield chunk["message"]["content"]
+        except Exception:
 
-            except Exception:
+            elapsed = time.perf_counter() - start
 
-                logger.exception(
-                    "Streaming failed."
+            logger.exception(
+                "Streaming failed after {:.2f} sec.",
+                elapsed,
+            )
+
+    # -----------------------------------------------------------------
+    # Health Check
+    # -----------------------------------------------------------------
+
+    def health_check(self) -> bool:
+        """
+        Verify that Ollama is available and can generate text.
+        """
+
+        try:
+
+            response = self.generate(
+                prompt="Reply with exactly: OK"
+            )
+
+            healthy = response.strip() == "OK"
+
+            if healthy:
+                logger.info(
+                    "Ollama health check passed."
+                )
+            else:
+                logger.warning(
+                    "Ollama health check returned: {!r}",
+                    response,
                 )
 
-                yield ""
+            return healthy
+
+        except Exception:
+
+            logger.exception(
+                "Ollama health check failed."
+            )
+
+            return False
 
 
 # ---------------------------------------------------------------------
@@ -225,25 +401,32 @@ _llm_service = LLMService()
 
 def get_llm_service() -> LLMService:
     """
-    Return singleton LLM service.
+    Return the singleton LLM service.
     """
 
     return _llm_service
 
 
 # ---------------------------------------------------------------------
-# Test
+# Standalone Test
 # ---------------------------------------------------------------------
 
 if __name__ == "__main__":
 
     service = get_llm_service()
 
+    print()
+    print("=" * 70)
+    print("Testing Ollama LLM")
+    print("=" * 70)
+
     reply = service.generate(
-        prompt="Introduce yourself in one sentence."
+        prompt=(
+            "Tell me about yourself in 3 short sentences."
+        )
     )
 
     print()
-    print("=" * 60)
     print(reply)
-    print("=" * 60)
+    print()
+    print("=" * 70)
