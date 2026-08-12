@@ -1,3 +1,3 @@
-from .ingestion_service import DocumentIngestion
+from app.rag.ingestion.ingestion_service import DocumentIngestion
 
 __all__ = ["DocumentIngestion"]

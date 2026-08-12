@@ -3078,3 +3078,116 @@
 2026-08-12 21:58:29.279 | INFO     | app.llm.llm_service:generate:217 - Generation completed in 131.59 sec.
 2026-08-12 21:58:29.307 | INFO     | app.llm.llm_service:generate:222 - Generated 2265 characters.
 2026-08-12 21:58:29.310 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 136.69 sec.
+2026-08-12 22:22:42.623 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-12 22:22:42.624 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-12 22:22:45.431 | INFO     | __main__:main:38 - Found 2 document(s) for ingestion.
+2026-08-12 22:22:45.432 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-08-12 22:22:45.432 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-12 22:22:45.433 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-12 22:22:53.906 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-12 22:22:53.906 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-12 22:22:53.908 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-12 22:22:53.909 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-12 22:22:54.357 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-12 22:22:54.358 | INFO     | app.rag.ingestion.ingestion_service:__init__:30 - DocumentIngestion initialized.
+2026-08-12 22:22:54.361 | INFO     | app.rag.ingestion.ingestion_service:ingest:42 - Starting ingestion: data\documents\interview.pdf
+2026-08-12 22:22:54.361 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\interview.pdf
+2026-08-12 22:22:54.454 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 7215 characters.
+2026-08-12 22:22:54.457 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 10 chunks.
+2026-08-12 22:22:54.457 | INFO     | app.rag.ingestion.ingestion_service:ingest:75 - Generated 10 chunks.
+2026-08-12 22:22:56.371 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 10 documents.
+2026-08-12 22:22:56.372 | INFO     | app.rag.ingestion.ingestion_service:ingest:133 - Stored 10 chunks in vector database.
+2026-08-12 22:22:56.373 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 10 documents...
+2026-08-12 22:22:56.376 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 10 documents.
+2026-08-12 22:22:56.377 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-12 22:22:56.377 | INFO     | app.rag.ingestion.ingestion_service:ingest:163 - BM25 index updated (10 chunks).
+2026-08-12 22:22:56.378 | INFO     | app.rag.ingestion.ingestion_service:ingest:168 - Document ingestion completed successfully.
+2026-08-12 22:22:56.381 | INFO     | app.rag.ingestion.ingestion_service:ingest:42 - Starting ingestion: data\documents\resume.pdf
+2026-08-12 22:22:56.382 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data\documents\resume.pdf
+2026-08-12 22:22:56.417 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-08-12 22:22:56.418 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-08-12 22:22:56.420 | INFO     | app.rag.ingestion.ingestion_service:ingest:75 - Generated 8 chunks.
+2026-08-12 22:22:57.576 | INFO     | app.vectorstore.chroma_vectorstore:add:52 - Inserted 8 documents.
+2026-08-12 22:22:57.576 | INFO     | app.rag.ingestion.ingestion_service:ingest:133 - Stored 8 chunks in vector database.
+2026-08-12 22:22:57.577 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 8 documents...
+2026-08-12 22:22:57.580 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 8 documents.
+2026-08-12 22:22:57.581 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-12 22:22:57.582 | INFO     | app.rag.ingestion.ingestion_service:ingest:163 - BM25 index updated (8 chunks).
+2026-08-12 22:22:57.583 | INFO     | app.rag.ingestion.ingestion_service:ingest:168 - Document ingestion completed successfully.
+2026-08-12 22:25:33.327 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-12 22:25:33.328 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-12 22:25:33.328 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-12 22:25:33.815 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-12 22:25:57.754 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-12 22:25:59.869 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 2.11 sec.
+2026-08-12 22:26:09.190 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-12 22:26:09.191 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-12 22:26:09.872 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-12 22:26:09.872 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-12 22:26:09.873 | INFO     | app.llm.providers.ollama_provider:__init__:27 - Initializing Ollama Provider...
+2026-08-12 22:26:10.418 | INFO     | app.llm.providers.ollama_provider:__init__:37 - Loaded model: qwen3:4b
+2026-08-12 22:26:10.419 | INFO     | app.llm.services.llm_service:__init__:38 - LLMService initialized with OllamaProvider
+2026-08-12 22:26:10.419 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-12 22:26:10.420 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-12 22:26:10.434 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-12 22:26:21.792 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-12 22:26:23.742 | INFO     | app.llm.prompt_builder:__init__:21 - PromptBuilder initialized.
+2026-08-12 22:26:23.745 | INFO     | app.llm.llm_service:__init__:41 - Connecting to Ollama at http://localhost:11434
+2026-08-12 22:26:24.274 | INFO     | app.llm.llm_service:__init__:53 - LLMService initialized (model=qwen3:4b).
+2026-08-12 22:26:24.275 | INFO     | app.rag.retrieval:__init__:61 - Initializing DocumentRetriever...
+2026-08-12 22:26:24.275 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-12 22:26:24.275 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-12 22:26:31.491 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-12 22:26:31.492 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-12 22:26:31.492 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-12 22:26:31.493 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-12 22:26:31.933 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-12 22:26:31.934 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-12 22:26:32.143 | INFO     | app.rag.retrieval:_ensure_bm25_index:774 - Persistent vector collection contains 18 documents.
+2026-08-12 22:26:32.153 | INFO     | app.rag.retrieval:_ensure_bm25_index:885 - Rebuilding BM25 index from 18 persistent documents...
+2026-08-12 22:26:32.154 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 18 documents...
+2026-08-12 22:26:32.157 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 18 documents.
+2026-08-12 22:26:32.158 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-12 22:26:32.158 | INFO     | app.rag.retrieval:_ensure_bm25_index:895 - BM25 index successfully rebuilt with 18 documents.
+2026-08-12 22:26:32.159 | INFO     | app.rag.retrieval:__init__:95 - DocumentRetriever initialized.
+2026-08-12 22:26:32.159 | INFO     | __main__:__init__:52 - InterviewAssistant initialized.
+2026-08-12 22:27:32.979 | INFO     | __main__:answer_question:66 - Question: tell me about yourself?
+2026-08-12 22:27:32.982 | INFO     | app.rag.retrieval:retrieve:165 - Starting retrieval | question=tell me about yourself? | k=8
+2026-08-12 22:27:32.983 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:43 - Running query rewriter...
+2026-08-12 22:27:32.985 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:34 - Rewriting user query...
+2026-08-12 22:27:32.987 | INFO     | app.rag.query_rewriter.query_rewriter:rewrite:40 - No conversation history available.
+2026-08-12 22:27:32.990 | INFO     | app.rag.query_rewriter.query_rewriter_service:rewrite:52 - Query rewriting completed.
+2026-08-12 22:27:32.991 | INFO     | app.rag.retrieval:retrieve:179 - Standalone query=tell me about yourself?
+2026-08-12 22:27:33.486 | INFO     | app.rag.retrieval:_parse_vector_results:467 - Raw Chroma returned 8 documents.
+2026-08-12 22:27:33.487 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=0 | distance=0.9773
+2026-08-12 22:27:33.487 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=1 | distance=1.0677
+2026-08-12 22:27:33.488 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=2 | distance=1.1045
+2026-08-12 22:27:33.489 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=3 | distance=1.1135
+2026-08-12 22:27:33.490 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=4 | distance=1.1181
+2026-08-12 22:27:33.491 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=5 | distance=1.1466
+2026-08-12 22:27:33.492 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=6 | distance=1.1486
+2026-08-12 22:27:33.493 | INFO     | app.rag.retrieval:_parse_vector_results:536 - Vector candidate | index=7 | distance=1.1542
+2026-08-12 22:27:33.494 | INFO     | app.rag.retrieval:_parse_vector_results:660 - Vector search accepted 8 documents.
+2026-08-12 22:27:33.495 | INFO     | app.rag.retrieval:retrieve:193 - Vector search returned 8 documents.
+2026-08-12 22:27:33.496 | INFO     | app.rag.bm25.bm25_service:search:110 - Running BM25 retrieval (top_k=8)
+2026-08-12 22:27:33.497 | INFO     | app.rag.bm25.bm25:search:68 - Running BM25 search...
+2026-08-12 22:27:33.498 | INFO     | app.rag.bm25.bm25:search:93 - BM25 returned 5 documents.
+2026-08-12 22:27:33.499 | INFO     | app.rag.bm25.bm25_service:search:120 - BM25 returned 5 documents.
+2026-08-12 22:27:33.500 | INFO     | app.rag.retrieval:retrieve:207 - BM25 returned 5 documents.
+2026-08-12 22:27:33.506 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-12 22:27:33.508 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 9 unique documents.
+2026-08-12 22:27:33.510 | INFO     | app.rag.retrieval:retrieve:236 - RRF returned 8 documents.
+2026-08-12 22:27:33.511 | INFO     | app.rag.retrieval:retrieve:249 - Running CrossEncoder reranker...
+2026-08-12 22:27:33.512 | INFO     | app.rag.reranker_service:rerank:40 - Running CrossEncoder reranker...
+2026-08-12 22:27:33.512 | INFO     | app.rag.reranker:rerank:49 - Reranking 8 documents...
+2026-08-12 22:27:39.368 | INFO     | app.rag.reranker:rerank:73 - Returning top 3 reranked documents.
+2026-08-12 22:27:39.370 | INFO     | app.rag.reranker_service:rerank:49 - Reranking completed. 3 documents returned.
+2026-08-12 22:27:39.371 | INFO     | app.rag.retrieval:retrieve:262 - Reranker returned 3 documents.
+2026-08-12 22:27:39.372 | INFO     | app.rag.retrieval:_log_elapsed:1021 - Retrieval completed in 6.389 sec.
+2026-08-12 22:27:39.373 | INFO     | app.llm.prompt_builder:build_context:90 - Context built (2887 chars).
+2026-08-12 22:27:39.375 | INFO     | app.llm.prompt_builder:build_user_prompt:135 - User prompt built.
+2026-08-12 22:27:39.375 | INFO     | app.llm.llm_service:generate:157 - Generating response with model=qwen3:4b
+2026-08-12 22:27:39.376 | INFO     | app.llm.llm_service:generate:162 - Prompt length: 3197 characters.
+2026-08-12 22:29:54.843 | INFO     | app.llm.llm_service:generate:217 - Generation completed in 135.46 sec.
+2026-08-12 22:29:54.862 | INFO     | app.llm.llm_service:generate:222 - Generated 2243 characters.
+2026-08-12 22:29:54.867 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 141.88 sec.

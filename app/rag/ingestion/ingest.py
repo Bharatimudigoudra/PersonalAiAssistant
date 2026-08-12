@@ -1,7 +1,8 @@
 """
-Run document ingestion for all supported documents.
+Multi-document ingestion entry point.
 
-This script scans data/documents/ and ingests every supported file.
+Discovers all supported documents inside data/documents
+and ingests them into the persistent retrieval system.
 """
 
 from pathlib import Path
@@ -20,69 +21,70 @@ SUPPORTED_EXTENSIONS = {
 
 
 def main() -> None:
-    """Ingest all supported documents from the documents directory."""
+    """Ingest all supported documents."""
 
     if not DOCUMENTS_DIR.exists():
-        logger.error(
-            "Documents directory does not exist: %s",
-            DOCUMENTS_DIR,
+        raise FileNotFoundError(
+            f"Documents directory not found: {DOCUMENTS_DIR}"
         )
-        return
 
-    files = [
-        file_path
-        for file_path in DOCUMENTS_DIR.iterdir()
-        if file_path.is_file()
-        and file_path.suffix.lower() in SUPPORTED_EXTENSIONS
-    ]
-
-    if not files:
-        logger.warning(
-            "No supported documents found in: %s",
-            DOCUMENTS_DIR,
-        )
-        return
+    files = sorted(
+        path
+        for path in DOCUMENTS_DIR.iterdir()
+        if path.is_file()
+        and path.suffix.lower() in SUPPORTED_EXTENSIONS
+    )
 
     logger.info(
-        "Found %d document(s) for ingestion.",
-        len(files),
+        f"Found {len(files)} document(s) for ingestion."
     )
+
+    if not files:
+        logger.warning("No supported documents found.")
+        return
 
     pipeline = DocumentIngestion()
 
     successful = 0
     failed = 0
 
+    print("\n" + "=" * 70)
+    print("PERSONAL AI ASSISTANT - DOCUMENT INGESTION")
+    print("=" * 70)
+
     for file_path in files:
-        print(f"\n{'=' * 70}")
-        print(f"Ingesting: {file_path.name}")
-        print(f"{'=' * 70}")
+
+        print(f"\nIngesting: {file_path.name}")
 
         try:
             pipeline.ingest(str(file_path))
 
             successful += 1
 
-            logger.info(
-                "Successfully ingested: %s",
-                file_path,
+            print(
+                f"[OK] Successfully ingested: "
+                f"{file_path.name}"
             )
 
         except Exception:
+
             failed += 1
 
             logger.exception(
-                "Failed to ingest: %s",
-                file_path,
+                f"Failed to ingest {file_path}"
             )
 
-    print(f"\n{'=' * 70}")
+            print(
+                f"[ERROR] Failed: {file_path.name}"
+            )
+
+    print("\n" + "=" * 70)
     print("INGESTION SUMMARY")
-    print(f"{'=' * 70}")
+    print("=" * 70)
     print(f"Total files : {len(files)}")
     print(f"Successful  : {successful}")
     print(f"Failed      : {failed}")
-    print(f"{'=' * 70}\n")
+    print("=" * 70)
 
 
 if __name__ == "__main__":
