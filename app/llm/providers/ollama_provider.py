@@ -1,7 +1,15 @@
 """
 Ollama LLM provider.
 
-Uses the official Ollama Python client for local inference.
+Local Ollama provider used by PersonalAiAssistant.
+
+Responsibilities:
+- Connect to Ollama
+- Generate non-streaming responses
+- Stream responses
+- Disable Qwen3 thinking when supported
+- Keep interview responses concise
+- Safely extract response content
 """
 
 from __future__ import annotations
@@ -18,15 +26,10 @@ from app.memory.memory import ChatMessage
 
 
 class OllamaProvider(BaseLLMProvider):
-    """
-    Concrete LLM provider using local Ollama inference.
-    """
+    """LLM provider backed by a local Ollama server."""
 
     def __init__(self) -> None:
-
-        logger.info(
-            "Initializing Ollama Provider..."
-        )
+        logger.info("Initializing Ollama Provider...")
 
         self._client = ollama.Client(
             host=llm.base_url,
@@ -35,29 +38,43 @@ class OllamaProvider(BaseLLMProvider):
         self.model = llm.model_name
 
         logger.info(
-            "Loaded model: {}",
+            "Ollama Provider initialized | model={}",
             self.model,
         )
 
-    # -----------------------------------------------------------------
-    # Message Builder
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # Message builder
+    # ------------------------------------------------------------------
 
     @staticmethod
     def _build_messages(
         prompt: str,
         history: list[ChatMessage] | None = None,
     ) -> list[dict[str, str]]:
+        """
+        Build Ollama chat messages.
+
+        History is intentionally included only when supplied by the
+        service layer.
+        """
 
         messages: list[dict[str, str]] = []
 
         if history:
-
             for message in history:
+                role = message.role
+
+                # Ollama expects standard roles.
+                if role not in {
+                    "system",
+                    "user",
+                    "assistant",
+                }:
+                    role = "user"
 
                 messages.append(
                     {
-                        "role": message.role,
+                        "role": role,
                         "content": message.content,
                     }
                 )
@@ -71,15 +88,110 @@ class OllamaProvider(BaseLLMProvider):
 
         return messages
 
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # Ollama options
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _options() -> dict:
+        """
+        Runtime options optimized for a local interview assistant.
+        """
+
+        return {
+            "temperature": float(llm.temperature),
+
+            # Keep prompt/context manageable on local hardware.
+            "num_ctx": 4096,
+
+            # Interview answers should be short.
+            "num_predict": min(
+                int(llm.max_tokens),
+                256,
+            ),
+
+            # Helps reduce unnecessary repetition.
+            "repeat_penalty": 1.1,
+        }
+
+    # ------------------------------------------------------------------
+    # Response extraction
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _extract_content(response) -> str:
+        """Safely extract text from an Ollama response."""
+
+        if response is None:
+            return ""
+
+        try:
+            message = response.get("message", {})
+
+            if not isinstance(message, dict):
+                return ""
+
+            content = message.get("content", "")
+
+            if content is None:
+                return ""
+
+            return str(content).strip()
+
+        except Exception:
+            logger.exception(
+                "Failed to extract Ollama response."
+            )
+            return ""
+
+    # ------------------------------------------------------------------
+    # Cleanup
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _clean_response(text: str) -> str:
+        """
+        Remove accidental reasoning wrappers.
+
+        Qwen3 should run with think=False, but this defensive cleanup
+        prevents internal-looking sections from reaching the interviewer.
+        """
+
+        if not text:
+            return ""
+
+        text = text.strip()
+
+        # Remove common explicit thinking blocks if returned.
+        markers = [
+            "</think>",
+            "<|endofthink|>",
+        ]
+
+        for marker in markers:
+            if marker in text:
+                text = text.split(marker)[-1].strip()
+
+        # If an opening thinking marker exists but no closing marker,
+        # remove everything before the final likely answer.
+        if "<think>" in text:
+            parts = text.split("</think>", 1)
+
+            if len(parts) == 2:
+                text = parts[1].strip()
+
+        return text.strip()
+
+    # ------------------------------------------------------------------
     # Generate
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
 
     def generate(
         self,
         prompt: str,
         history: list[ChatMessage] | None = None,
     ) -> str:
+        """Generate a complete response."""
 
         prompt = prompt.strip()
 
@@ -89,19 +201,18 @@ class OllamaProvider(BaseLLMProvider):
             )
 
         logger.info(
-            "Generating response with {}...",
+            "Generating response with model={}",
             self.model,
         )
 
         logger.info(
-            "Prompt length: {} characters.",
+            "Prompt length={} characters",
             len(prompt),
         )
 
         start = time.perf_counter()
 
         try:
-
             response = self._client.chat(
                 model=self.model,
                 messages=self._build_messages(
@@ -109,27 +220,19 @@ class OllamaProvider(BaseLLMProvider):
                     history=history,
                 ),
 
-                # Disable Qwen3 reasoning for fast interview answers.
+                # Qwen3: disable reasoning for interview responses.
                 think=False,
 
                 stream=False,
 
-                options={
-                    "temperature": llm.temperature,
-                    "num_ctx": 4096,
-                    "num_predict": min(
-                        int(llm.max_tokens),
-                        512,
-                    ),
-                },
+                options=self._options(),
             )
 
         except Exception:
-
             elapsed = time.perf_counter() - start
 
             logger.exception(
-                "Ollama request failed after {:.2f} sec.",
+                "Ollama generation failed after {:.2f}s",
                 elapsed,
             )
 
@@ -137,46 +240,39 @@ class OllamaProvider(BaseLLMProvider):
 
         elapsed = time.perf_counter() - start
 
-        content = (
-            response
-            .get("message", {})
-            .get("content", "")
-        )
+        content = self._extract_content(response)
 
-        if content is None:
-            content = ""
-
-        content = str(content).strip()
-
-        logger.info(
-            "LLM completed in {:.2f} sec.",
-            elapsed,
-        )
-
-        logger.info(
-            "Response length: {} characters.",
-            len(content),
-        )
+        content = self._clean_response(content)
 
         if not content:
-
             logger.warning(
                 "Ollama returned an empty response."
             )
 
             return ""
 
+        logger.info(
+            "Generation completed in {:.2f}s",
+            elapsed,
+        )
+
+        logger.info(
+            "Generated {} characters",
+            len(content),
+        )
+
         return content
 
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
     # Streaming
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
 
     def stream(
         self,
         prompt: str,
         history: list[ChatMessage] | None = None,
     ) -> Iterator[str]:
+        """Stream Ollama output."""
 
         prompt = prompt.strip()
 
@@ -186,7 +282,7 @@ class OllamaProvider(BaseLLMProvider):
             )
 
         logger.info(
-            "Streaming response from {}...",
+            "Streaming response with model={}",
             self.model,
         )
 
@@ -194,92 +290,90 @@ class OllamaProvider(BaseLLMProvider):
         total_chars = 0
 
         try:
-
             response_stream = self._client.chat(
                 model=self.model,
                 messages=self._build_messages(
                     prompt=prompt,
                     history=history,
                 ),
-
                 think=False,
-
                 stream=True,
-
-                options={
-                    "temperature": llm.temperature,
-                    "num_ctx": 4096,
-                    "num_predict": min(
-                        int(llm.max_tokens),
-                        512,
-                    ),
-                },
+                options=self._options(),
             )
 
             for chunk in response_stream:
+                token = ""
 
-                token = (
-                    chunk
-                    .get("message", {})
-                    .get("content", "")
-                )
+                try:
+                    message = chunk.get(
+                        "message",
+                        {},
+                    )
+
+                    if isinstance(message, dict):
+                        token = message.get(
+                            "content",
+                            "",
+                        )
+
+                except Exception:
+                    logger.exception(
+                        "Failed to read Ollama stream chunk."
+                    )
 
                 if token:
-
                     total_chars += len(token)
-
                     yield token
 
             elapsed = time.perf_counter() - start
 
             logger.info(
-                "Streaming completed in {:.2f} sec.",
+                "Streaming completed in {:.2f}s",
                 elapsed,
             )
 
             logger.info(
-                "Generated {} characters.",
+                "Streamed {} characters",
                 total_chars,
             )
 
         except Exception:
-
             elapsed = time.perf_counter() - start
 
             logger.exception(
-                "Streaming failed after {:.2f} sec.",
+                "Ollama streaming failed after {:.2f}s",
                 elapsed,
             )
 
-    # -----------------------------------------------------------------
-    # Health Check
-    # -----------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # Health check
+    # ------------------------------------------------------------------
 
     def health_check(self) -> bool:
+        """Check whether Ollama can generate a response."""
 
         try:
-
             response = self.generate(
-                prompt="Reply with exactly: OK"
+                prompt=(
+                    "Reply with exactly one word: OK"
+                )
             )
 
-            if response == "OK":
+            healthy = response.strip().upper() == "OK"
 
+            if healthy:
                 logger.info(
                     "Ollama health check passed."
                 )
+            else:
+                logger.warning(
+                    "Ollama health check failed. Response={!r}",
+                    response,
+                )
 
-                return True
-
-            logger.warning(
-                "Ollama health check returned: {!r}",
-                response,
-            )
-
-            return False
+            return healthy
 
         except Exception:
-
             logger.exception(
                 "Ollama health check failed."
             )

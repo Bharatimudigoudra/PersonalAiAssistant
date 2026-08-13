@@ -3191,3 +3191,18 @@
 2026-08-12 22:29:54.843 | INFO     | app.llm.llm_service:generate:217 - Generation completed in 135.46 sec.
 2026-08-12 22:29:54.862 | INFO     | app.llm.llm_service:generate:222 - Generated 2243 characters.
 2026-08-12 22:29:54.867 | INFO     | __main__:answer_question:94 - Interview pipeline completed in 141.88 sec.
+2026-08-13 22:00:42.275 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-13 22:01:39.043 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-13 22:01:41.318 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 2.27 sec.
+2026-08-13 22:02:00.560 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-13 22:02:00.561 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-13 22:02:01.123 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-13 22:02:01.123 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-13 22:02:01.125 | INFO     | app.llm.providers.ollama_provider:__init__:32 - Initializing Ollama Provider...
+2026-08-13 22:02:01.499 | INFO     | app.llm.providers.ollama_provider:__init__:40 - Ollama Provider initialized | model=qwen3:4b
+2026-08-13 22:02:01.500 | INFO     | app.llm.services.llm_service:__init__:56 - LLMService initialized with OllamaProvider
+2026-08-13 22:02:01.501 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-13 22:02:01.502 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-13 22:02:01.508 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-13 22:02:10.651 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-13 22:02:12.626 | INFO     | app.llm.prompt_builder:__init__:21 - PromptBuilder initialized.
