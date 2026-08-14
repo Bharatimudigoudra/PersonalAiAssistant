@@ -28,5 +28,5 @@ class RAGResponse(BaseModel):
 
     answer: str = Field(
         ...,
-        rm="Generated answer.",
+        description="Generated answer.",
     )
