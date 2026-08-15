@@ -703,91 +703,25 @@ class DocumentRetriever:
 
     def _ensure_bm25_index(self) -> None:
         """
-        Rebuild BM25 from the persistent Chroma collection.
-
-        Why this is required:
-
-        Document ingestion builds BM25 in memory.
-
-        Example:
-
-            python -m tests.test_ingestion
-
-        creates the BM25 index in that Python process.
-
-        Later:
-
-            python -m app.assistant.interview_assistant
-
-        starts a NEW Python process.
-
-        Therefore the old BM25 object is empty.
-
-        ChromaDB is persistent, so we use it as the source
-        of truth and rebuild BM25 when the retriever starts.
+        Rebuild BM25 index from all persistent Chroma documents.
         """
 
         try:
-
-            # -----------------------------------------------------
-            # Access underlying Chroma collection
-            # -----------------------------------------------------
-
-            store = getattr(
-                self.vectorstore,
-                "store",
-                None,
-            )
-
-            if store is None:
-
-                logger.warning(
-                    "Vector store does not expose "
-                    "an underlying store. "
-                    "BM25 cannot be rebuilt automatically."
-                )
-
-                return
-
-            collection = getattr(
-                store,
-                "collection",
-                None,
-            )
-
-            if collection is None:
-
-                logger.warning(
-                    "Vector store does not expose "
-                    "a Chroma collection. "
-                    "BM25 cannot be rebuilt automatically."
-                )
-
-                return
-
-            # -----------------------------------------------------
-            # Check collection size
-            # -----------------------------------------------------
+            collection = self.vectorstore.store.collection
 
             count = collection.count()
 
             logger.info(
-                "Persistent vector collection contains {} documents.",
+                "Persistent vector collection contains %d documents.",
                 count,
             )
 
-            if count <= 0:
-
+            if count == 0:
                 logger.warning(
-                    "Chroma collection is empty. "
+                    "Vector collection is empty. "
                     "BM25 index will remain empty."
                 )
-
                 return
-
-            # -----------------------------------------------------
-            # Load documents + metadata
-            # -----------------------------------------------------
 
             result = collection.get(
                 include=[
@@ -796,113 +730,54 @@ class DocumentRetriever:
                 ]
             )
 
-            documents = (
-                result.get("documents")
-                or []
-            )
-
-            metadatas = (
-                result.get("metadatas")
-                or []
-            )
+            documents = result.get("documents") or []
+            metadatas = result.get("metadatas") or []
 
             if not documents:
-
                 logger.warning(
-                    "No documents found in Chroma. "
-                    "BM25 index will remain empty."
+                    "No documents found in persistent vector collection."
                 )
-
                 return
 
-            # -----------------------------------------------------
-            # Convert to RetrievedDocument
-            # -----------------------------------------------------
+            retrieved_documents: list[RetrievedDocument] = []
 
-            bm25_documents: list[
-                RetrievedDocument
-            ] = []
-
-            seen: set[str] = set()
-
-            for index, document in enumerate(
-                documents
-            ):
-
-                if not document:
-                    continue
-
-                content = str(
-                    document
-                ).strip()
+            for index, content in enumerate(documents):
 
                 if not content:
                     continue
 
-                # -------------------------------------------------
-                # Avoid duplicate chunks
-                # -------------------------------------------------
-
-                if content in seen:
-                    continue
-
-                seen.add(content)
-
-                metadata: dict[str, Any] = {}
-
-                if (
-                    index < len(metadatas)
+                metadata = (
+                    metadatas[index]
+                    if index < len(metadatas)
                     and metadatas[index]
-                    and isinstance(
-                        metadatas[index],
-                        dict,
-                    )
-                ):
+                    else {}
+                )
 
-                    metadata = metadatas[index]
-
-                bm25_documents.append(
+                retrieved_documents.append(
                     RetrievedDocument(
                         content=content,
-                        distance=0.0,
+                        distance=None,
                         metadata=metadata,
                     )
                 )
 
-            if not bm25_documents:
-
-                logger.warning(
-                    "No valid documents available "
-                    "for BM25 indexing."
-                )
-
-                return
-
-            # -----------------------------------------------------
-            # Build BM25
-            # -----------------------------------------------------
-
             logger.info(
-                "Rebuilding BM25 index from "
-                "{} persistent documents...",
-                len(bm25_documents),
+                "Rebuilding BM25 index from %d persistent documents...",
+                len(retrieved_documents),
             )
 
             self.bm25.build_index(
-                bm25_documents
+                retrieved_documents,
             )
 
             logger.info(
-                "BM25 index successfully rebuilt "
-                "with {} documents.",
-                len(bm25_documents),
+                "BM25 index successfully rebuilt with %d documents.",
+                len(retrieved_documents),
             )
 
         except Exception:
-
             logger.exception(
-                "Failed to rebuild BM25 index "
-                "from ChromaDB."
+                "Failed to rebuild BM25 index."
             )
 
     # =============================================================
