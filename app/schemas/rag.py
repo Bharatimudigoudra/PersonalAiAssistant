@@ -23,7 +23,6 @@ class RAGRequest(BaseModel):
 
 class RAGResponse(BaseModel):
     """
-    Response model for Retrieval-Augmented Generation.
     """
 
     answer: str = Field(
