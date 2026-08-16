@@ -3615,3 +3615,22 @@
 2026-08-15 14:16:30.765 | INFO     | app.llm.providers.ollama_provider:generate:328 - Ollama request completed in 64.63 sec.
 2026-08-15 14:16:30.779 | INFO     | app.llm.providers.ollama_provider:generate:333 - Generated 1095 characters.
 2026-08-15 14:16:30.781 | INFO     | __main__:answer_question:186 - Interview pipeline completed in 68.49 sec.
+2026-08-16 10:38:28.365 | INFO     | app.llm.providers.ollama_provider:__init__:36 - Initializing Ollama Provider...
+2026-08-16 10:38:28.740 | INFO     | app.llm.providers.ollama_provider:__init__:46 - Ollama Provider initialized | model=qwen3:4b
+2026-08-16 10:38:28.740 | INFO     | app.llm.providers.ollama_provider:generate:197 - Generating response with model=qwen3:4b
+2026-08-16 10:38:28.741 | INFO     | app.llm.providers.ollama_provider:generate:202 - Prompt length=24 characters
+2026-08-16 10:38:28.741 | INFO     | app.llm.providers.ollama_provider:generate:212 - Sending 2 messages to Ollama.
+2026-08-16 10:39:05.815 | INFO     | app.llm.providers.ollama_provider:generate:328 - Ollama request completed in 37.06 sec.
+2026-08-16 10:39:05.846 | INFO     | app.llm.providers.ollama_provider:generate:333 - Generated 4 characters.
+2026-08-16 10:41:41.702 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-16 10:41:41.703 | INFO     | app.llm.services.llm_service:get_llm_service:226 - Creating application LLMService singleton.
+2026-08-16 10:41:41.704 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-16 10:41:41.704 | INFO     | app.llm.providers.ollama_provider:__init__:36 - Initializing Ollama Provider...
+2026-08-16 10:41:42.064 | INFO     | app.llm.providers.ollama_provider:__init__:46 - Ollama Provider initialized | model=qwen3:4b
+2026-08-16 10:41:42.064 | INFO     | app.llm.services.llm_service:__init__:60 - LLMService initialized with OllamaProvider
+2026-08-16 10:41:42.065 | INFO     | app.llm.services.llm_service:generate_rag:135 - Generating RAG response.
+2026-08-16 10:41:42.065 | INFO     | app.llm.providers.ollama_provider:generate:197 - Generating response with model=qwen3:4b
+2026-08-16 10:41:42.065 | INFO     | app.llm.providers.ollama_provider:generate:202 - Prompt length=24 characters
+2026-08-16 10:41:42.066 | INFO     | app.llm.providers.ollama_provider:generate:212 - Sending 2 messages to Ollama.
+2026-08-16 10:42:16.323 | INFO     | app.llm.providers.ollama_provider:generate:328 - Ollama request completed in 34.26 sec.
+2026-08-16 10:42:16.329 | INFO     | app.llm.providers.ollama_provider:generate:333 - Generated 4 characters.
