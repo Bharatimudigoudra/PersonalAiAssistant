@@ -1,13 +1,12 @@
 """
 Application-level LLM service.
 
-Single service responsible for:
-
-- normal conversational generation
+Responsibilities:
+- Normal conversational generation
 - RAG generation
-- streaming
-- conversation memory
-- provider health checks
+- Streaming
+- Conversation memory
+- Provider health checks
 
 Architecture:
 
@@ -41,13 +40,23 @@ from app.memory.memory_service import get_memory_service
 
 class LLMService:
     """
-    Single application-level LLM service.
+    Application-level service for LLM operations.
+
+    This class does NOT construct interview prompts.
+    PromptBuilder owns interview prompt construction.
+
+    This class also does NOT clean model reasoning.
+    OllamaProvider owns provider-specific response handling.
     """
 
     def __init__(
         self,
         provider: BaseLLMProvider | None = None,
     ) -> None:
+
+        logger.info(
+            "Creating LLM provider from factory."
+        )
 
         self._provider = (
             provider
@@ -58,13 +67,13 @@ class LLMService:
         self._memory = get_memory_service()
 
         logger.info(
-            "LLMService initialized with {}",
+            "LLMService initialized with provider={}",
             self._provider.__class__.__name__,
         )
 
-    # ------------------------------------------------------------------
-    # Normal generation
-    # ------------------------------------------------------------------
+    # ==============================================================
+    # NORMAL GENERATION
+    # ==============================================================
 
     def generate(
         self,
@@ -74,10 +83,15 @@ class LLMService:
         """
         Generate a normal conversational response.
 
-        If history is None, application memory is used.
+        If history is not supplied, application memory is used.
         """
 
-        prompt = prompt.strip()
+        if prompt is None:
+            raise ValueError(
+                "Prompt cannot be None."
+            )
+
+        prompt = str(prompt).strip()
 
         if not prompt:
             raise ValueError(
@@ -94,12 +108,20 @@ class LLMService:
 
             history = self._memory.history()
 
+        logger.info(
+            "Generating normal response | prompt_chars={}",
+            len(prompt),
+        )
+
         response = self._provider.generate(
             prompt=prompt,
             history=history,
         )
 
-        response = response.strip()
+        response = (
+            str(response or "")
+            .strip()
+        )
 
         if use_memory and response:
 
@@ -107,25 +129,41 @@ class LLMService:
                 response
             )
 
+        logger.info(
+            "Normal response generated | chars={}",
+            len(response),
+        )
+
         return response
 
-    # ------------------------------------------------------------------
-    # RAG generation
-    # ------------------------------------------------------------------
+    # ==============================================================
+    # RAG GENERATION
+    # ==============================================================
 
     def generate_rag(
         self,
         prompt: str,
     ) -> str:
         """
-        Generate a RAG response.
+        Generate an interview answer from a fully constructed
+        RAG prompt.
 
-        RAG generation intentionally bypasses
-        conversation memory because the prompt
-        already contains the retrieved context.
+        IMPORTANT:
+        RAG generation intentionally does not use conversation memory.
+
+        The PromptBuilder has already constructed the complete prompt
+        containing:
+            - reference context
+            - interview question
+            - answer requirements
         """
 
-        prompt = prompt.strip()
+        if prompt is None:
+            raise ValueError(
+                "RAG prompt cannot be None."
+            )
+
+        prompt = str(prompt).strip()
 
         if not prompt:
             raise ValueError(
@@ -133,7 +171,8 @@ class LLMService:
             )
 
         logger.info(
-            "Generating RAG response."
+            "Generating RAG response | prompt_chars={}",
+            len(prompt),
         )
 
         response = self._provider.generate(
@@ -141,41 +180,62 @@ class LLMService:
             history=None,
         )
 
-        return response.strip()
+        response = (
+            str(response or "")
+            .strip()
+        )
 
-    # ------------------------------------------------------------------
-    # Streaming
-    # ------------------------------------------------------------------
+        logger.info(
+            "RAG response generated | chars={}",
+            len(response),
+        )
+
+        return response
+
+    # ==============================================================
+    # STREAMING
+    # ==============================================================
 
     def stream(
         self,
         prompt: str,
+        history: list[ChatMessage] | None = None,
     ) -> Iterator[str]:
         """
         Stream a response from the configured provider.
         """
 
-        prompt = prompt.strip()
+        if prompt is None:
+            raise ValueError(
+                "Prompt cannot be None."
+            )
+
+        prompt = str(prompt).strip()
 
         if not prompt:
             raise ValueError(
                 "Prompt cannot be empty."
             )
 
-        yield from self._provider.stream(
-            prompt=prompt,
-            history=None,
+        logger.info(
+            "Starting LLM stream | prompt_chars={}",
+            len(prompt),
         )
 
-    # ------------------------------------------------------------------
-    # Memory
-    # ------------------------------------------------------------------
+        yield from self._provider.stream(
+            prompt=prompt,
+            history=history,
+        )
+
+    # ==============================================================
+    # MEMORY
+    # ==============================================================
 
     def get_history(
         self,
     ) -> list[ChatMessage]:
         """
-        Return conversation history.
+        Return current conversation history.
         """
 
         return self._memory.history()
@@ -184,7 +244,7 @@ class LLMService:
         self,
     ) -> None:
         """
-        Clear conversation history.
+        Clear current conversation history.
         """
 
         logger.info(
@@ -193,30 +253,49 @@ class LLMService:
 
         self._memory.clear()
 
-    # ------------------------------------------------------------------
-    # Health
-    # ------------------------------------------------------------------
+    # ==============================================================
+    # HEALTH CHECK
+    # ==============================================================
 
     def health_check(
         self,
     ) -> bool:
         """
-        Check configured LLM provider.
+        Check whether the configured provider is healthy.
         """
 
-        return self._provider.health_check()
+        try:
+
+            healthy = (
+                self._provider.health_check()
+            )
+
+            logger.info(
+                "LLM provider health check | healthy={}",
+                healthy,
+            )
+
+            return bool(healthy)
+
+        except Exception:
+
+            logger.exception(
+                "LLM provider health check failed."
+            )
+
+            return False
 
 
-# ----------------------------------------------------------------------
-# Singleton
-# ----------------------------------------------------------------------
+# ==============================================================
+# SINGLETON
+# ==============================================================
 
 _service: LLMService | None = None
 
 
 def get_llm_service() -> LLMService:
     """
-    Return the application-level LLM service singleton.
+    Return the application-level LLMService singleton.
     """
 
     global _service
