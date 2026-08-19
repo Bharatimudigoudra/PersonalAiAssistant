@@ -4113,3 +4113,5 @@
 2026-08-19 22:49:16.899 | INFO     | __main__:generate:564 - Raw response characters=1508
 2026-08-19 22:49:16.903 | INFO     | __main__:generate:573 - Ollama request completed in 44.67 sec.
 2026-08-19 22:49:16.904 | INFO     | __main__:generate:578 - Final response characters=1508
+2026-08-19 23:05:26.740 | INFO     | __main__:get_prompt_builder:309 - Creating PromptBuilder singleton.
+2026-08-19 23:05:26.741 | INFO     | __main__:__init__:33 - PromptBuilder initialized.
