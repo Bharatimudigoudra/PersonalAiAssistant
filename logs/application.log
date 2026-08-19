@@ -4091,3 +4091,25 @@
 2026-08-18 21:32:03.775 | INFO     | app.llm.providers.ollama_provider:generate:566 - Final response characters=1114
 2026-08-18 21:32:03.779 | INFO     | app.llm.services.llm_service:generate_rag:188 - RAG response generated | chars=1114
 2026-08-18 21:32:03.780 | INFO     | __main__:answer_question:186 - Interview pipeline completed in 72.81 sec.
+2026-08-19 22:47:38.201 | INFO     | __main__:__init__:39 - Initializing Ollama Provider...
+2026-08-19 22:47:38.576 | INFO     | __main__:__init__:54 - Ollama Provider initialized | model=qwen3:4b
+2026-08-19 22:47:38.578 | INFO     | __main__:health_check:936 - Running Ollama health check | model=qwen3:4b
+2026-08-19 22:47:41.138 | INFO     | __main__:generate:480 - Generating response | model=qwen3:4b
+2026-08-19 22:47:41.139 | INFO     | __main__:generate:485 - Prompt length=31 characters
+2026-08-19 22:47:41.140 | INFO     | __main__:generate:495 - Sending 2 messages to Ollama.
+2026-08-19 22:48:14.580 | INFO     | __main__:generate:564 - Raw response characters=563
+2026-08-19 22:48:14.592 | INFO     | __main__:generate:573 - Ollama request completed in 33.44 sec.
+2026-08-19 22:48:14.593 | INFO     | __main__:generate:578 - Final response characters=2
+2026-08-19 22:48:14.598 | INFO     | __main__:health_check:976 - Ollama health check passed.
+2026-08-19 22:48:14.602 | INFO     | __main__:generate:480 - Generating response | model=qwen3:4b
+2026-08-19 22:48:14.603 | INFO     | __main__:generate:485 - Prompt length=24 characters
+2026-08-19 22:48:14.603 | INFO     | __main__:generate:495 - Sending 2 messages to Ollama.
+2026-08-19 22:48:32.220 | INFO     | __main__:generate:564 - Raw response characters=736
+2026-08-19 22:48:32.221 | INFO     | __main__:generate:573 - Ollama request completed in 17.62 sec.
+2026-08-19 22:48:32.222 | INFO     | __main__:generate:578 - Final response characters=4
+2026-08-19 22:48:32.225 | INFO     | __main__:generate:480 - Generating response | model=qwen3:4b
+2026-08-19 22:48:32.227 | INFO     | __main__:generate:485 - Prompt length=336 characters
+2026-08-19 22:48:32.227 | INFO     | __main__:generate:495 - Sending 2 messages to Ollama.
+2026-08-19 22:49:16.899 | INFO     | __main__:generate:564 - Raw response characters=1508
+2026-08-19 22:49:16.903 | INFO     | __main__:generate:573 - Ollama request completed in 44.67 sec.
+2026-08-19 22:49:16.904 | INFO     | __main__:generate:578 - Final response characters=1508

@@ -6,12 +6,13 @@ Local Ollama inference provider for PersonalAiAssistant.
 Responsibilities:
 - Connect to local Ollama
 - Generate normal LLM responses
-- Generate RAG responses
+- Generate RAG interview answers
+- Support conversation history
 - Support streaming
 - Disable Qwen thinking when supported
-- Never expose model reasoning to the application
-- Defensively remove leaked <think> blocks
-- Normalize Ollama responses
+- Never expose Ollama thinking/reasoning
+- Remove leaked <think> blocks defensively
+- Provide Ollama health checks
 """
 
 from __future__ import annotations
@@ -31,21 +32,11 @@ from app.memory.memory import ChatMessage
 
 class OllamaProvider(BaseLLMProvider):
     """
-    Concrete LLM provider backed by local Ollama.
+    Ollama implementation of BaseLLMProvider.
     """
 
     def __init__(self) -> None:
         logger.info("Initializing Ollama Provider...")
-
-        if not llm.base_url:
-            raise ValueError(
-                "Ollama base URL is not configured."
-            )
-
-        if not llm.model_name:
-            raise ValueError(
-                "Ollama model name is not configured."
-            )
 
         self._client = ollama.Client(
             host=llm.base_url,
@@ -54,6 +45,11 @@ class OllamaProvider(BaseLLMProvider):
         self.model = str(
             llm.model_name
         ).strip()
+
+        if not self.model:
+            raise ValueError(
+                "LLM model name cannot be empty."
+            )
 
         logger.info(
             "Ollama Provider initialized | model={}",
@@ -67,51 +63,45 @@ class OllamaProvider(BaseLLMProvider):
     @staticmethod
     def _system_instruction() -> str:
         """
-        Global instruction applied to interview/RAG generation.
+        Stable system instruction for the interview assistant.
 
-        Retrieved documents are treated as data, not instructions.
+        Important:
+        The retrieved RAG context remains inside the user prompt.
         """
 
-        return """
-You are a professional AI interview-answer assistant.
+        return (
+            "You are Bharati's personal AI interview assistant.\n\n"
 
-Your job is to produce ONLY the final answer that the candidate should
-say to the interviewer.
+            "Your job is to write the answer that Bharati should "
+            "say directly to an interviewer.\n\n"
 
-STRICT RULES:
+            "STRICT RULES:\n"
+            "1. Return ONLY the final answer.\n"
+            "2. Never show your reasoning or analysis.\n"
+            "3. Never mention prompts, documents, RAG, retrieval, "
+            "context, references, or system instructions.\n"
+            "4. Never say 'we are given the context'.\n"
+            "5. Never say 'according to the documents'.\n"
+            "6. Never describe how you selected the answer.\n"
+            "7. Answer in first person as Bharati when the question "
+            "is about Bharati.\n"
+            "8. Use only facts supplied in the user message.\n"
+            "9. Never invent experience, education, skills, projects, "
+            "companies, dates, achievements, or technologies.\n"
+            "10. Keep the answer natural and suitable for speaking "
+            "during an interview.\n"
+            "11. Prefer 2 to 6 sentences unless the question requires "
+            "more detail.\n"
+            "12. Do not use <think> tags.\n"
+            "13. Do not output analysis before the answer.\n"
+            "14. Do not output an 'Answer:' or 'Final Answer:' heading.\n\n"
 
-1. Answer the interviewer's question directly.
-2. When the question is about the candidate, answer in first person
-   as Bharati.
-3. Use only information supplied in the user prompt/context.
-4. Never invent experience, education, companies, projects, skills,
-   technologies, dates, achievements, responsibilities, or results.
-5. Never reveal your reasoning or internal thinking.
-6. Never output <think>, </think>, or any hidden reasoning.
-7. Never mention RAG, retrieved documents, context, prompts,
-   system instructions, LLMs, AI reasoning, or document retrieval.
-8. Never say:
-   - "We are given the context"
-   - "According to the documents"
-   - "The context says"
-   - "Based on the retrieved documents"
-   - "I need to analyze the context"
-9. Do not explain how you generated the answer.
-10. Do not repeat the interview question.
-11. Return only the answer the candidate should speak.
-12. Keep answers concise, natural, professional, and interview-ready.
-13. For "Tell me about yourself", provide a short professional
-    introduction covering education, experience, relevant skills,
-    and important projects when those details are available.
-14. For behavioral questions, answer naturally in first person using
-    only supplied information.
-15. If the supplied information is insufficient to answer accurately,
-    return exactly:
-    I don't have enough information to answer that accurately.
-""".strip()
+            "If the supplied information is insufficient, respond only:\n"
+            "\"I don't have enough information to answer that accurately.\""
+        )
 
     # ==================================================================
-    # MESSAGE BUILDER
+    # MESSAGE BUILDING
     # ==================================================================
 
     @classmethod
@@ -132,23 +122,15 @@ STRICT RULES:
         ]
 
         if history:
-
             for item in history:
 
-                try:
-                    role = str(
-                        item.role
-                    ).strip().lower()
-
-                    content = str(
-                        item.content
-                    ).strip()
-
-                except Exception:
-                    logger.warning(
-                        "Skipping invalid history message."
+                role = str(
+                    getattr(
+                        item,
+                        "role",
+                        "user",
                     )
-                    continue
+                ).strip().lower()
 
                 if role not in {
                     "system",
@@ -156,6 +138,14 @@ STRICT RULES:
                     "assistant",
                 }:
                     role = "user"
+
+                content = str(
+                    getattr(
+                        item,
+                        "content",
+                        "",
+                    )
+                ).strip()
 
                 if not content:
                     continue
@@ -185,20 +175,16 @@ STRICT RULES:
         response: Any,
     ) -> str:
         """
-        Extract final textual content from an Ollama response.
+        Extract ONLY message.content.
 
-        Ollama Python responses can expose data through objects or
-        dictionaries depending on the installed client version.
-
-        We deliberately ignore:
-            message.thinking
+        Ollama/Qwen may also return a 'thinking' field.
+        That field is deliberately ignored.
         """
 
         if response is None:
             return ""
 
         try:
-
             # ----------------------------------------------------------
             # Ollama response object
             # ----------------------------------------------------------
@@ -232,7 +218,7 @@ STRICT RULES:
             ):
 
                 message = response.get(
-                    "message"
+                    "message",
                 )
 
                 if isinstance(
@@ -249,9 +235,7 @@ STRICT RULES:
                         content or ""
                     ).strip()
 
-                # Some Ollama endpoints may expose
-                # response text directly.
-
+                # Defensive fallback.
                 content = response.get(
                     "content",
                     "",
@@ -270,7 +254,7 @@ STRICT RULES:
         return ""
 
     # ==================================================================
-    # THINKING CLEANUP
+    # RESPONSE CLEANING
     # ==================================================================
 
     @staticmethod
@@ -278,25 +262,20 @@ STRICT RULES:
         content: str | None,
     ) -> str:
         """
-        Remove model reasoning from a complete response.
+        Clean a complete Ollama response.
 
         Handles:
 
-        <think>
-        reasoning
-        </think>
-        final answer
-
-        and:
-
-        reasoning
-        </think>
-        final answer
-
-        and orphan tags.
+        1. <think>reasoning</think>answer
+        2. reasoning</think>answer
+        3. <think>reasoning
+        4. </think>answer
+        5. markdown fences
+        6. Answer: prefix
+        7. Final Answer: prefix
         """
 
-        if not content:
+        if content is None:
             return ""
 
         text = str(
@@ -307,7 +286,7 @@ STRICT RULES:
             return ""
 
         # --------------------------------------------------------------
-        # Remove complete thinking blocks.
+        # Remove complete <think>...</think> blocks.
         # --------------------------------------------------------------
 
         text = re.sub(
@@ -318,20 +297,19 @@ STRICT RULES:
         )
 
         # --------------------------------------------------------------
-        # If a closing tag remains, everything before it is treated
-        # as reasoning.
+        # If an orphan closing tag remains, everything before it is
+        # considered reasoning.
         # --------------------------------------------------------------
 
-        closing_match = re.search(
+        closing = re.search(
             r"</think\s*>",
             text,
             flags=re.IGNORECASE,
         )
 
-        if closing_match:
-
+        if closing:
             text = text[
-                closing_match.end():
+                closing.end():
             ]
 
         # --------------------------------------------------------------
@@ -357,7 +335,7 @@ STRICT RULES:
         )
 
         # --------------------------------------------------------------
-        # Remove markdown fences if the model wraps the answer.
+        # Remove markdown code fences.
         # --------------------------------------------------------------
 
         text = re.sub(
@@ -375,14 +353,42 @@ STRICT RULES:
         )
 
         # --------------------------------------------------------------
-        # Remove obvious meta-answer prefixes.
+        # Remove common answer headings.
         # --------------------------------------------------------------
 
         text = re.sub(
-            r"^\s*(?:final answer|answer)\s*:\s*",
+            r"^\s*(?:final\s+answer|answer)\s*:\s*",
             "",
             text,
             flags=re.IGNORECASE,
+        )
+
+        # --------------------------------------------------------------
+        # Remove accidental surrounding quotes.
+        # Only if the entire response is quoted.
+        # --------------------------------------------------------------
+
+        if (
+            len(text) >= 2
+            and text[0] == '"'
+            and text[-1] == '"'
+        ):
+            text = text[1:-1].strip()
+
+        # --------------------------------------------------------------
+        # Normalize excessive whitespace.
+        # --------------------------------------------------------------
+
+        text = re.sub(
+            r"[ \t]+",
+            " ",
+            text,
+        )
+
+        text = re.sub(
+            r"\n{3,}",
+            "\n\n",
+            text,
         )
 
         return text.strip()
@@ -394,34 +400,46 @@ STRICT RULES:
     @staticmethod
     def _options() -> dict[str, Any]:
         """
-        Runtime options for interview generation.
+        Runtime options for local interview generation.
 
-        The values are intentionally conservative because the application
-        is running locally on the user's machine.
+        We intentionally keep generation bounded because interview
+        answers should be concise.
         """
 
-        temperature = float(
-            getattr(
-                llm,
-                "temperature",
-                0.2,
+        try:
+            temperature = float(
+                getattr(
+                    llm,
+                    "temperature",
+                    0.2,
+                )
             )
-        )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            temperature = 0.2
 
-        max_tokens = int(
-            getattr(
-                llm,
-                "max_tokens",
-                256,
+        try:
+            max_tokens = int(
+                getattr(
+                    llm,
+                    "max_tokens",
+                    256,
+                )
             )
-        )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            max_tokens = 256
 
-        # Interview answers should not become huge.
+        # Keep answers reasonably short.
         max_tokens = max(
             64,
             min(
                 max_tokens,
-                256,
+                384,
             ),
         )
 
@@ -441,7 +459,7 @@ STRICT RULES:
         history: list[ChatMessage] | None = None,
     ) -> str:
         """
-        Generate a complete final answer.
+        Generate one complete response.
         """
 
         if not isinstance(
@@ -484,38 +502,34 @@ STRICT RULES:
         try:
 
             # ----------------------------------------------------------
-            # Qwen3 supports think=False in modern Ollama versions.
+            # Modern Ollama + Qwen3.
+            # think=False prevents thinking output when supported.
             # ----------------------------------------------------------
-
-            response = self._client.chat(
-                model=self.model,
-                messages=messages,
-                stream=False,
-                think=False,
-                options=self._options(),
-            )
-
-        except TypeError as exc:
-
-            # ----------------------------------------------------------
-            # Compatibility fallback for older Ollama Python clients
-            # that do not accept the `think` argument.
-            # ----------------------------------------------------------
-
-            if "think" not in str(exc).lower():
-
-                logger.exception(
-                    "Ollama generation failed."
-                )
-
-                raise
-
-            logger.warning(
-                "Installed Ollama client does not support "
-                "think=False. Falling back without think parameter."
-            )
 
             try:
+
+                response = self._client.chat(
+                    model=self.model,
+                    messages=messages,
+                    stream=False,
+                    think=False,
+                    options=self._options(),
+                )
+
+            except TypeError as exc:
+
+                # ------------------------------------------------------
+                # Compatibility with older ollama-python versions that
+                # do not support the think argument.
+                # ------------------------------------------------------
+
+                if "think" not in str(exc).lower():
+                    raise
+
+                logger.warning(
+                    "Ollama client does not support think=False. "
+                    "Using compatibility mode."
+                )
 
                 response = self._client.chat(
                     model=self.model,
@@ -524,18 +538,16 @@ STRICT RULES:
                     options=self._options(),
                 )
 
-            except Exception:
-
-                logger.exception(
-                    "Ollama fallback generation failed."
-                )
-
-                raise
-
         except Exception:
 
+            elapsed = (
+                time.perf_counter()
+                - start
+            )
+
             logger.exception(
-                "Ollama generation failed."
+                "Ollama generation failed after {:.2f} sec.",
+                elapsed,
             )
 
             raise
@@ -549,7 +561,12 @@ STRICT RULES:
             response
         )
 
-        cleaned_content = self._clean_response(
+        logger.info(
+            "Raw response characters={}",
+            len(raw_content),
+        )
+
+        final_content = self._clean_response(
             raw_content
         )
 
@@ -559,16 +576,11 @@ STRICT RULES:
         )
 
         logger.info(
-            "Raw response characters={}",
-            len(raw_content),
-        )
-
-        logger.info(
             "Final response characters={}",
-            len(cleaned_content),
+            len(final_content),
         )
 
-        if not cleaned_content:
+        if not final_content:
 
             logger.warning(
                 "Ollama returned an empty final response."
@@ -576,10 +588,10 @@ STRICT RULES:
 
             return ""
 
-        return cleaned_content
+        return final_content
 
     # ==================================================================
-    # STREAMING
+    # STREAM
     # ==================================================================
 
     def stream(
@@ -588,10 +600,9 @@ STRICT RULES:
         history: list[ChatMessage] | None = None,
     ) -> Iterator[str]:
         """
-        Stream only final-answer tokens.
+        Stream only final-answer content.
 
-        A small buffer is maintained so <think> tags split across
-        network chunks are handled correctly.
+        Thinking tokens are discarded.
         """
 
         if not isinstance(
@@ -620,19 +631,7 @@ STRICT RULES:
         )
 
         start = time.perf_counter()
-
         total_chars = 0
-
-        # --------------------------------------------------------------
-        # Buffer is essential because Ollama may split:
-        #
-        # <thi
-        # nk>
-        #
-        # across different chunks.
-        # --------------------------------------------------------------
-
-        buffer = ""
 
         try:
 
@@ -663,35 +662,25 @@ STRICT RULES:
                     options=self._options(),
                 )
 
+            # ----------------------------------------------------------
+            # Buffer is used so partial <think> tags do not leak.
+            # ----------------------------------------------------------
+
+            buffer = ""
+
             for chunk in response_stream:
 
                 # ------------------------------------------------------
-                # Extract content
+                # Read chunk safely.
                 # ------------------------------------------------------
 
                 token = ""
 
                 try:
 
-                    message = getattr(
-                        chunk,
-                        "message",
-                        None,
-                    )
+                    message = None
 
-                    if message is not None:
-
-                        # Explicitly ignore message.thinking.
-                        token = str(
-                            getattr(
-                                message,
-                                "content",
-                                "",
-                            )
-                            or ""
-                        )
-
-                    elif isinstance(
+                    if isinstance(
                         chunk,
                         dict,
                     ):
@@ -706,8 +695,43 @@ STRICT RULES:
                             dict,
                         ):
 
+                            # NEVER expose thinking.
+                            if message.get(
+                                "thinking"
+                            ):
+                                continue
+
                             token = str(
                                 message.get(
+                                    "content",
+                                    "",
+                                )
+                                or ""
+                            )
+
+                    else:
+
+                        message = getattr(
+                            chunk,
+                            "message",
+                            None,
+                        )
+
+                        if message is not None:
+
+                            # NEVER expose thinking.
+                            thinking = getattr(
+                                message,
+                                "thinking",
+                                "",
+                            )
+
+                            if thinking:
+                                continue
+
+                            token = str(
+                                getattr(
+                                    message,
                                     "content",
                                     "",
                                 )
@@ -717,7 +741,7 @@ STRICT RULES:
                 except Exception:
 
                     logger.exception(
-                        "Failed to process Ollama stream chunk."
+                        "Failed to read Ollama stream chunk."
                     )
 
                     continue
@@ -725,15 +749,10 @@ STRICT RULES:
                 if not token:
                     continue
 
-                # ------------------------------------------------------
-                # Add token to buffer.
-                # ------------------------------------------------------
-
                 buffer += token
 
                 # ------------------------------------------------------
-                # If an opening think tag appears, discard everything
-                # until the closing tag.
+                # Process complete thinking blocks.
                 # ------------------------------------------------------
 
                 while True:
@@ -751,34 +770,19 @@ STRICT RULES:
                     )
 
                     # --------------------------------------------------
-                    # Complete thinking block exists.
+                    # Opening tag comes first.
                     # --------------------------------------------------
 
-                    if opening and closing:
+                    if (
+                        opening
+                        and (
+                            not closing
+                            or opening.start()
+                            < closing.start()
+                        )
+                    ):
 
-                        if closing.start() < opening.start():
-
-                            # Orphan closing tag.
-                            buffer = buffer[
-                                closing.end():
-                            ]
-
-                            continue
-
-                        # Remove everything through closing tag.
-                        buffer = buffer[
-                            closing.end():
-                        ]
-
-                        continue
-
-                    # --------------------------------------------------
-                    # Opening tag exists without closing tag.
-                    # --------------------------------------------------
-
-                    if opening:
-
-                        # Preserve only content before opening tag.
+                        # Yield safe text before <think>.
                         prefix = buffer[
                             :opening.start()
                         ]
@@ -791,14 +795,29 @@ STRICT RULES:
 
                             yield prefix
 
-                        # Keep only the unclosed portion after
-                        # opening tag so we can wait for </think>.
+                        # Keep only text after opening tag.
                         buffer = buffer[
                             opening.end():
                         ]
 
-                        # Everything currently in this buffer is
-                        # thinking until a closing tag arrives.
+                        # Wait for </think>.
+                        closing_after = re.search(
+                            r"</think\s*>",
+                            buffer,
+                            flags=re.IGNORECASE,
+                        )
+
+                        if closing_after:
+
+                            buffer = buffer[
+                                closing_after.end():
+                            ]
+
+                            continue
+
+                        # Currently inside thinking.
+                        buffer = ""
+
                         break
 
                     # --------------------------------------------------
@@ -816,56 +835,50 @@ STRICT RULES:
                     break
 
                 # ------------------------------------------------------
-                # We do not immediately yield a buffer that could be a
-                # partial <think> tag. Keep a small suffix.
+                # If buffer does not contain a possible partial thinking
+                # tag, it is safe to emit.
                 # ------------------------------------------------------
 
                 if buffer:
 
-                    possible_tag = False
+                    lower_buffer = buffer.lower()
 
-                    for tag in (
-                        "<think",
-                        "</think",
-                    ):
+                    possible_partial_tag = any(
+                        tag.startswith(
+                            lower_buffer[
+                                max(
+                                    0,
+                                    len(lower_buffer)
+                                    - len(tag)
+                                ):
+                            ]
+                        )
+                        for tag in (
+                            "<think",
+                            "</think",
+                        )
+                    )
 
-                        for index in range(
-                            max(
-                                0,
-                                len(buffer) - len(tag),
-                            ),
-                            len(buffer),
-                        ):
-
-                            suffix = buffer[
-                                index:
-                            ].lower()
-
-                            if tag.startswith(
-                                suffix
-                            ):
-                                possible_tag = True
-                                break
-
-                        if possible_tag:
-                            break
-
-                    if not possible_tag:
+                    if not possible_partial_tag:
 
                         safe_text = buffer
 
                         buffer = ""
 
-                        if safe_text:
+                        cleaned = self._clean_response(
+                            safe_text
+                        )
+
+                        if cleaned:
 
                             total_chars += len(
-                                safe_text
+                                cleaned
                             )
 
-                            yield safe_text
+                            yield cleaned
 
             # ----------------------------------------------------------
-            # Flush remaining safe buffer.
+            # Flush remaining content.
             # ----------------------------------------------------------
 
             if buffer:
@@ -917,8 +930,7 @@ STRICT RULES:
 
     def health_check(self) -> bool:
         """
-        Check whether Ollama is reachable and the configured model
-        can generate a minimal response.
+        Check Ollama availability and model availability.
         """
 
         logger.info(
@@ -929,7 +941,7 @@ STRICT RULES:
         try:
 
             # ----------------------------------------------------------
-            # First check Ollama server/model availability.
+            # Check configured model.
             # ----------------------------------------------------------
 
             try:
@@ -941,14 +953,14 @@ STRICT RULES:
             except Exception:
 
                 logger.exception(
-                    "Configured Ollama model is unavailable: {}",
+                    "Ollama model is unavailable | model={}",
                     self.model,
                 )
 
                 return False
 
             # ----------------------------------------------------------
-            # Then perform a tiny generation test.
+            # Minimal generation test.
             # ----------------------------------------------------------
 
             response = self.generate(
@@ -968,8 +980,7 @@ STRICT RULES:
                 return True
 
             logger.warning(
-                "Ollama health check returned unexpected "
-                "response: {!r}",
+                "Ollama health check returned {!r}",
                 response,
             )
 
@@ -982,3 +993,72 @@ STRICT RULES:
             )
 
             return False
+
+
+# ======================================================================
+# STANDALONE TEST
+# ======================================================================
+
+if __name__ == "__main__":
+
+    provider = OllamaProvider()
+
+    print()
+    print("=" * 70)
+    print("OLLAMA PROVIDER TEST")
+    print("=" * 70)
+
+    print()
+    print("Model:", provider.model)
+
+    print()
+    print("Health check:")
+
+    healthy = provider.health_check()
+
+    print(
+        "PASS"
+        if healthy
+        else "FAIL"
+    )
+
+    print()
+    print("=" * 70)
+    print("TEST 1: EXACT OUTPUT")
+    print("=" * 70)
+
+    result = provider.generate(
+        "Reply with exactly: TEST"
+    )
+
+    print(
+        repr(result)
+    )
+
+    print()
+    print("=" * 70)
+    print("TEST 2: INTERVIEW ANSWER")
+    print("=" * 70)
+
+    result = provider.generate(
+        """
+Write a short interview answer.
+
+Question:
+Tell me about yourself?
+
+Reference information:
+My name is Bharati. I have 1.5 years of experience
+in Data Science and Generative AI. I completed my MCA
+from Bangalore University in 2024 and my BCA from
+Kuvempu University in 2022.
+
+Return only what Bharati should say.
+Do not explain anything.
+"""
+    )
+
+    print(result)
+
+    print()
+    print("=" * 70)
