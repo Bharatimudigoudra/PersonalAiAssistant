@@ -4352,3 +4352,143 @@
 2026-08-20 21:43:57.989 | INFO     | app.llm.providers.ollama_provider:generate:578 - Final response characters=1678
 2026-08-20 21:43:57.993 | INFO     | app.llm.services.llm_service:generate_rag:188 - RAG response generated | chars=1678
 2026-08-20 21:43:57.994 | INFO     | __main__:answer_question:186 - Interview pipeline completed in 179.27 sec.
+2026-08-21 21:30:36.504 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-21 21:30:36.505 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-21 21:30:37.033 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-21 21:30:37.033 | INFO     | app.llm.services.llm_service:__init__:57 - Creating LLM provider from factory.
+2026-08-21 21:30:37.034 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-21 21:30:37.035 | INFO     | app.llm.providers.ollama_provider:__init__:39 - Initializing Ollama Provider...
+2026-08-21 21:30:37.407 | INFO     | app.llm.providers.ollama_provider:__init__:54 - Ollama Provider initialized | model=qwen3:4b
+2026-08-21 21:30:37.408 | INFO     | app.llm.services.llm_service:__init__:69 - LLMService initialized with provider=OllamaProvider
+2026-08-21 21:30:37.408 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-21 21:30:37.409 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-21 21:30:37.415 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-21 21:30:48.101 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-21 21:33:52.191 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-21 21:33:52.191 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-21 21:33:52.634 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-21 21:33:52.635 | INFO     | app.llm.services.llm_service:__init__:57 - Creating LLM provider from factory.
+2026-08-21 21:33:52.635 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-21 21:33:52.635 | INFO     | app.llm.providers.ollama_provider:__init__:39 - Initializing Ollama Provider...
+2026-08-21 21:33:52.987 | INFO     | app.llm.providers.ollama_provider:__init__:54 - Ollama Provider initialized | model=qwen3:4b
+2026-08-21 21:33:52.987 | INFO     | app.llm.services.llm_service:__init__:69 - LLMService initialized with provider=OllamaProvider
+2026-08-21 21:33:52.987 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-21 21:33:52.988 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-21 21:33:52.992 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-21 21:34:02.545 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-21 21:34:03.603 | INFO     | __main__:__init__:83 - Initializing DocumentRetriever...
+2026-08-21 21:34:03.604 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-21 21:34:03.605 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-21 21:34:10.837 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-21 21:34:10.837 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-21 21:34:10.838 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-21 21:34:10.838 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-21 21:34:12.031 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-21 21:34:12.032 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-21 21:34:12.120 | INFO     | __main__:_ensure_bm25_index:827 - Persistent Chroma collection contains 36 documents.
+2026-08-21 21:34:12.131 | INFO     | __main__:_ensure_bm25_index:913 - Building BM25 index with 18 documents.
+2026-08-21 21:34:12.132 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 18 documents...
+2026-08-21 21:34:12.134 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 18 documents.
+2026-08-21 21:34:12.136 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-21 21:34:12.138 | INFO     | __main__:_ensure_bm25_index:922 - BM25 index successfully rebuilt.
+2026-08-21 21:34:12.139 | INFO     | __main__:__init__:113 - DocumentRetriever initialized successfully.
+2026-08-21 21:40:52.196 | INFO     | __main__:retrieve:177 - Starting retrieval | question=Tell me about yourself? | final_k=3 | candidate_k=9
+2026-08-21 21:40:52.197 | INFO     | __main__:_rewrite_query:431 - Simple interview question detected. Skipping query rewriting.
+2026-08-21 21:40:52.197 | INFO     | __main__:retrieve:190 - Retrieval query=Tell me about yourself?
+2026-08-21 21:40:52.596 | INFO     | __main__:_parse_vector_results:563 - Chroma returned 9 raw candidates.
+2026-08-21 21:40:52.597 | INFO     | __main__:retrieve:204 - Dense retrieval returned 5 documents.
+2026-08-21 21:40:52.597 | INFO     | app.rag.bm25.bm25_service:search:110 - Running BM25 retrieval (top_k=9)
+2026-08-21 21:40:52.597 | INFO     | app.rag.bm25.bm25:search:68 - Running BM25 search...
+2026-08-21 21:40:52.599 | INFO     | app.rag.bm25.bm25:search:93 - BM25 returned 5 documents.
+2026-08-21 21:40:52.600 | INFO     | app.rag.bm25.bm25_service:search:120 - BM25 returned 5 documents.
+2026-08-21 21:40:52.600 | INFO     | __main__:retrieve:218 - BM25 retrieval returned 5 documents.
+2026-08-21 21:40:52.601 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-21 21:40:52.601 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 7 unique documents.
+2026-08-21 21:40:52.602 | INFO     | __main__:retrieve:262 - RRF produced 7 candidate documents.
+2026-08-21 21:40:52.602 | INFO     | __main__:_rerank:997 - Reranking 7 candidate documents.
+2026-08-21 21:40:52.603 | INFO     | app.rag.reranker_service:rerank:40 - Running CrossEncoder reranker...
+2026-08-21 21:40:52.603 | INFO     | app.rag.reranker:rerank:49 - Reranking 7 documents...
+2026-08-21 21:40:55.956 | INFO     | app.rag.reranker:rerank:73 - Returning top 3 reranked documents.
+2026-08-21 21:40:55.958 | INFO     | app.rag.reranker_service:rerank:49 - Reranking completed. 3 documents returned.
+2026-08-21 21:40:55.959 | INFO     | __main__:_rerank:1018 - Reranking completed. 3 documents remain.
+2026-08-21 21:40:55.959 | INFO     | __main__:retrieve:303 - Final retrieval returned 3 documents.
+2026-08-21 21:40:55.960 | INFO     | __main__:retrieve:322 - Final document 1 | source=data\documents\interview.pdf | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-21 21:40:55.961 | INFO     | __main__:retrieve:322 - Final document 2 | source=data\documents\resume.pdf | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-21 21:40:55.961 | INFO     | __main__:retrieve:322 - Final document 3 | source=data\documents\interview.pdf | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-21 21:40:55.962 | INFO     | __main__:_log_elapsed:1176 - Retrieval completed in 3.766 sec.
+2026-08-21 21:43:12.927 | INFO     | __main__:retrieve:177 - Starting retrieval | question=Tell me about yourself? | final_k=3 | candidate_k=9
+2026-08-21 21:43:12.928 | INFO     | __main__:_rewrite_query:431 - Simple interview question detected. Skipping query rewriting.
+2026-08-21 21:43:12.929 | INFO     | __main__:retrieve:190 - Retrieval query=Tell me about yourself?
+2026-08-21 21:43:12.990 | INFO     | __main__:_parse_vector_results:563 - Chroma returned 9 raw candidates.
+2026-08-21 21:43:12.991 | INFO     | __main__:retrieve:204 - Dense retrieval returned 5 documents.
+2026-08-21 21:43:12.991 | INFO     | app.rag.bm25.bm25_service:search:110 - Running BM25 retrieval (top_k=9)
+2026-08-21 21:43:12.992 | INFO     | app.rag.bm25.bm25:search:68 - Running BM25 search...
+2026-08-21 21:43:12.993 | INFO     | app.rag.bm25.bm25:search:93 - BM25 returned 5 documents.
+2026-08-21 21:43:12.993 | INFO     | app.rag.bm25.bm25_service:search:120 - BM25 returned 5 documents.
+2026-08-21 21:43:12.994 | INFO     | __main__:retrieve:218 - BM25 retrieval returned 5 documents.
+2026-08-21 21:43:12.995 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-21 21:43:12.995 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 7 unique documents.
+2026-08-21 21:43:12.997 | INFO     | __main__:retrieve:262 - RRF produced 7 candidate documents.
+2026-08-21 21:43:12.998 | INFO     | __main__:_rerank:997 - Reranking 7 candidate documents.
+2026-08-21 21:43:12.999 | INFO     | app.rag.reranker_service:rerank:40 - Running CrossEncoder reranker...
+2026-08-21 21:43:12.999 | INFO     | app.rag.reranker:rerank:49 - Reranking 7 documents...
+2026-08-21 21:43:15.518 | INFO     | app.rag.reranker:rerank:73 - Returning top 3 reranked documents.
+2026-08-21 21:43:15.519 | INFO     | app.rag.reranker_service:rerank:49 - Reranking completed. 3 documents returned.
+2026-08-21 21:43:15.519 | INFO     | __main__:_rerank:1018 - Reranking completed. 3 documents remain.
+2026-08-21 21:43:15.520 | INFO     | __main__:retrieve:303 - Final retrieval returned 3 documents.
+2026-08-21 21:43:15.520 | INFO     | __main__:retrieve:322 - Final document 1 | source=data\documents\interview.pdf | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-21 21:43:15.521 | INFO     | __main__:retrieve:322 - Final document 2 | source=data\documents\resume.pdf | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-21 21:43:15.521 | INFO     | __main__:retrieve:322 - Final document 3 | source=data\documents\interview.pdf | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-21 21:43:15.522 | INFO     | __main__:_log_elapsed:1176 - Retrieval completed in 2.595 sec.
+2026-08-21 21:44:57.031 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-21 21:44:57.032 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-21 21:44:57.548 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-21 21:44:57.548 | INFO     | app.llm.services.llm_service:__init__:57 - Creating LLM provider from factory.
+2026-08-21 21:44:57.550 | INFO     | app.llm.providers.factory:create:29 - Selected LLM Provider: ollama
+2026-08-21 21:44:57.550 | INFO     | app.llm.providers.ollama_provider:__init__:39 - Initializing Ollama Provider...
+2026-08-21 21:44:57.927 | INFO     | app.llm.providers.ollama_provider:__init__:54 - Ollama Provider initialized | model=qwen3:4b
+2026-08-21 21:44:57.928 | INFO     | app.llm.services.llm_service:__init__:69 - LLMService initialized with provider=OllamaProvider
+2026-08-21 21:44:57.928 | INFO     | app.rag.query_rewriter.query_rewriter:__init__:21 - QueryRewriter initialized.
+2026-08-21 21:44:57.928 | INFO     | app.rag.query_rewriter.query_rewriter_service:__init__:29 - QueryRewriterService initialized.
+2026-08-21 21:44:57.935 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-21 21:45:07.445 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-21 21:45:08.671 | INFO     | __main__:__init__:83 - Initializing DocumentRetriever...
+2026-08-21 21:45:08.672 | INFO     | app.embeddings.embedding_service:__init__:30 - Creating Embedding Model singleton...
+2026-08-21 21:45:08.672 | INFO     | app.embeddings.bge_embedding:__init__:20 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-21 21:45:15.317 | INFO     | app.embeddings.bge_embedding:__init__:30 - Embedding model loaded successfully.
+2026-08-21 21:45:15.318 | INFO     | app.vectorstore.vectorstore_service:__init__:31 - Creating Vector Store singleton...
+2026-08-21 21:45:15.318 | INFO     | app.vectorstore.factory:create:18 - Selected Vector Store: chroma
+2026-08-21 21:45:15.319 | INFO     | app.vectorstore.chroma_vectorstore:__init__:19 - Initializing ChromaDB...
+2026-08-21 21:45:15.492 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Collection loaded: personal_ai
+2026-08-21 21:45:15.492 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-21 21:45:15.637 | INFO     | __main__:_ensure_bm25_index:827 - Persistent Chroma collection contains 36 documents.
+2026-08-21 21:45:15.642 | INFO     | __main__:_ensure_bm25_index:913 - Building BM25 index with 18 documents.
+2026-08-21 21:45:15.642 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 18 documents...
+2026-08-21 21:45:15.646 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 18 documents.
+2026-08-21 21:45:15.648 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-21 21:45:15.650 | INFO     | __main__:_ensure_bm25_index:922 - BM25 index successfully rebuilt.
+2026-08-21 21:45:15.651 | INFO     | __main__:__init__:113 - DocumentRetriever initialized successfully.
+2026-08-21 21:47:34.608 | INFO     | __main__:retrieve:177 - Starting retrieval | question=Tell me about yourself? | final_k=3 | candidate_k=9
+2026-08-21 21:47:34.609 | INFO     | __main__:_rewrite_query:431 - Simple interview question detected. Skipping query rewriting.
+2026-08-21 21:47:34.610 | INFO     | __main__:retrieve:190 - Retrieval query=Tell me about yourself?
+2026-08-21 21:47:34.943 | INFO     | __main__:_parse_vector_results:563 - Chroma returned 9 raw candidates.
+2026-08-21 21:47:34.944 | INFO     | __main__:retrieve:204 - Dense retrieval returned 5 documents.
+2026-08-21 21:47:34.945 | INFO     | app.rag.bm25.bm25_service:search:110 - Running BM25 retrieval (top_k=9)
+2026-08-21 21:47:34.946 | INFO     | app.rag.bm25.bm25:search:68 - Running BM25 search...
+2026-08-21 21:47:34.948 | INFO     | app.rag.bm25.bm25:search:93 - BM25 returned 5 documents.
+2026-08-21 21:47:34.949 | INFO     | app.rag.bm25.bm25_service:search:120 - BM25 returned 5 documents.
+2026-08-21 21:47:34.950 | INFO     | __main__:retrieve:218 - BM25 retrieval returned 5 documents.
+2026-08-21 21:47:34.950 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:26 - Running Reciprocal Rank Fusion on 2 lists.
+2026-08-21 21:47:34.951 | INFO     | app.rag.reciprocal_rank_fusion:reciprocal_rank_fusion:54 - RRF produced 7 unique documents.
+2026-08-21 21:47:34.951 | INFO     | __main__:retrieve:262 - RRF produced 7 candidate documents.
+2026-08-21 21:47:34.952 | INFO     | __main__:_rerank:997 - Reranking 7 candidate documents.
+2026-08-21 21:47:34.952 | INFO     | app.rag.reranker_service:rerank:40 - Running CrossEncoder reranker...
+2026-08-21 21:47:34.953 | INFO     | app.rag.reranker:rerank:49 - Reranking 7 documents...
+2026-08-21 21:47:38.919 | INFO     | app.rag.reranker:rerank:73 - Returning top 3 reranked documents.
+2026-08-21 21:47:38.922 | INFO     | app.rag.reranker_service:rerank:49 - Reranking completed. 3 documents returned.
+2026-08-21 21:47:38.924 | INFO     | __main__:_rerank:1018 - Reranking completed. 3 documents remain.
+2026-08-21 21:47:38.925 | INFO     | __main__:retrieve:303 - Final retrieval returned 3 documents.
+2026-08-21 21:47:38.926 | INFO     | __main__:retrieve:322 - Final document 1 | source=data\documents\interview.pdf | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-21 21:47:38.927 | INFO     | __main__:retrieve:322 - Final document 2 | source=data\documents\resume.pdf | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-21 21:47:38.928 | INFO     | __main__:retrieve:322 - Final document 3 | source=data\documents\interview.pdf | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-21 21:47:38.928 | INFO     | __main__:_log_elapsed:1176 - Retrieval completed in 4.320 sec.
