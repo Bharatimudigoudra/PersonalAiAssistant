@@ -4492,3 +4492,31 @@
 2026-08-21 21:47:38.927 | INFO     | __main__:retrieve:322 - Final document 2 | source=data\documents\resume.pdf | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
 2026-08-21 21:47:38.928 | INFO     | __main__:retrieve:322 - Final document 3 | source=data\documents\interview.pdf | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
 2026-08-21 21:47:38.928 | INFO     | __main__:_log_elapsed:1176 - Retrieval completed in 4.320 sec.
+2026-08-22 22:35:55.902 | INFO     | __main__:get_embedding_service:192 - Creating EmbeddingService singleton.
+2026-08-22 22:35:55.903 | INFO     | __main__:__init__:35 - Creating Embedding Model singleton.
+2026-08-22 22:35:55.903 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-22 22:35:55.903 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-22 22:35:55.904 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-22 22:36:03.744 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-22 22:36:03.744 | INFO     | __main__:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-22 22:36:04.259 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
+2026-08-22 22:36:04.260 | INFO     | __main__:health_check:159 - Embedding service health check: PASS.
+2026-08-22 22:37:07.993 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-22 22:37:07.994 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-22 22:37:07.994 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-22 22:37:15.009 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-22 22:37:15.117 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
+2026-08-22 22:37:36.577 | INFO     | __main__:get_embedding_service:192 - Creating EmbeddingService singleton.
+2026-08-22 22:37:36.577 | INFO     | __main__:__init__:35 - Creating Embedding Model singleton.
+2026-08-22 22:37:36.578 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-22 22:37:36.578 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-22 22:37:36.578 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-22 22:37:43.683 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-22 22:37:43.684 | INFO     | __main__:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-22 22:37:43.924 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
+2026-08-22 22:37:43.925 | INFO     | __main__:health_check:159 - Embedding service health check: PASS.
+2026-08-22 22:38:09.509 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-22 22:38:09.510 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-22 22:38:09.510 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-22 22:38:17.343 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-22 22:38:17.696 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
