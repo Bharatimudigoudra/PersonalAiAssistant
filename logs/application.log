@@ -4520,3 +4520,28 @@
 2026-08-22 22:38:09.510 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
 2026-08-22 22:38:17.343 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
 2026-08-22 22:38:17.696 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
+2026-08-24 22:05:46.669 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-24 22:05:46.669 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-24 22:05:46.670 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-24 22:05:46.672 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-24 22:05:48.024 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=36
+2026-08-24 22:05:48.025 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-24 22:05:48.028 | INFO     | app.vectorstore.chroma_vectorstore:health_check:338 - ChromaDB health check passed | documents=36
+2026-08-24 22:05:48.056 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-24 22:05:48.057 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-24 22:05:48.057 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-24 22:05:48.057 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-24 22:05:56.461 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-24 22:05:56.461 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-24 22:05:56.957 | INFO     | app.embeddings.bge_embedding:health_check:226 - Embedding health check passed | dimension=384
+2026-08-24 22:05:56.957 | INFO     | app.embeddings.embedding_service:health_check:159 - Embedding service health check: PASS.
+2026-08-24 22:05:56.961 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=8 | actual_k=8 | collection_count=36
+2026-08-24 22:05:56.974 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.5020
+2026-08-24 22:05:56.974 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.5020
+2026-08-24 22:05:56.975 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.5969
+2026-08-24 22:05:56.975 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.5969
+2026-08-24 22:05:56.976 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.8056
+2026-08-24 22:05:56.977 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8056
+2026-08-24 22:05:56.977 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8293
+2026-08-24 22:05:56.978 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8293
+2026-08-24 22:05:56.978 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=8
