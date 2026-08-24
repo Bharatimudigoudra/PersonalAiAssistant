@@ -1,20 +1,21 @@
 application:
   name: PersonalAiAssistant
   author: Bharati
-  version: 1.0.0
+  version: "1.0.0"
   environment: development
   debug: true
 
 llm:
   provider: ollama
-
   model_name: qwen3:4b
   base_url: http://localhost:11434
 
+  # LLM generation settings
   temperature: 0.1
-  max_tokens: 300
+  max_tokens: 512
   timeout: 180
 
+  # Streaming support
   streaming: true
 
 embedding:
@@ -27,13 +28,23 @@ vectorstore:
   provider: chroma
   persist_directory: data/vectorstore
   collection_name: personal_ai
-  
+
 rag:
+  # Document chunking
   chunk_size: 1000
   chunk_overlap: 200
 
+  # Retrieval
   top_k: 8
+
+  # IMPORTANT:
+  # Chroma returns distance values.
+  # Do not use this value as a hard semantic-quality
+  # threshold unless the retrieval code explicitly
+  # interprets it correctly.
   similarity_threshold: 1.2
+
+  # Maximum reference context sent to the LLM
   max_context_chars: 3000
 
 reranker:
@@ -57,9 +68,6 @@ api:
   port: 8000
 
 whisper:
-
   model_name: base
-
   device: cpu
-
   compute_type: int8
