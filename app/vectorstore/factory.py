@@ -1,6 +1,10 @@
 """
-Vector store factory.
+Vector Store Factory.
+
+Creates the vector store configured in config.yaml.
 """
+
+from __future__ import annotations
 
 from app.core.config import vectorstore
 from app.core.logging import logger
@@ -9,11 +13,18 @@ from app.vectorstore.chroma_vectorstore import ChromaVectorStore
 
 
 class VectorStoreFactory:
+    """
+    Factory for vector store implementations.
+    """
 
     @staticmethod
     def create() -> BaseVectorStore:
 
-        provider = vectorstore.provider.lower()
+        provider = (
+            vectorstore.provider
+            .strip()
+            .lower()
+        )
 
         logger.info(
             "Selected Vector Store: {}",
@@ -24,5 +35,6 @@ class VectorStoreFactory:
             return ChromaVectorStore()
 
         raise ValueError(
-            f"Unsupported vector store: {provider}"
+            "Unsupported vector store provider: "
+            f"{vectorstore.provider}"
         )
