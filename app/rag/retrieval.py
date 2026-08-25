@@ -446,11 +446,11 @@ class DocumentRetriever:
 
     def _rerank(
         self,
-        question: str,
+        query: str,
         documents: list[RetrievedDocument],
     ) -> list[RetrievedDocument]:
         """
-        Rerank dense candidates with CrossEncoder.
+        Rerank candidate documents using CrossEncoder.
         """
 
         if not documents:
@@ -458,47 +458,73 @@ class DocumentRetriever:
 
         if self.reranker is None:
             logger.info(
-                "Reranker disabled."
+                "Reranker disabled. Keeping fused results."
             )
             return documents
 
-        logger.info(
-            "Starting CrossEncoder reranking | candidates={}",
-            len(documents),
-        )
-
         try:
+            logger.info(
+                "Reranking {} candidate documents.",
+                len(documents),
+            )
+
             reranked = self.reranker.rerank(
-                query=question,
+                query=query,
                 documents=documents,
             )
+
+            if not reranked:
+                logger.warning(
+                    "Reranker returned no documents. "
+                    "Keeping original candidates."
+                )
+                return documents
+
+            reranked = self._deduplicate_documents(
+                reranked
+            )
+
+            logger.info(
+                "Reranking completed. {} documents remain.",
+                len(reranked),
+            )
+
+            for index, document in enumerate(
+                reranked,
+                start=1,
+            ):
+                logger.info(
+                    "RERANKED RESULT {} | score={} | distance={} | source={} | chunk={}",
+                    index,
+                    (
+                        f"{document.rerank_score:.4f}"
+                        if document.rerank_score is not None
+                        else "None"
+                    ),
+                    (
+                        f"{document.distance:.4f}"
+                        if document.distance is not None
+                        else "None"
+                    ),
+                    document.metadata.get(
+                        "source",
+                        "unknown",
+                    ),
+                    document.metadata.get(
+                        "chunk",
+                        "unknown",
+                    ),
+                )
+
+            return reranked
 
         except Exception:
             logger.exception(
                 "CrossEncoder reranking failed. "
-                "Using dense retrieval order."
+                "Keeping fused results."
             )
+
             return documents
-
-        if not reranked:
-            logger.warning(
-                "CrossEncoder returned no results. "
-                "Using dense retrieval order."
-            )
-            return documents
-
-        logger.info(
-            "CrossEncoder reranking completed | results={}",
-            len(reranked),
-        )
-
-        self._log_candidates(
-            reranked,
-            title="RERANKED RESULTS",
-        )
-
-        return reranked
-
     # ============================================================
     # DEDUPLICATION
     # ============================================================

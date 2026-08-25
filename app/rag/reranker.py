@@ -1,6 +1,13 @@
 """
-Cross Encoder reranker.
+Cross-Encoder document reranker.
+
+Loads the reranker model lazily and assigns reranker scores
+to RetrievedDocument objects.
 """
+
+from __future__ import annotations
+
+from typing import Any
 
 from sentence_transformers import CrossEncoder
 
@@ -11,79 +18,259 @@ from app.models.retrieved_document import RetrievedDocument
 
 class DocumentReranker:
     """
-    Reranks retrieved documents using a CrossEncoder model.
+    Cross-Encoder based document reranker.
+
+    The model is loaded lazily so importing this module does not
+    immediately download/load the model.
     """
 
     def __init__(self) -> None:
+        self.model: CrossEncoder | None = None
+        self.model_name = reranker.model_name
 
         logger.info(
-            "Loading reranker model: {}",
-            reranker.model_name,
+            "DocumentReranker initialized | model={}",
+            self.model_name,
         )
 
-        self.model = CrossEncoder(
-            reranker.model_name,
-        )
+    def _load_model(self) -> CrossEncoder:
+        """
+        Load the CrossEncoder model only when required.
+        """
 
-        logger.info(
-            "Reranker loaded successfully."
-        )
+        if self.model is None:
+            logger.info(
+                "Loading reranker model: {}",
+                self.model_name,
+            )
+
+            self.model = CrossEncoder(
+                self.model_name,
+            )
+
+            logger.info(
+                "Reranker model loaded successfully | model={}",
+                self.model_name,
+            )
+
+        return self.model
 
     def rerank(
         self,
         query: str,
         documents: list[RetrievedDocument],
+        top_k: int | None = None,
     ) -> list[RetrievedDocument]:
         """
-        Rerank retrieved documents based on semantic relevance.
+        Rerank documents using a CrossEncoder.
+
+        Args:
+            query:
+                User/interview query.
+
+            documents:
+                Candidate documents from retrieval.
+
+            top_k:
+                Number of documents to return.
+
+        Returns:
+            Reranked RetrievedDocument objects.
         """
 
-        if not documents:
+        if not query or not query.strip():
+            logger.warning(
+                "Cannot rerank with an empty query."
+            )
+            return []
 
+        if not documents:
             logger.warning(
                 "No documents available for reranking."
             )
-
             return []
 
-        logger.info(
-            "Reranking {} documents...",
-            len(documents),
+        query = query.strip()
+
+        # ---------------------------------------------------------
+        # Remove invalid documents
+        # ---------------------------------------------------------
+
+        valid_documents: list[RetrievedDocument] = []
+
+        for document in documents:
+            if document is None:
+                continue
+
+            content = str(
+                document.content or ""
+            ).strip()
+
+            if not content:
+                continue
+
+            valid_documents.append(document)
+
+        if not valid_documents:
+            logger.warning(
+                "No valid documents available for reranking."
+            )
+            return []
+
+        # ---------------------------------------------------------
+        # Resolve top_k
+        # ---------------------------------------------------------
+
+        if top_k is None:
+            top_k = int(
+                getattr(
+                    reranker,
+                    "top_k",
+                    3,
+                )
+            )
+
+        top_k = max(1, int(top_k))
+
+        top_k = min(
+            top_k,
+            len(valid_documents),
         )
+
+        # ---------------------------------------------------------
+        # Load model lazily
+        # ---------------------------------------------------------
+
+        model = self._load_model()
+
+        # ---------------------------------------------------------
+        # Create query/document pairs
+        # ---------------------------------------------------------
 
         pairs = [
             (
                 query,
                 document.content,
             )
-            for document in documents
+            for document in valid_documents
         ]
 
-        scores = self.model.predict(
+        logger.info(
+            "Reranking {} documents | top_k={}",
+            len(pairs),
+            top_k,
+        )
+
+        # ---------------------------------------------------------
+        # Generate scores
+        # ---------------------------------------------------------
+
+        scores = model.predict(
             pairs,
             show_progress_bar=False,
         )
 
-        ranked = sorted(
-            zip(documents, scores),
+        # ---------------------------------------------------------
+        # Normalize scores into Python floats
+        # ---------------------------------------------------------
+
+        normalized_scores: list[float] = []
+
+        for score in scores:
+            try:
+                normalized_scores.append(
+                    float(score)
+                )
+            except (
+                TypeError,
+                ValueError,
+            ):
+                normalized_scores.append(
+                    float("-inf")
+                )
+
+        # ---------------------------------------------------------
+        # Attach scores to RetrievedDocument
+        # ---------------------------------------------------------
+
+        scored_documents: list[
+            tuple[RetrievedDocument, float]
+        ] = []
+
+        for document, score in zip(
+            valid_documents,
+            normalized_scores,
+        ):
+            document.rerank_score = score
+
+            scored_documents.append(
+                (
+                    document,
+                    score,
+                )
+            )
+
+        # ---------------------------------------------------------
+        # Sort highest score first
+        # ---------------------------------------------------------
+
+        scored_documents.sort(
             key=lambda item: item[1],
             reverse=True,
         )
 
+        results = [
+            document
+            for document, _ in scored_documents[:top_k]
+        ]
+
         logger.info(
-            "Returning top {} reranked documents.",
-            reranker.top_k,
+            "Reranking completed | returned={}",
+            len(results),
         )
 
         logger.debug(
-            "Top reranker scores: {}",
+            "Reranker scores: {}",
             [
-                round(score, 4)
-                for _, score in ranked[:reranker.top_k]
+                round(
+                    document.rerank_score,
+                    4,
+                )
+                for document in results
             ],
         )
 
-        return [
-            document
-            for document, _ in ranked[:reranker.top_k]
-        ]
+        return results
+
+    def health_check(self) -> bool:
+        """
+        Verify that the reranker model can be loaded and used.
+        """
+
+        try:
+            model = self._load_model()
+
+            scores = model.predict(
+                [
+                    (
+                        "machine learning",
+                        "machine learning is a field of artificial intelligence",
+                    )
+                ],
+                show_progress_bar=False,
+            )
+
+            if scores is None:
+                return False
+
+            logger.info(
+                "Reranker health check passed."
+            )
+
+            return True
+
+        except Exception:
+            logger.exception(
+                "Reranker health check failed."
+            )
+            return False
