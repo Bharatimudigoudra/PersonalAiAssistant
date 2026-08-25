@@ -4545,3 +4545,37 @@
 2026-08-24 22:05:56.977 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8293
 2026-08-24 22:05:56.978 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8293
 2026-08-24 22:05:56.978 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=8
+2026-08-25 22:21:28.344 | INFO     | __main__:__init__:43 - Initializing DocumentRetriever...
+2026-08-25 22:21:28.345 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-25 22:21:28.347 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-25 22:21:28.348 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-25 22:21:28.349 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-25 22:21:44.950 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-25 22:21:44.951 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-25 22:21:44.952 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-25 22:21:44.952 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-25 22:21:44.953 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-25 22:21:44.956 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-25 22:21:47.022 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=36
+2026-08-25 22:21:47.026 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-25 22:21:47.028 | INFO     | __main__:__init__:48 - DocumentRetriever initialized successfully.
+2026-08-25 22:21:47.034 | WARNING  | __main__:retrieve:70 - Empty retrieval question.
+2026-08-25 22:21:59.468 | INFO     | __main__:retrieve:77 - Retrieval started | question=%s | k=%s
+2026-08-25 22:22:00.072 | INFO     | __main__:retrieve:105 - Query embedding generated | dimensions=%s
+2026-08-25 22:22:00.077 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=8 | actual_k=8 | collection_count=36
+2026-08-25 22:22:00.115 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.5150
+2026-08-25 22:22:00.116 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.5150
+2026-08-25 22:22:00.117 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.6270
+2026-08-25 22:22:00.118 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.6270
+2026-08-25 22:22:00.119 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.8291
+2026-08-25 22:22:00.120 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8291
+2026-08-25 22:22:00.123 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8834
+2026-08-25 22:22:00.126 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8834
+2026-08-25 22:22:00.127 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=8
+2026-08-25 22:22:00.128 | INFO     | __main__:retrieve:133 - Chroma returned %s usable documents.
+2026-08-25 22:22:00.130 | INFO     | __main__:retrieve:176 - Distance filtering | threshold=%s | before=%s | after=%s
+2026-08-25 22:22:00.131 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
+2026-08-25 22:22:00.132 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
+2026-08-25 22:22:00.133 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
+2026-08-25 22:22:00.134 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
+2026-08-25 22:22:00.136 | INFO     | __main__:retrieve:221 - Retrieval completed in %.3f seconds.

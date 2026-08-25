@@ -1,40 +1,21 @@
 """
-Hybrid document retrieval for PersonalAiAssistant.
+Document retrieval service.
 
-Pipeline:
+Initial retrieval pipeline:
 
-    Interview Question
-            |
-            v
-    Query Normalization
-            |
-            +----------------------+
-            |                      |
-            v                      v
-      Dense Retrieval          BM25 Retrieval
-            |                      |
-            +----------+-----------+
-                       |
-                       v
-              Candidate Merge
-                       |
-                       v
-              Reciprocal Rank Fusion
-                       |
-                       v
-                 Cross Encoder
-                       |
-                       v
-                 Final Top-K
-
-Design goals:
-- Reliable retrieval
-- No accidental loss of good candidates
-- No duplicate chunks
-- Persistent BM25 rebuild
-- Cross-encoder reranking
-- Clear logging
-- Safe fallbacks
+    Question
+       ↓
+    Embedding
+       ↓
+    ChromaDB
+       ↓
+    RetrievedDocument
+       ↓
+    Deduplication
+       ↓
+    Optional distance filtering
+       ↓
+    Top-K
 """
 
 from __future__ import annotations
@@ -43,78 +24,34 @@ import re
 import time
 from typing import Any
 
-from app.core.config import rag, reranker
+from app.core.config import rag
 from app.core.logging import logger
 from app.embeddings.embedding_service import EmbeddingService
 from app.models.retrieved_document import RetrievedDocument
-from app.rag.bm25.bm25_service import get_bm25_service
-from app.rag.query_rewriter.query_rewriter_service import (
-    get_query_rewriter_service,
-)
-from app.rag.reciprocal_rank_fusion import reciprocal_rank_fusion
-from app.rag.reranker_service import RerankerService
 from app.vectorstore.vectorstore_service import VectorStoreService
 
 
 class DocumentRetriever:
     """
-    Production-oriented hybrid document retriever.
+    Dense vector document retriever.
 
-    Retrieval strategy:
-
-    1. Normalize the interview question.
-    2. Optionally rewrite the query.
-    3. Run dense vector retrieval.
-    4. Run BM25 retrieval.
-    5. Merge candidates with RRF.
-    6. Rerank candidates using CrossEncoder.
-    7. Deduplicate.
-    8. Return final top-k documents.
+    BM25, RRF and CrossEncoder reranking should be added only
+    after dense retrieval has been verified independently.
     """
-
-    # Number of candidates collected from each retrieval method
-    # before fusion/reranking.
-    CANDIDATE_MULTIPLIER = 3
-
-    # Maximum number of candidates sent to the reranker.
-    MAX_RERANK_CANDIDATES = 12
 
     def __init__(self) -> None:
         logger.info("Initializing DocumentRetriever...")
 
-        # ---------------------------------------------------------
-        # Core services
-        # ---------------------------------------------------------
-
         self.embedding_service = EmbeddingService()
-
         self.vectorstore = VectorStoreService()
 
-        self.bm25 = get_bm25_service()
-
-        self.query_rewriter = get_query_rewriter_service()
-
-        # ---------------------------------------------------------
-        # Optional CrossEncoder
-        # ---------------------------------------------------------
-
-        self.reranker = (
-            RerankerService()
-            if reranker.enabled
-            else None
+        logger.info(
+            "DocumentRetriever initialized successfully."
         )
 
-        # ---------------------------------------------------------
-        # Rebuild BM25 from persistent ChromaDB
-        # ---------------------------------------------------------
-
-        self._ensure_bm25_index()
-
-        logger.info("DocumentRetriever initialized successfully.")
-
-    # =============================================================
-    # PUBLIC API
-    # =============================================================
+    # ==========================================================
+    # PUBLIC
+    # ==========================================================
 
     def retrieve(
         self,
@@ -122,490 +59,310 @@ class DocumentRetriever:
         k: int | None = None,
     ) -> list[RetrievedDocument]:
         """
-        Retrieve relevant documents for an interview question.
-
-        Args:
-            question:
-                Interview question.
-
-            k:
-                Number of final documents to return.
-
-        Returns:
-            Ranked list of RetrievedDocument objects.
+        Retrieve the most relevant document chunks.
         """
 
         start = time.perf_counter()
-
-        # ---------------------------------------------------------
-        # Validate question
-        # ---------------------------------------------------------
 
         question = self._normalize_question(question)
 
         if not question:
             logger.warning(
-                "Empty interview question received."
+                "Empty retrieval question."
             )
             return []
-
-        # ---------------------------------------------------------
-        # Determine final K
-        # ---------------------------------------------------------
 
         final_k = self._resolve_k(k)
 
-        # ---------------------------------------------------------
-        # Candidate K
-        #
-        # We intentionally retrieve MORE candidates than the final
-        # answer needs.
-        #
-        # Example:
-        #
-        # final_k = 3
-        # candidate_k = 9
-        #
-        # This gives the reranker enough candidates to choose from.
-        # ---------------------------------------------------------
-
-        candidate_k = max(
-            final_k * self.CANDIDATE_MULTIPLIER,
-            8,
-        )
-
         logger.info(
-            "Starting retrieval | question={} | final_k={} | candidate_k={}",
+            "Retrieval started | question=%s | k=%s",
             question,
             final_k,
-            candidate_k,
         )
 
-        # ---------------------------------------------------------
-        # 1. Query rewriting
-        # ---------------------------------------------------------
+        # ------------------------------------------------------
+        # Create query embedding
+        # ------------------------------------------------------
 
-        query = self._rewrite_query(question)
+        try:
+            query_embedding = (
+                self.embedding_service.embed_query(
+                    question
+                )
+            )
+        except Exception:
+            logger.exception(
+                "Failed to generate query embedding."
+            )
+            return []
 
-        logger.info(
-            "Retrieval query={}",
-            query,
-        )
-
-        # ---------------------------------------------------------
-        # 2. Dense vector retrieval
-        # ---------------------------------------------------------
-
-        vector_documents = self._vector_search(
-            query=query,
-            k=candidate_k,
-        )
-
-        logger.info(
-            "Dense retrieval returned {} documents.",
-            len(vector_documents),
-        )
-
-        # ---------------------------------------------------------
-        # 3. BM25 retrieval
-        # ---------------------------------------------------------
-
-        bm25_documents = self._bm25_search(
-            query=query,
-            k=candidate_k,
-        )
-
-        logger.info(
-            "BM25 retrieval returned {} documents.",
-            len(bm25_documents),
-        )
-
-        # ---------------------------------------------------------
-        # 4. If neither retriever found anything
-        # ---------------------------------------------------------
-
-        if not vector_documents and not bm25_documents:
+        if not query_embedding:
             logger.warning(
-                "No documents found by vector or BM25 retrieval."
+                "Query embedding is empty."
             )
-
-            self._log_elapsed(start)
-
             return []
 
-        # ---------------------------------------------------------
-        # 5. Deduplicate each retrieval list
-        # ---------------------------------------------------------
-
-        vector_documents = self._deduplicate_documents(
-            vector_documents
+        logger.info(
+            "Query embedding generated | dimensions=%s",
+            len(query_embedding),
         )
 
-        bm25_documents = self._deduplicate_documents(
-            bm25_documents
-        )
+        # ------------------------------------------------------
+        # Chroma search
+        # ------------------------------------------------------
 
-        # ---------------------------------------------------------
-        # 6. Reciprocal Rank Fusion
-        #
-        # IMPORTANT:
-        # Do not prematurely reduce everything to final_k.
-        # We want a larger candidate pool for reranking.
-        # ---------------------------------------------------------
+        try:
+            search_result = self.vectorstore.search(
+                embedding=query_embedding,
+                k=final_k,
+            )
+        except Exception:
+            logger.exception(
+                "Chroma vector search failed."
+            )
+            return []
 
-        fused_documents = self._fuse_results(
-            vector_documents=vector_documents,
-            bm25_documents=bm25_documents,
-            candidate_k=candidate_k,
+        # ------------------------------------------------------
+        # Parse Chroma result
+        # ------------------------------------------------------
+
+        documents = self._parse_chroma_results(
+            search_result
         )
 
         logger.info(
-            "RRF produced {} candidate documents.",
-            len(fused_documents),
+            "Chroma returned %s usable documents.",
+            len(documents),
         )
 
-        if not fused_documents:
-            self._log_elapsed(start)
-            return []
+        # ------------------------------------------------------
+        # Deduplicate
+        # ------------------------------------------------------
 
-        # ---------------------------------------------------------
-        # 7. CrossEncoder reranking
-        # ---------------------------------------------------------
-
-        rerank_candidates = fused_documents[
-            : self.MAX_RERANK_CANDIDATES
-        ]
-
-        if self.reranker is not None:
-            rerank_candidates = self._rerank(
-                query=query,
-                documents=rerank_candidates,
-            )
-
-        # ---------------------------------------------------------
-        # 8. Final deduplication
-        # ---------------------------------------------------------
-
-        final_documents = self._deduplicate_documents(
-            rerank_candidates
+        documents = self._deduplicate(
+            documents
         )
 
-        # ---------------------------------------------------------
-        # 9. Final top-k
-        # ---------------------------------------------------------
+        # ------------------------------------------------------
+        # Sort by distance
+        # ------------------------------------------------------
 
-        final_documents = final_documents[:final_k]
-
-        # ---------------------------------------------------------
-        # Logging
-        # ---------------------------------------------------------
-
-        logger.info(
-            "Final retrieval returned {} documents.",
-            len(final_documents),
+        documents.sort(
+            key=lambda document: (
+                document.distance
+                if document.distance is not None
+                else float("inf")
+            )
         )
 
-        for index, document in enumerate(
-            final_documents,
-            start=1,
-        ):
-            preview = self._preview(
-                document.content
-            )
+        # ------------------------------------------------------
+        # Optional distance threshold
+        # ------------------------------------------------------
 
-            source = (
-                document.metadata.get("source")
-                if document.metadata
-                else None
-            )
+        threshold = (
+            rag.similarity_threshold
+        )
+
+        if threshold is not None:
+            filtered = [
+                document
+                for document in documents
+                if (
+                    document.distance is not None
+                    and document.distance <= threshold
+                )
+            ]
 
             logger.info(
-                "Final document {} | source={} | preview={}",
-                index,
-                source or "unknown",
-                preview,
+                "Distance filtering | threshold=%s | "
+                "before=%s | after=%s",
+                threshold,
+                len(documents),
+                len(filtered),
             )
 
-        self._log_elapsed(start)
+            # Do not accidentally return zero results because
+            # of a badly tuned threshold.
+            if filtered:
+                documents = filtered
 
-        return final_documents
+        # ------------------------------------------------------
+        # Final K
+        # ------------------------------------------------------
 
-    # =============================================================
+        documents = documents[:final_k]
+
+        # ------------------------------------------------------
+        # Diagnostic logging
+        # ------------------------------------------------------
+
+        for index, document in enumerate(
+            documents,
+            start=1,
+        ):
+            logger.info(
+                "RESULT %s | distance=%s | source=%s | chunk=%s",
+                index,
+                document.distance,
+                document.metadata.get(
+                    "source",
+                    "unknown",
+                ),
+                document.metadata.get(
+                    "chunk",
+                    "unknown",
+                ),
+            )
+
+        elapsed = (
+            time.perf_counter() - start
+        )
+
+        logger.info(
+            "Retrieval completed in %.3f seconds.",
+            elapsed,
+        )
+
+        return documents
+
+    # ==========================================================
     # QUESTION NORMALIZATION
-    # =============================================================
+    # ==========================================================
 
     @staticmethod
     def _normalize_question(
         question: str | None,
     ) -> str:
         """
-        Normalize the interview question.
-
-        This deliberately performs only light normalization.
-        We do NOT rewrite the meaning of the question here.
+        Lightly normalize a question.
         """
 
         if question is None:
             return ""
 
-        question = str(question).strip()
+        question = str(
+            question
+        ).strip()
 
         if not question:
             return ""
 
-        # Collapse repeated whitespace.
-        question = re.sub(
+        return re.sub(
             r"\s+",
             " ",
             question,
         )
 
-        return question
-
-    # =============================================================
-    # K RESOLUTION
-    # =============================================================
+    # ==========================================================
+    # K
+    # ==========================================================
 
     @staticmethod
     def _resolve_k(
         k: int | None,
     ) -> int:
         """
-        Resolve final retrieval count.
+        Resolve the requested number of results.
         """
 
         if k is None:
-            k = rag.reranker_top_k if hasattr(
-                rag,
-                "reranker_top_k",
-            ) else reranker.top_k
+            k = rag.top_k
 
         try:
             k = int(k)
-        except (TypeError, ValueError):
-            k = reranker.top_k
+        except (
+            TypeError,
+            ValueError,
+        ):
+            k = rag.top_k
 
-        if k <= 0:
-            k = 1
+        return max(
+            1,
+            k,
+        )
 
-        return k
+    # ==========================================================
+    # CHROMA PARSER
+    # ==========================================================
 
-    # =============================================================
-    # QUERY REWRITING
-    # =============================================================
-
-    def _rewrite_query(
-        self,
-        question: str,
-    ) -> str:
-        """
-        Rewrite the question when possible.
-
-        If rewriting fails or produces an empty result,
-        the original question is used.
-
-        For simple interview questions such as:
-            "Tell me about yourself?"
-        the original question is already suitable.
-        """
-
-        # ---------------------------------------------------------
-        # Avoid unnecessary rewriting for simple standalone
-        # interview questions.
-        # ---------------------------------------------------------
-
-        simple_questions = {
-            "tell me about yourself",
-            "tell me about yourself?",
-            "introduce yourself",
-            "introduce yourself?",
-            "what are your strengths",
-            "what are your strengths?",
-            "what are your weaknesses",
-            "what are your weaknesses?",
-        }
-
-        normalized = question.lower().strip()
-
-        if normalized in simple_questions:
-            logger.info(
-                "Simple interview question detected. "
-                "Skipping query rewriting."
-            )
-            return question
-
-        # ---------------------------------------------------------
-        # Otherwise use query rewriter.
-        # ---------------------------------------------------------
-
-        try:
-            rewritten = self.query_rewriter.rewrite(
-                history="",
-                question=question,
-            )
-
-            rewritten = (
-                str(rewritten).strip()
-                if rewritten
-                else ""
-            )
-
-            if rewritten:
-                return rewritten
-
-        except Exception:
-            logger.exception(
-                "Query rewriting failed. "
-                "Using original question."
-            )
-
-        return question
-
-    # =============================================================
-    # VECTOR SEARCH
-    # =============================================================
-
-    def _vector_search(
-        self,
-        query: str,
-        k: int,
-    ) -> list[RetrievedDocument]:
-        """
-        Perform dense vector retrieval.
-
-        Chroma returns distances.
-
-        IMPORTANT:
-        Smaller distance means a closer/more similar vector.
-
-        We therefore do not blindly interpret the value as a
-        similarity score.
-
-        The configured threshold is treated as an optional
-        maximum-distance filter.
-        """
-
-        try:
-            embedding = (
-                self.embedding_service.embed_query(
-                    query
-                )
-            )
-
-            if not embedding:
-                logger.warning(
-                    "Query embedding is empty."
-                )
-                return []
-
-            results = self.vectorstore.search(
-                embedding=embedding,
-                k=k,
-            )
-
-            return self._parse_vector_results(
-                results,
-                k=k,
-            )
-
-        except Exception:
-            logger.exception(
-                "Dense vector retrieval failed."
-            )
-            return []
-
-    # =============================================================
-    # VECTOR RESULT PARSER
-    # =============================================================
-
-    def _parse_vector_results(
-        self,
+    @classmethod
+    def _parse_chroma_results(
+        cls,
         results: dict[str, Any] | None,
-        k: int,
     ) -> list[RetrievedDocument]:
         """
-        Convert Chroma result format into RetrievedDocument objects.
+        Convert Chroma's nested response into
+        RetrievedDocument objects.
         """
 
         if not results:
             return []
 
-        raw_documents = (
+        ids = cls._unwrap(
+            results.get("ids")
+        )
+
+        documents = cls._unwrap(
             results.get("documents")
-            or []
         )
 
-        raw_distances = (
+        distances = cls._unwrap(
             results.get("distances")
-            or []
         )
 
-        raw_metadatas = (
+        metadatas = cls._unwrap(
             results.get("metadatas")
-            or []
         )
 
-        if not raw_documents:
-            return []
-
-        documents = self._unwrap_chroma_list(
-            raw_documents
-        )
-
-        distances = self._unwrap_chroma_list(
-            raw_distances
-        )
-
-        metadatas = self._unwrap_chroma_list(
-            raw_metadatas
-        )
-
-        logger.info(
-            "Chroma returned {} raw candidates.",
-            len(documents),
-        )
-
-        candidates: list[RetrievedDocument] = []
+        retrieved: list[
+            RetrievedDocument
+        ] = []
 
         for index, content in enumerate(
             documents
         ):
+            if content is None:
+                continue
+
+            content = str(
+                content
+            ).strip()
+
             if not content:
                 continue
 
-            content = str(content).strip()
-
-            if not content:
-                continue
-
-            # -----------------------------------------------------
+            # --------------------------------------------------
             # Distance
-            # -----------------------------------------------------
+            # --------------------------------------------------
 
-            distance: float | None = None
+            distance = None
 
             if index < len(distances):
-                raw_distance = distances[index]
+                raw_distance = (
+                    distances[index]
+                )
 
-                if raw_distance is not None:
-                    try:
+                try:
+                    if raw_distance is not None:
                         distance = float(
                             raw_distance
                         )
-                    except (
-                        TypeError,
-                        ValueError,
-                    ):
-                        distance = None
+                except (
+                    TypeError,
+                    ValueError,
+                ):
+                    distance = None
 
-            # -----------------------------------------------------
+            # --------------------------------------------------
             # Metadata
-            # -----------------------------------------------------
+            # --------------------------------------------------
 
             metadata: dict[str, Any] = {}
 
             if index < len(metadatas):
-                raw_metadata = metadatas[index]
+                raw_metadata = (
+                    metadatas[index]
+                )
 
                 if isinstance(
                     raw_metadata,
@@ -615,7 +372,14 @@ class DocumentRetriever:
                         raw_metadata
                     )
 
-            candidates.append(
+            # Keep Chroma ID available.
+            if index < len(ids):
+                metadata.setdefault(
+                    "id",
+                    ids[index],
+                )
+
+            retrieved.append(
                 RetrievedDocument(
                     content=content,
                     distance=distance,
@@ -623,431 +387,56 @@ class DocumentRetriever:
                 )
             )
 
-            logger.debug(
-                "Vector candidate {} | distance={} | source={}",
-                index,
-                (
-                    f"{distance:.4f}"
-                    if distance is not None
-                    else "N/A"
-                ),
-                metadata.get("source", "unknown"),
-            )
+        return retrieved
 
-        # ---------------------------------------------------------
-        # Sort by distance.
-        # Smaller is better.
-        # ---------------------------------------------------------
-
-        candidates.sort(
-            key=lambda document: (
-                document.distance
-                if document.distance is not None
-                else float("inf")
-            )
-        )
-
-        # ---------------------------------------------------------
-        # Optional maximum-distance filter
-        # ---------------------------------------------------------
-
-        threshold = self._get_distance_threshold()
-
-        if threshold is not None:
-            filtered = [
-                document
-                for document in candidates
-                if (
-                    document.distance is None
-                    or document.distance <= threshold
-                )
-            ]
-
-            # -----------------------------------------------------
-            # IMPORTANT:
-            #
-            # Never destroy retrieval just because a threshold is
-            # poorly tuned.
-            #
-            # If filtering removes everything, retain the closest
-            # candidates.
-            # -----------------------------------------------------
-
-            if filtered:
-                candidates = filtered
-            else:
-                logger.warning(
-                    "Distance threshold {} rejected all "
-                    "vector candidates. Keeping closest results.",
-                    threshold,
-                )
-
-        candidates = self._deduplicate_documents(
-            candidates
-        )
-
-        return candidates[:k]
-
-    # =============================================================
-    # CHROMA LIST NORMALIZATION
-    # =============================================================
+    # ==========================================================
+    # CHROMA NORMALIZATION
+    # ==========================================================
 
     @staticmethod
-    def _unwrap_chroma_list(
+    def _unwrap(
         value: Any,
     ) -> list[Any]:
         """
-        Normalize Chroma's nested list format.
+        Chroma normally returns:
 
-        Example:
+            [[item1, item2, item3]]
 
-            [[doc1, doc2]]
+        Convert it to:
 
-        becomes:
-
-            [doc1, doc2]
+            [item1, item2, item3]
         """
 
-        if not value:
+        if value is None:
+            return []
+
+        if not isinstance(
+            value,
+            list,
+        ):
             return []
 
         if (
-            isinstance(value, list)
-            and len(value) == 1
-            and isinstance(value[0], list)
+            len(value) == 1
+            and isinstance(
+                value[0],
+                list,
+            )
         ):
             return value[0]
 
-        if isinstance(value, list):
-            return value
-
-        return []
-
-    # =============================================================
-    # DISTANCE THRESHOLD
-    # =============================================================
-
-    @staticmethod
-    def _get_distance_threshold() -> float | None:
-        """
-        Read the configured maximum vector distance.
-
-        The project currently calls this setting
-        `similarity_threshold`, but Chroma returns distance.
-
-        Therefore:
-
-            lower distance = better
-
-        and the setting is interpreted as:
-
-            distance <= threshold
-        """
-
-        value = getattr(
-            rag,
-            "similarity_threshold",
-            None,
-        )
-
-        if value is None:
-            return None
-
-        try:
-            value = float(value)
-        except (
-            TypeError,
-            ValueError,
-        ):
-            logger.warning(
-                "Invalid similarity_threshold={}. "
-                "Distance filtering disabled.",
-                value,
-            )
-            return None
-
-        if value <= 0:
-            logger.warning(
-                "similarity_threshold={} is not positive. "
-                "Distance filtering disabled.",
-                value,
-            )
-            return None
-
         return value
 
-    # =============================================================
-    # BM25 SEARCH
-    # =============================================================
-
-    def _bm25_search(
-        self,
-        query: str,
-        k: int,
-    ) -> list[RetrievedDocument]:
-        """
-        Run lexical BM25 retrieval.
-        """
-
-        try:
-            documents = self.bm25.search(
-                query=query,
-                top_k=k,
-            )
-
-            return self._deduplicate_documents(
-                documents or []
-            )
-
-        except Exception:
-            logger.exception(
-                "BM25 retrieval failed."
-            )
-            return []
-
-    # =============================================================
-    # BM25 INITIALIZATION
-    # =============================================================
-
-    def _ensure_bm25_index(self) -> None:
-        """
-        Rebuild BM25 from the persistent Chroma collection.
-
-        BM25 itself is in-memory, so this is necessary whenever
-        the application starts in a new process.
-        """
-
-        try:
-            collection = (
-                self.vectorstore.store.collection
-            )
-
-            count = collection.count()
-
-            logger.info(
-                "Persistent Chroma collection contains {} documents.",
-                count,
-            )
-
-            if count <= 0:
-                logger.warning(
-                    "Chroma collection is empty. "
-                    "BM25 index will remain empty."
-                )
-                return
-
-            result = collection.get(
-                include=[
-                    "documents",
-                    "metadatas",
-                ]
-            )
-
-            documents = (
-                result.get("documents")
-                or []
-            )
-
-            metadatas = (
-                result.get("metadatas")
-                or []
-            )
-
-            if not documents:
-                logger.warning(
-                    "Chroma collection returned no documents."
-                )
-                return
-
-            bm25_documents: list[
-                RetrievedDocument
-            ] = []
-
-            for index, content in enumerate(
-                documents
-            ):
-                if not content:
-                    continue
-
-                content = str(
-                    content
-                ).strip()
-
-                if not content:
-                    continue
-
-                metadata: dict[str, Any] = {}
-
-                if index < len(metadatas):
-                    raw_metadata = metadatas[index]
-
-                    if isinstance(
-                        raw_metadata,
-                        dict,
-                    ):
-                        metadata = dict(
-                            raw_metadata
-                        )
-
-                bm25_documents.append(
-                    RetrievedDocument(
-                        content=content,
-                        distance=None,
-                        metadata=metadata,
-                    )
-                )
-
-            if not bm25_documents:
-                logger.warning(
-                    "No usable documents available for BM25."
-                )
-                return
-
-            # Remove exact duplicate chunks before indexing.
-            bm25_documents = (
-                self._deduplicate_documents(
-                    bm25_documents
-                )
-            )
-
-            logger.info(
-                "Building BM25 index with {} documents.",
-                len(bm25_documents),
-            )
-
-            self.bm25.build_index(
-                bm25_documents
-            )
-
-            logger.info(
-                "BM25 index successfully rebuilt."
-            )
-
-        except Exception:
-            logger.exception(
-                "Failed to rebuild BM25 index from Chroma."
-            )
-
-    # =============================================================
-    # RECIPROCAL RANK FUSION
-    # =============================================================
-
-    def _fuse_results(
-        self,
-        vector_documents: list[RetrievedDocument],
-        bm25_documents: list[RetrievedDocument],
-        candidate_k: int,
-    ) -> list[RetrievedDocument]:
-        """
-        Fuse dense and lexical retrieval results.
-
-        We keep a larger candidate pool here so that the
-        CrossEncoder has enough candidates to make a useful
-        ranking decision.
-        """
-
-        try:
-            fused = reciprocal_rank_fusion(
-                vector_documents,
-                bm25_documents,
-                top_k=candidate_k,
-            )
-
-            fused = self._deduplicate_documents(
-                fused or []
-            )
-
-            return fused[:candidate_k]
-
-        except Exception:
-            logger.exception(
-                "RRF failed. Using retrieval fallback."
-            )
-
-            fallback = (
-                vector_documents
-                if vector_documents
-                else bm25_documents
-            )
-
-            return self._deduplicate_documents(
-                fallback
-            )[:candidate_k]
-
-    # =============================================================
-    # RERANKING
-    # =============================================================
-
-    def _rerank(
-        self,
-        query: str,
-        documents: list[RetrievedDocument],
-    ) -> list[RetrievedDocument]:
-        """
-        Rerank candidate documents using CrossEncoder.
-        """
-
-        if not documents:
-            return []
-
-        if self.reranker is None:
-            return documents
-
-        try:
-            logger.info(
-                "Reranking {} candidate documents.",
-                len(documents),
-            )
-
-            reranked = self.reranker.rerank(
-                query=query,
-                documents=documents,
-            )
-
-            if not reranked:
-                logger.warning(
-                    "Reranker returned no documents. "
-                    "Keeping original candidates."
-                )
-                return documents
-
-            reranked = self._deduplicate_documents(
-                reranked
-            )
-
-            logger.info(
-                "Reranking completed. {} documents remain.",
-                len(reranked),
-            )
-
-            return reranked
-
-        except Exception:
-            logger.exception(
-                "CrossEncoder reranking failed. "
-                "Keeping fused results."
-            )
-
-            return documents
-
-    # =============================================================
+    # ==========================================================
     # DEDUPLICATION
-    # =============================================================
+    # ==========================================================
 
     @staticmethod
-    def _deduplicate_documents(
+    def _deduplicate(
         documents: list[RetrievedDocument],
     ) -> list[RetrievedDocument]:
         """
-        Remove exact duplicate chunks.
-
-        Priority:
-
-        1. source + chunk metadata
-        2. exact content
-
-        This prevents duplicate Chroma entries from polluting
-        the final context.
+        Remove duplicate chunks.
         """
 
         unique: list[
@@ -1058,6 +447,7 @@ class DocumentRetriever:
         seen_content: set[str] = set()
 
         for document in documents:
+
             if document is None:
                 continue
 
@@ -1077,29 +467,14 @@ class DocumentRetriever:
                 else {}
             )
 
-            source = str(
+            document_id = str(
                 metadata.get(
-                    "source",
+                    "id",
                     "",
                 )
             ).strip()
 
-            chunk = str(
-                metadata.get(
-                    "chunk",
-                    "",
-                )
-            ).strip()
-
-            # -----------------------------------------------------
-            # Prefer source + chunk when available.
-            # -----------------------------------------------------
-
-            if source and chunk:
-                document_id = (
-                    f"{source}::{chunk}"
-                )
-
+            if document_id:
                 if document_id in seen_ids:
                     continue
 
@@ -1107,11 +482,7 @@ class DocumentRetriever:
                     document_id
                 )
 
-            # -----------------------------------------------------
-            # Always protect against exact duplicate content.
-            # -----------------------------------------------------
-
-            content_key = content
+            content_key = content.lower()
 
             if content_key in seen_content:
                 continue
@@ -1126,67 +497,15 @@ class DocumentRetriever:
 
         return unique
 
-    # =============================================================
-    # PREVIEW
-    # =============================================================
 
-    @staticmethod
-    def _preview(
-        content: str | None,
-        limit: int = 180,
-    ) -> str:
-        """
-        Create a short logging preview.
-        """
-
-        if not content:
-            return ""
-
-        text = re.sub(
-            r"\s+",
-            " ",
-            str(content),
-        ).strip()
-
-        if len(text) <= limit:
-            return text
-
-        return (
-            text[:limit]
-            + "..."
-        )
-
-    # =============================================================
-    # TIMING
-    # =============================================================
-
-    @staticmethod
-    def _log_elapsed(
-        start: float,
-    ) -> None:
-        """
-        Log retrieval execution time.
-        """
-
-        elapsed = (
-            time.perf_counter()
-            - start
-        )
-
-        logger.info(
-            "Retrieval completed in {:.3f} sec.",
-            elapsed,
-        )
-
-
-# ================================================================
-# Standalone retrieval test
-# ================================================================
+# ==============================================================
+# STANDALONE TEST
+# ==============================================================
 
 if __name__ == "__main__":
 
     print("=" * 80)
-    print("PersonalAiAssistant - Retrieval Test")
+    print("PersonalAiAssistant - Dense Retrieval Test")
     print("=" * 80)
 
     retriever = DocumentRetriever()
@@ -1194,7 +513,8 @@ if __name__ == "__main__":
     while True:
 
         question = input(
-            "\nInterview Question (exit to quit): "
+            "\nInterview Question "
+            "(type 'exit' to quit): "
         ).strip()
 
         if question.lower() in {
@@ -1205,19 +525,19 @@ if __name__ == "__main__":
 
         results = retriever.retrieve(
             question,
-            k=3,
+            k=8,
         )
 
         print()
         print("=" * 80)
         print(
-            f"RETRIEVED DOCUMENTS: {len(results)}"
+            f"RESULTS: {len(results)}"
         )
         print("=" * 80)
 
         if not results:
             print(
-                "No relevant documents found."
+                "No documents retrieved."
             )
             continue
 
@@ -1228,7 +548,13 @@ if __name__ == "__main__":
 
             print()
             print(
-                f"--- DOCUMENT {index} ---"
+                f"DOCUMENT {index}"
+            )
+            print("-" * 80)
+
+            print(
+                "Distance:",
+                document.distance,
             )
 
             print(
@@ -1248,12 +574,19 @@ if __name__ == "__main__":
             )
 
             print(
-                "Distance:",
-                document.distance,
+                "ID:",
+                document.metadata.get(
+                    "id",
+                    "unknown",
+                ),
             )
 
             print()
-            print(document.content)
+            print(
+                document.content
+            )
 
-        print()
-        print("=" * 80)
+    print()
+    print("=" * 80)
+    print("Retrieval test finished.")
+    print("=" * 80)
