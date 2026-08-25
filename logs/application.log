@@ -4579,3 +4579,59 @@
 2026-08-25 22:22:00.133 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
 2026-08-25 22:22:00.134 | INFO     | __main__:retrieve:203 - RESULT %s | distance=%s | source=%s | chunk=%s
 2026-08-25 22:22:00.136 | INFO     | __main__:retrieve:221 - Retrieval completed in %.3f seconds.
+2026-08-25 22:25:45.733 | INFO     | app.rag.reranker:__init__:19 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-25 22:26:07.127 | INFO     | app.rag.reranker:__init__:28 - Reranker loaded successfully.
+2026-08-25 22:26:09.121 | INFO     | __main__:__init__:73 - Initializing DocumentRetriever...
+2026-08-25 22:26:09.122 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-25 22:26:09.122 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-25 22:26:09.123 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-25 22:26:09.123 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-25 22:26:27.407 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-25 22:26:27.408 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-25 22:26:27.409 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-25 22:26:27.409 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-25 22:26:27.410 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-25 22:26:27.412 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-25 22:26:28.123 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=36
+2026-08-25 22:26:28.124 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-25 22:26:28.124 | INFO     | app.rag.reranker_service:__init__:27 - RerankerService initialized.
+2026-08-25 22:26:28.125 | INFO     | __main__:__init__:84 - DocumentRetriever initialized | reranker_enabled=True
+2026-08-25 22:29:17.381 | INFO     | __main__:retrieve:127 - Retrieval started | question=Tell me about Bharati's education. | final_k=3 | candidate_k=12
+2026-08-25 22:29:17.916 | INFO     | __main__:retrieve:156 - Query embedding generated | dimensions=384
+2026-08-25 22:29:17.919 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=36
+2026-08-25 22:29:17.957 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.5602
+2026-08-25 22:29:17.958 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.5602
+2026-08-25 22:29:17.959 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.6345
+2026-08-25 22:29:17.959 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.6345
+2026-08-25 22:29:17.960 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.8711
+2026-08-25 22:29:17.960 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8711
+2026-08-25 22:29:17.960 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.9063
+2026-08-25 22:29:17.961 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.9063
+2026-08-25 22:29:17.961 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=0.9499
+2026-08-25 22:29:17.962 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=0.9499
+2026-08-25 22:29:17.964 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=0.9614
+2026-08-25 22:29:17.966 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=0.9614
+2026-08-25 22:29:17.969 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-25 22:29:17.971 | INFO     | __main__:retrieve:180 - Dense retrieval returned 6 candidates.
+2026-08-25 22:29:17.973 | INFO     | __main__:_log_candidates:633 - DENSE RETRIEVAL RESULTS | count=6
+2026-08-25 22:29:17.975 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.5602 | rerank_score=None | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-25 22:29:17.976 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=2 | distance=0.6345 | rerank_score=None | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-25 22:29:17.979 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=3 | distance=0.8711 | rerank_score=None | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-25 22:29:17.982 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=4 | distance=0.9063 | rerank_score=None | source=data\documents\resume.pdf | chunk=3 | preview=•Developed a Real-time Object Detection System integrating YOLOv10 and DERT Models, enhancing detection accuracy using Non-Maximum Suppression (NMS) and Intersection over Union (Io...
+2026-08-25 22:29:17.984 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=5 | distance=0.9499 | rerank_score=None | source=data\documents\resume.pdf | chunk=7 | preview=Tech Stack: Python, AST (Abstract Syntax Tree), Regex, Pandas, Streamlit, Jupyter Notebook. CERTIFICATE Generative AI Mastery — Euron Full stack Data Science — Euron Fundamentals o...
+2026-08-25 22:29:17.988 | INFO     | __main__:_log_candidates:682 - DENSE RETRIEVAL RESULTS | rank=6 | distance=0.9614 | rerank_score=None | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-25 22:29:17.989 | INFO     | __main__:_rerank:465 - Starting CrossEncoder reranking | candidates=6
+2026-08-25 22:29:17.990 | INFO     | app.rag.reranker_service:rerank:40 - Running CrossEncoder reranker...
+2026-08-25 22:29:17.992 | INFO     | app.rag.reranker:rerank:49 - Reranking 6 documents...
+2026-08-25 22:29:22.007 | INFO     | app.rag.reranker:rerank:73 - Returning top 3 reranked documents.
+2026-08-25 22:29:22.020 | INFO     | app.rag.reranker_service:rerank:49 - Reranking completed. 3 documents returned.
+2026-08-25 22:29:22.021 | INFO     | __main__:_rerank:490 - CrossEncoder reranking completed | results=3
+2026-08-25 22:29:22.023 | INFO     | __main__:_log_candidates:633 - RERANKED RESULTS | count=3
+2026-08-25 22:29:22.024 | INFO     | __main__:_log_candidates:682 - RERANKED RESULTS | rank=1 | distance=0.5602 | rerank_score=None | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-25 22:29:22.025 | INFO     | __main__:_log_candidates:682 - RERANKED RESULTS | rank=2 | distance=0.6345 | rerank_score=None | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-25 22:29:22.026 | INFO     | __main__:_log_candidates:682 - RERANKED RESULTS | rank=3 | distance=0.8711 | rerank_score=None | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-25 22:29:22.027 | INFO     | __main__:_log_candidates:633 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-25 22:29:22.027 | INFO     | __main__:_log_candidates:682 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.5602 | rerank_score=None | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-25 22:29:22.028 | INFO     | __main__:_log_candidates:682 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.6345 | rerank_score=None | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-25 22:29:22.032 | INFO     | __main__:_log_candidates:682 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.8711 | rerank_score=None | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-25 22:29:22.033 | INFO     | __main__:retrieve:238 - Retrieval completed | results=3 | elapsed=4.652s
