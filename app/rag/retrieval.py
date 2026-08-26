@@ -75,6 +75,26 @@ class DocumentRetriever:
         self.embedding_service = EmbeddingService()
         self.vectorstore = VectorStoreService()
 
+        # --------------------------------------------------------
+        # Retrieval configuration
+        # --------------------------------------------------------
+
+        self.candidate_multiplier = getattr(
+            rag,
+            "candidate_multiplier",
+            4,
+        )
+
+        self.max_rerank_candidates = getattr(
+            rag,
+            "max_rerank_candidates",
+            16,
+        )
+
+        # --------------------------------------------------------
+        # CrossEncoder reranker
+        # --------------------------------------------------------
+
         self.reranker = (
             RerankerService()
             if reranker.enabled
@@ -83,8 +103,12 @@ class DocumentRetriever:
 
         logger.info(
             "DocumentRetriever initialized | "
-            "reranker_enabled={}",
+            "reranker_enabled={} | "
+            "candidate_multiplier={} | "
+            "max_rerank_candidates={}",
             self.reranker is not None,
+            self.candidate_multiplier,
+            self.max_rerank_candidates,
         )
 
     # ============================================================
@@ -120,7 +144,7 @@ class DocumentRetriever:
         final_k = self._resolve_k(k)
 
         candidate_k = max(
-            final_k * self.CANDIDATE_MULTIPLIER,
+            final_k * self.candidate_multiplier,
             8,
         )
 
@@ -202,7 +226,7 @@ class DocumentRetriever:
         # --------------------------------------------------------
 
         rerank_candidates = candidates[
-            : self.MAX_RERANK_CANDIDATES
+            : self.max_rerank_candidates
         ]
 
         if self.reranker is not None:
