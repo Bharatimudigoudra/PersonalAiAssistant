@@ -42,7 +42,7 @@ rag:
   # Do not use this value as a hard semantic-quality
   # threshold unless the retrieval code explicitly
   # interprets it correctly.
-  similarity_threshold: null
+  similarity_threshold: 0.0
 
   # Maximum reference context sent to the LLM
   max_context_chars: 3000

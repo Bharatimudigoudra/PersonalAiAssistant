@@ -1,5 +1,5 @@
 """
-Cross-Encoder document reranker.
+CrossEncoder document reranker.
 """
 
 from __future__ import annotations
@@ -15,11 +15,15 @@ from app.models.retrieved_document import RetrievedDocument
 
 class DocumentReranker:
     """
-    Reranks retrieved documents using a Sentence Transformers
-    CrossEncoder model.
+    Reranks retrieved documents using a CrossEncoder model.
     """
 
     def __init__(self) -> None:
+
+        if not reranker.enabled:
+            raise RuntimeError(
+                "Reranker is disabled in configuration."
+            )
 
         logger.info(
             "Loading reranker model: {}",
@@ -31,7 +35,7 @@ class DocumentReranker:
         )
 
         logger.info(
-            "Reranker loaded successfully | model={}",
+            "Reranker model loaded successfully | model={}",
             reranker.model_name,
         )
 
@@ -44,19 +48,19 @@ class DocumentReranker:
         Rank documents according to query-document relevance.
         """
 
-        if not query or not query.strip():
-            logger.warning(
-                "Cannot rerank with an empty query."
-            )
-            return documents
-
         if not documents:
             logger.warning(
                 "No documents available for reranking."
             )
             return []
 
-        query = query.strip()
+        query = str(query or "").strip()
+
+        if not query:
+            logger.warning(
+                "Cannot rerank with an empty query."
+            )
+            return documents
 
         logger.info(
             "Reranking {} documents...",
@@ -66,13 +70,14 @@ class DocumentReranker:
         pairs = [
             (
                 query,
-                document.content,
+                str(document.content or ""),
             )
             for document in documents
         ]
 
         try:
-            raw_scores = self.model.predict(
+
+            scores = self.model.predict(
                 pairs,
                 show_progress_bar=False,
             )
@@ -81,18 +86,7 @@ class DocumentReranker:
             logger.exception(
                 "CrossEncoder prediction failed."
             )
-            raise
-
-        scores = self._normalize_scores(
-            raw_scores
-        )
-
-        if len(scores) != len(documents):
-            raise RuntimeError(
-                "CrossEncoder returned an unexpected "
-                "number of scores: "
-                f"{len(scores)} for {len(documents)} documents."
-            )
+            return documents
 
         ranked: list[
             tuple[RetrievedDocument, float]
@@ -102,12 +96,29 @@ class DocumentReranker:
             documents,
             scores,
         ):
-            document.rerank_score = score
+
+            try:
+                score_value = float(score)
+            except (
+                TypeError,
+                ValueError,
+            ):
+                score_value = float("-inf")
+
+            # Store score on the document.
+            #
+            # This works even if RetrievedDocument does not
+            # explicitly define rerank_score, but we should
+            # update the model later to make it type-safe.
+            try:
+                document.rerank_score = score_value
+            except Exception:
+                pass
 
             ranked.append(
                 (
                     document,
-                    score,
+                    score_value,
                 )
             )
 
@@ -116,77 +127,70 @@ class DocumentReranker:
             reverse=True,
         )
 
-        top_k = max(
-            1,
-            int(reranker.top_k),
-        )
+        top_k = self._resolve_top_k()
 
-        ranked = ranked[:top_k]
-
-        logger.info(
-            "Reranking completed | input={} | output={}",
-            len(documents),
-            len(ranked),
-        )
-
-        logger.debug(
-            "Top reranker scores: {}",
-            [
-                round(score, 4)
-                for _, score in ranked
-            ],
-        )
-
-        return [
+        final_results = [
             document
-            for document, _ in ranked
+            for document, _ in ranked[:top_k]
         ]
 
-    @staticmethod
-    def _normalize_scores(
-        scores: Any,
-    ) -> list[float]:
-        """
-        Convert CrossEncoder output into a normal Python
-        list of floats.
-        """
+        logger.info(
+            "Reranking completed | candidates={} | returned={}",
+            len(documents),
+            len(final_results),
+        )
 
-        if scores is None:
-            return []
+        for index, (
+            document,
+            score,
+        ) in enumerate(
+            ranked[:top_k],
+            start=1,
+        ):
 
-        # NumPy ndarray / tensor-like objects.
-        if hasattr(scores, "tolist"):
-            scores = scores.tolist()
-
-        if not isinstance(scores, (list, tuple)):
-            scores = [scores]
-
-        normalized: list[float] = []
-
-        for score in scores:
-
-            # Handle unexpected nested single-value lists.
-            if isinstance(
-                score,
-                (list, tuple),
-            ):
-                if not score:
-                    continue
-
-                score = score[0]
-
-            try:
-                normalized.append(
-                    float(score)
+            metadata = (
+                document.metadata
+                if isinstance(
+                    document.metadata,
+                    dict,
                 )
+                else {}
+            )
 
-            except (
-                TypeError,
-                ValueError,
-            ) as exc:
+            logger.info(
+                "RERANK RESULT {} | score={:.4f} | distance={} | source={} | chunk={}",
+                index,
+                score,
+                document.distance,
+                metadata.get(
+                    "source",
+                    "unknown",
+                ),
+                metadata.get(
+                    "chunk",
+                    "unknown",
+                ),
+            )
 
-                raise RuntimeError(
-                    f"Invalid CrossEncoder score: {score!r}"
-                ) from exc
+        return final_results
 
-        return normalized
+    @staticmethod
+    def _resolve_top_k() -> int:
+        """
+        Safely resolve reranker top-k.
+        """
+
+        try:
+            value = int(
+                reranker.top_k
+            )
+        except (
+            TypeError,
+            ValueError,
+        ):
+            value = 3
+
+        return max(
+            value,
+            1,
+        )
