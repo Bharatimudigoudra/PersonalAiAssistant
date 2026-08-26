@@ -1,5 +1,5 @@
 """
-Reciprocal Rank Fusion.
+Reciprocal Rank Fusion (RRF).
 
 Combines multiple ranked retrieval lists into a single ranking.
 """
@@ -12,73 +12,30 @@ from app.core.logging import logger
 from app.models.retrieved_document import RetrievedDocument
 
 
-def _document_key(
-    document: RetrievedDocument,
-) -> str:
-    """
-    Generate a stable deduplication key.
-
-    Prefer source + chunk when available.
-    Fall back to document content.
-    """
-
-    metadata = (
-        document.metadata
-        if isinstance(
-            document.metadata,
-            dict,
-        )
-        else {}
-    )
-
-    source = str(
-        metadata.get(
-            "source",
-            "",
-        )
-    ).strip()
-
-    chunk = str(
-        metadata.get(
-            "chunk",
-            "",
-        )
-    ).strip()
-
-    if source and chunk:
-        return f"{source}::{chunk}"
-
-    return str(
-        document.content or ""
-    ).strip()
-
-
 def reciprocal_rank_fusion(
     *ranked_lists: list[RetrievedDocument],
     top_k: int = 10,
     k: int = 60,
 ) -> list[RetrievedDocument]:
     """
-    Combine ranked retrieval lists using RRF.
+    Fuse multiple ranked lists using Reciprocal Rank Fusion.
 
-    Formula:
+    RRF score:
 
-        RRF(d) = sum(1 / (k + rank))
+        score(d) = sum(1 / (k + rank))
 
-    Higher score means better combined ranking.
+    Higher scores are better.
     """
 
     if top_k <= 0:
         return []
 
-    if k <= 0:
+    if k < 1:
         k = 60
 
     logger.info(
-        "Running Reciprocal Rank Fusion | lists={} | top_k={} | k={}",
+        "Running Reciprocal Rank Fusion | lists={}",
         len(ranked_lists),
-        top_k,
-        k,
     )
 
     scores: dict[str, float] = defaultdict(float)
@@ -97,6 +54,7 @@ def reciprocal_rank_fusion(
             ranked_list,
             start=1,
         ):
+
             if document is None:
                 continue
 
@@ -107,13 +65,11 @@ def reciprocal_rank_fusion(
             if not content:
                 continue
 
-            key = _document_key(document)
+            # Content is used as the stable deduplication key.
+            key = content
 
-            if not key:
-                continue
-
-            scores[key] += (
-                1.0 / (k + rank)
+            scores[key] += 1.0 / (
+                k + rank
             )
 
             if key not in documents:
@@ -121,20 +77,15 @@ def reciprocal_rank_fusion(
 
     fused = sorted(
         documents.values(),
-        key=lambda document: (
-            scores[
-                _document_key(document)
-            ]
-        ),
+        key=lambda document: scores[
+            str(document.content or "").strip()
+        ],
         reverse=True,
     )
 
-    result = fused[:top_k]
-
     logger.info(
-        "RRF completed | unique_documents={} | returned={}",
+        "RRF produced {} unique documents.",
         len(fused),
-        len(result),
     )
 
-    return result
+    return fused[:top_k]

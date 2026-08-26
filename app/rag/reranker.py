@@ -1,8 +1,5 @@
 """
 Cross-Encoder document reranker.
-
-Loads the reranker model lazily and assigns reranker scores
-to RetrievedDocument objects.
 """
 
 from __future__ import annotations
@@ -18,71 +15,40 @@ from app.models.retrieved_document import RetrievedDocument
 
 class DocumentReranker:
     """
-    Cross-Encoder based document reranker.
-
-    The model is loaded lazily so importing this module does not
-    immediately download/load the model.
+    Reranks retrieved documents using a Sentence Transformers
+    CrossEncoder model.
     """
 
     def __init__(self) -> None:
-        self.model: CrossEncoder | None = None
-        self.model_name = reranker.model_name
 
         logger.info(
-            "DocumentReranker initialized | model={}",
-            self.model_name,
+            "Loading reranker model: {}",
+            reranker.model_name,
         )
 
-    def _load_model(self) -> CrossEncoder:
-        """
-        Load the CrossEncoder model only when required.
-        """
+        self.model = CrossEncoder(
+            reranker.model_name,
+        )
 
-        if self.model is None:
-            logger.info(
-                "Loading reranker model: {}",
-                self.model_name,
-            )
-
-            self.model = CrossEncoder(
-                self.model_name,
-            )
-
-            logger.info(
-                "Reranker model loaded successfully | model={}",
-                self.model_name,
-            )
-
-        return self.model
+        logger.info(
+            "Reranker loaded successfully | model={}",
+            reranker.model_name,
+        )
 
     def rerank(
         self,
         query: str,
         documents: list[RetrievedDocument],
-        top_k: int | None = None,
     ) -> list[RetrievedDocument]:
         """
-        Rerank documents using a CrossEncoder.
-
-        Args:
-            query:
-                User/interview query.
-
-            documents:
-                Candidate documents from retrieval.
-
-            top_k:
-                Number of documents to return.
-
-        Returns:
-            Reranked RetrievedDocument objects.
+        Rank documents according to query-document relevance.
         """
 
         if not query or not query.strip():
             logger.warning(
                 "Cannot rerank with an empty query."
             )
-            return []
+            return documents
 
         if not documents:
             logger.warning(
@@ -92,185 +58,135 @@ class DocumentReranker:
 
         query = query.strip()
 
-        # ---------------------------------------------------------
-        # Remove invalid documents
-        # ---------------------------------------------------------
-
-        valid_documents: list[RetrievedDocument] = []
-
-        for document in documents:
-            if document is None:
-                continue
-
-            content = str(
-                document.content or ""
-            ).strip()
-
-            if not content:
-                continue
-
-            valid_documents.append(document)
-
-        if not valid_documents:
-            logger.warning(
-                "No valid documents available for reranking."
-            )
-            return []
-
-        # ---------------------------------------------------------
-        # Resolve top_k
-        # ---------------------------------------------------------
-
-        if top_k is None:
-            top_k = int(
-                getattr(
-                    reranker,
-                    "top_k",
-                    3,
-                )
-            )
-
-        top_k = max(1, int(top_k))
-
-        top_k = min(
-            top_k,
-            len(valid_documents),
+        logger.info(
+            "Reranking {} documents...",
+            len(documents),
         )
-
-        # ---------------------------------------------------------
-        # Load model lazily
-        # ---------------------------------------------------------
-
-        model = self._load_model()
-
-        # ---------------------------------------------------------
-        # Create query/document pairs
-        # ---------------------------------------------------------
 
         pairs = [
             (
                 query,
                 document.content,
             )
-            for document in valid_documents
+            for document in documents
         ]
 
-        logger.info(
-            "Reranking {} documents | top_k={}",
-            len(pairs),
-            top_k,
+        try:
+            raw_scores = self.model.predict(
+                pairs,
+                show_progress_bar=False,
+            )
+
+        except Exception:
+            logger.exception(
+                "CrossEncoder prediction failed."
+            )
+            raise
+
+        scores = self._normalize_scores(
+            raw_scores
         )
 
-        # ---------------------------------------------------------
-        # Generate scores
-        # ---------------------------------------------------------
+        if len(scores) != len(documents):
+            raise RuntimeError(
+                "CrossEncoder returned an unexpected "
+                "number of scores: "
+                f"{len(scores)} for {len(documents)} documents."
+            )
 
-        scores = model.predict(
-            pairs,
-            show_progress_bar=False,
-        )
-
-        # ---------------------------------------------------------
-        # Normalize scores into Python floats
-        # ---------------------------------------------------------
-
-        normalized_scores: list[float] = []
-
-        for score in scores:
-            try:
-                normalized_scores.append(
-                    float(score)
-                )
-            except (
-                TypeError,
-                ValueError,
-            ):
-                normalized_scores.append(
-                    float("-inf")
-                )
-
-        # ---------------------------------------------------------
-        # Attach scores to RetrievedDocument
-        # ---------------------------------------------------------
-
-        scored_documents: list[
+        ranked: list[
             tuple[RetrievedDocument, float]
         ] = []
 
         for document, score in zip(
-            valid_documents,
-            normalized_scores,
+            documents,
+            scores,
         ):
             document.rerank_score = score
 
-            scored_documents.append(
+            ranked.append(
                 (
                     document,
                     score,
                 )
             )
 
-        # ---------------------------------------------------------
-        # Sort highest score first
-        # ---------------------------------------------------------
-
-        scored_documents.sort(
+        ranked.sort(
             key=lambda item: item[1],
             reverse=True,
         )
 
-        results = [
-            document
-            for document, _ in scored_documents[:top_k]
-        ]
+        top_k = max(
+            1,
+            int(reranker.top_k),
+        )
+
+        ranked = ranked[:top_k]
 
         logger.info(
-            "Reranking completed | returned={}",
-            len(results),
+            "Reranking completed | input={} | output={}",
+            len(documents),
+            len(ranked),
         )
 
         logger.debug(
-            "Reranker scores: {}",
+            "Top reranker scores: {}",
             [
-                round(
-                    document.rerank_score,
-                    4,
-                )
-                for document in results
+                round(score, 4)
+                for _, score in ranked
             ],
         )
 
-        return results
+        return [
+            document
+            for document, _ in ranked
+        ]
 
-    def health_check(self) -> bool:
+    @staticmethod
+    def _normalize_scores(
+        scores: Any,
+    ) -> list[float]:
         """
-        Verify that the reranker model can be loaded and used.
+        Convert CrossEncoder output into a normal Python
+        list of floats.
         """
 
-        try:
-            model = self._load_model()
+        if scores is None:
+            return []
 
-            scores = model.predict(
-                [
-                    (
-                        "machine learning",
-                        "machine learning is a field of artificial intelligence",
-                    )
-                ],
-                show_progress_bar=False,
-            )
+        # NumPy ndarray / tensor-like objects.
+        if hasattr(scores, "tolist"):
+            scores = scores.tolist()
 
-            if scores is None:
-                return False
+        if not isinstance(scores, (list, tuple)):
+            scores = [scores]
 
-            logger.info(
-                "Reranker health check passed."
-            )
+        normalized: list[float] = []
 
-            return True
+        for score in scores:
 
-        except Exception:
-            logger.exception(
-                "Reranker health check failed."
-            )
-            return False
+            # Handle unexpected nested single-value lists.
+            if isinstance(
+                score,
+                (list, tuple),
+            ):
+                if not score:
+                    continue
+
+                score = score[0]
+
+            try:
+                normalized.append(
+                    float(score)
+                )
+
+            except (
+                TypeError,
+                ValueError,
+            ) as exc:
+
+                raise RuntimeError(
+                    f"Invalid CrossEncoder score: {score!r}"
+                ) from exc
+
+        return normalized

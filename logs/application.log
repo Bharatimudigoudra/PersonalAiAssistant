@@ -4635,3 +4635,63 @@
 2026-08-25 22:29:22.028 | INFO     | __main__:_log_candidates:682 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.6345 | rerank_score=None | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
 2026-08-25 22:29:22.032 | INFO     | __main__:_log_candidates:682 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.8711 | rerank_score=None | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
 2026-08-25 22:29:22.033 | INFO     | __main__:retrieve:238 - Retrieval completed | results=3 | elapsed=4.652s
+2026-08-26 20:52:40.339 | INFO     | app.rag.reranker_service:__init__:35 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-26 20:52:40.340 | INFO     | app.rag.reranker:__init__:24 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-26 20:52:51.203 | INFO     | app.rag.reranker:__init__:33 - Reranker loaded successfully | model=BAAI/bge-reranker-base
+2026-08-26 20:52:51.204 | INFO     | app.rag.reranker_service:__init__:44 - RerankerService initialized successfully.
+2026-08-26 20:53:44.951 | INFO     | __main__:__init__:73 - Initializing DocumentRetriever...
+2026-08-26 20:53:44.952 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-26 20:53:44.952 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-26 20:53:44.953 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-26 20:53:44.953 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-26 20:53:52.939 | INFO     | app.embeddings.bge_embedding:__init__:74 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-26 20:53:52.940 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-26 20:53:52.940 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-26 20:53:52.942 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-26 20:53:52.943 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-26 20:53:52.946 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-26 20:53:54.445 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=36
+2026-08-26 20:53:54.446 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-26 20:53:54.446 | INFO     | app.rag.reranker_service:__init__:35 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-26 20:53:54.446 | INFO     | app.rag.reranker:__init__:24 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-26 20:54:03.481 | INFO     | app.rag.reranker:__init__:33 - Reranker loaded successfully | model=BAAI/bge-reranker-base
+2026-08-26 20:54:03.482 | INFO     | app.rag.reranker_service:__init__:44 - RerankerService initialized successfully.
+2026-08-26 20:54:03.482 | INFO     | __main__:__init__:84 - DocumentRetriever initialized | reranker_enabled=True
+2026-08-26 20:55:20.976 | INFO     | __main__:retrieve:127 - Retrieval started | question=Tell me about Bharati's education. | final_k=3 | candidate_k=12
+2026-08-26 20:55:21.465 | INFO     | __main__:retrieve:156 - Query embedding generated | dimensions=384
+2026-08-26 20:55:21.469 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=36
+2026-08-26 20:55:21.505 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.5602
+2026-08-26 20:55:21.505 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.5602
+2026-08-26 20:55:21.506 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.6345
+2026-08-26 20:55:21.506 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.6345
+2026-08-26 20:55:21.506 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.8711
+2026-08-26 20:55:21.507 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8711
+2026-08-26 20:55:21.507 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.9063
+2026-08-26 20:55:21.507 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.9063
+2026-08-26 20:55:21.508 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=0.9499
+2026-08-26 20:55:21.508 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=0.9499
+2026-08-26 20:55:21.508 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=0.9614
+2026-08-26 20:55:21.510 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=0.9614
+2026-08-26 20:55:21.512 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-26 20:55:21.514 | INFO     | __main__:retrieve:180 - Dense retrieval returned 6 candidates.
+2026-08-26 20:55:21.516 | INFO     | __main__:_log_candidates:659 - DENSE RETRIEVAL RESULTS | count=6
+2026-08-26 20:55:21.518 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.5602 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-26 20:55:21.519 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=2 | distance=0.6345 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-26 20:55:21.520 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=3 | distance=0.8711 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-26 20:55:21.522 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=4 | distance=0.9063 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=3 | preview=•Developed a Real-time Object Detection System integrating YOLOv10 and DERT Models, enhancing detection accuracy using Non-Maximum Suppression (NMS) and Intersection over Union (Io...
+2026-08-26 20:55:21.523 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=5 | distance=0.9499 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=7 | preview=Tech Stack: Python, AST (Abstract Syntax Tree), Regex, Pandas, Streamlit, Jupyter Notebook. CERTIFICATE Generative AI Mastery — Euron Full stack Data Science — Euron Fundamentals o...
+2026-08-26 20:55:21.526 | INFO     | __main__:_log_candidates:708 - DENSE RETRIEVAL RESULTS | rank=6 | distance=0.9614 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-26 20:55:21.528 | INFO     | __main__:_rerank:466 - Reranking 6 candidate documents.
+2026-08-26 20:55:21.529 | INFO     | app.rag.reranker_service:rerank:70 - Running CrossEncoder reranker | candidates=6
+2026-08-26 20:55:21.532 | INFO     | app.rag.reranker:rerank:61 - Reranking 6 documents...
+2026-08-26 20:55:24.965 | INFO     | app.rag.reranker:rerank:126 - Reranking completed | input=6 | output=3
+2026-08-26 20:55:24.966 | INFO     | app.rag.reranker_service:rerank:80 - Reranking completed | returned=3
+2026-08-26 20:55:24.966 | INFO     | __main__:_rerank:487 - Reranking completed. 3 documents remain.
+2026-08-26 20:55:24.967 | INFO     | __main__:_rerank:496 - RERANKED RESULT 1 | score=0.0382 | distance=0.5602 | source=data\documents\interview.pdf | chunk=0
+2026-08-26 20:55:24.968 | INFO     | __main__:_rerank:496 - RERANKED RESULT 2 | score=0.0118 | distance=0.6345 | source=data\documents\resume.pdf | chunk=0
+2026-08-26 20:55:24.968 | INFO     | __main__:_rerank:496 - RERANKED RESULT 3 | score=0.0008 | distance=0.8711 | source=data\documents\resume.pdf | chunk=4
+2026-08-26 20:55:24.969 | INFO     | __main__:_log_candidates:659 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-26 20:55:24.970 | INFO     | __main__:_log_candidates:708 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.5602 | rerank_score=0.03823693096637726 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-26 20:55:24.971 | INFO     | __main__:_log_candidates:708 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.6345 | rerank_score=0.011794142425060272 | source=data\documents\resume.pdf | chunk=0 | preview=BHARATI MUDIGOUDRA Aspiring Data Scientist +91 8197440769 bharativm912001@gmail.com 09/01/2001 LinkedIn GitHub Marathahalli, Bengaluru CAREER OBJECTIVE Motivated Data Scientist wit...
+2026-08-26 20:55:24.971 | INFO     | __main__:_log_candidates:708 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.8711 | rerank_score=0.0008249434176832438 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-26 20:55:24.972 | INFO     | __main__:retrieve:238 - Retrieval completed | results=3 | elapsed=3.996s
