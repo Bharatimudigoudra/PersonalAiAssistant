@@ -216,7 +216,7 @@ class DocumentRetriever:
         # 3. Log candidates BEFORE reranking
         # --------------------------------------------------------
 
-        self.m(
+        self._log_candidates(
             candidates,
             title="DENSE RETRIEVAL RESULTS",
         )
