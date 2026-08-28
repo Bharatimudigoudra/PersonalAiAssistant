@@ -225,7 +225,7 @@ class DocumentRetriever:
         # 4. Reranking
         # --------------------------------------------------------
 
-        v = candidates[
+        rerank_candidates = candidates[
             : self.max_rerank_candidates
         ]
 
