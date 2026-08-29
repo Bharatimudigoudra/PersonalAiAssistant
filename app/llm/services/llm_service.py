@@ -27,6 +27,7 @@ Ollama
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterator
 
 from app.core.logging import logger
@@ -140,6 +141,63 @@ class LLMService:
     # RAG GENERATION
     # ==============================================================
 
+    @staticmethod
+    def _sanitize_rag_response(response: str) -> str:
+        """Remove reasoning boilerplate and keep only the spoken answer."""
+
+        if response is None:
+            return ""
+
+        cleaned = str(response).replace("\r", " ").replace("\n", " ")
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+
+        if not cleaned:
+            return ""
+
+        meta_prefixes = [
+            r"(?i)^we are given.*?(?:question|interview).*?",
+            r"(?i)^we must produce.*?(?:answer|say).*?",
+            r"(?i)^from the reference data\s*[:\-]?\s*",
+            r"(?i)^the reference data.*?",
+            r"(?i)^according to the reference data\s*[:\-]?\s*",
+            r"(?i)^based on the context\s*[:\-]?\s*",
+            r"(?i)^the references say\s*[:\-]?\s*",
+            r"(?i)^here is the answer\s*[:\-]?\s*",
+            r"(?i)^output only the final spoken answer\s*[:\-]?\s*",
+            r"(?i)^bharati should say\s*[:\-]?\s*",
+            r"(?i)^this is a job, not an internship\.?\s*",
+            r"(?i)^the question is.*?",
+            r"(?i)^we are.*?",
+            r"(?i)^i need to.*?",
+        ]
+
+        for prefix in meta_prefixes:
+            cleaned = re.sub(prefix, "", cleaned, count=1)
+
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+
+        if not cleaned:
+            return ""
+
+        sentences = [
+            segment.strip()
+            for segment in re.split(r"(?<=[.!?])\s+", cleaned)
+            if segment.strip()
+        ]
+
+        selected: list[str] = []
+        for sentence in sentences:
+            stripped = sentence.strip()
+            for prefix in meta_prefixes:
+                stripped = re.sub(prefix, "", stripped, count=1)
+            stripped = re.sub(r"\s+", " ", stripped).strip()
+            if not stripped:
+                continue
+            if re.search(r"(?i)\b(i|i'm|i’ve|my|me)\b", stripped):
+                selected.append(stripped)
+
+        return " ".join(selected).strip()
+
     def generate_rag(
         self,
         prompt: str,
@@ -180,9 +238,8 @@ class LLMService:
             history=None,
         )
 
-        response = (
+        response = self._sanitize_rag_response(
             str(response or "")
-            .strip()
         )
 
         logger.info(

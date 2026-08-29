@@ -173,3 +173,19 @@ def test_interview_assistant_does_not_wrap_prompts_with_system_labels() -> None:
     assert "SYSTEM INSTRUCTIONS" not in assistant.llm.prompt
     assert "USER REQUEST" not in assistant.llm.prompt
     assert "<REFERENCE_DATA>" in assistant.llm.prompt
+
+
+def test_llm_service_sanitizes_reasoning_metacommentary() -> None:
+    from app.llm.services.llm_service import LLMService
+
+    response = (
+        'We are given the interview question: "Describe your internship experience"\n'
+        'We must produce the answer Bharati should say, in first person.\n'
+        'From the reference data: I worked at ResourcePro on AI automation workflows.'
+    )
+
+    sanitized = LLMService._sanitize_rag_response(response)
+
+    assert sanitized.startswith("I worked")
+    assert "We are given" not in sanitized
+    assert "From the reference data" not in sanitized
