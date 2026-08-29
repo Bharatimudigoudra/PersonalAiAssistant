@@ -72,8 +72,12 @@ class DocumentRetriever:
     def __init__(self) -> None:
         logger.info("Initializing DocumentRetriever...")
 
-        self.embedding_service = EmbeddingService()
-        self.vectorstore = VectorStoreService()
+        # Defer heavy dependencies until the first query is actually
+        # executed. This avoids downloading/loading embedding and rerank
+        # models just by constructing the retriever.
+        self.embedding_service: EmbeddingService | None = None
+        self.vectorstore: VectorStoreService | None = None
+        self.reranker: RerankerService | None = None
 
         # --------------------------------------------------------
         # Retrieval configuration
@@ -91,25 +95,29 @@ class DocumentRetriever:
             16,
         )
 
-        # --------------------------------------------------------
-        # CrossEncoder reranker
-        # --------------------------------------------------------
-
-        self.reranker = (
-            RerankerService()
-            if reranker.enabled
-            else None
-        )
-
         logger.info(
             "DocumentRetriever initialized | "
             "reranker_enabled={} | "
             "candidate_multiplier={} | "
             "max_rerank_candidates={}",
-            self.reranker is not None,
+            reranker.enabled,
             self.candidate_multiplier,
             self.max_rerank_candidates,
         )
+
+    def _ensure_dependencies(self) -> None:
+        """
+        Lazily create heavy retrieval dependencies on first use.
+        """
+
+        if self.embedding_service is None:
+            self.embedding_service = EmbeddingService()
+
+        if self.vectorstore is None:
+            self.vectorstore = VectorStoreService()
+
+        if self.reranker is None and reranker.enabled:
+            self.reranker = RerankerService()
 
     # ============================================================
     # PUBLIC API
@@ -140,6 +148,8 @@ class DocumentRetriever:
                 "Empty retrieval question."
             )
             return []
+
+        self._ensure_dependencies()
 
         final_k = self._resolve_k(k)
 
@@ -237,6 +247,11 @@ class DocumentRetriever:
 
             if reranked:
                 candidates = reranked
+
+        candidates = self._boost_by_lexical_relevance(
+            question,
+            candidates,
+        )
 
         # --------------------------------------------------------
         # 5. Deduplicate
@@ -549,6 +564,123 @@ class DocumentRetriever:
             )
 
             return documents
+    def _boost_by_lexical_relevance(
+        self,
+        query: str,
+        documents: list[RetrievedDocument],
+    ) -> list[RetrievedDocument]:
+        """
+        Add a lightweight lexical relevance bonus so experience and
+        project-oriented questions rank their matching evidence above
+        generic intros or unrelated project chunks.
+        """
+
+        if not documents:
+            return []
+
+        question = self._normalize_question(query).lower()
+
+        if not question:
+            return documents
+
+        question_tokens = set(
+            re.findall(
+                r"[a-z0-9]+",
+                question,
+            )
+        )
+
+        def lexical_score(document: RetrievedDocument) -> float:
+            text = re.sub(
+                r"\s+",
+                " ",
+                str(document.content or "").lower(),
+            ).strip()
+
+            if not text:
+                return 0.0
+
+            bonus = 0.0
+
+            experience_query = any(
+                term in question_tokens
+                for term in {
+                    "internship",
+                    "intern",
+                    "experience",
+                    "role",
+                }
+            )
+
+            if "yourself" in question_tokens and not experience_query:
+                if "introduce yourself" in text or "myself" in text:
+                    bonus += 2.5
+
+            if experience_query:
+                explicit_experience_weights = {
+                    "work experience": 5.0,
+                    "ai associate": 4.5,
+                    "resourcepro": 4.5,
+                    "internship": 4.0,
+                    "intern": 4.0,
+                    "role": 3.5,
+                    "experience": 2.0,
+                    "developed": 1.5,
+                    "worked": 1.5,
+                    "responsibilities": 1.5,
+                }
+
+                for phrase, weight in explicit_experience_weights.items():
+                    if phrase in text:
+                        bonus += weight
+                        break
+
+            if "python" in question_tokens and "python" in text:
+                bonus += 2.0
+
+            if "project" in question_tokens and (
+                "project" in text or "developed" in text
+            ):
+                bonus += 1.5
+
+            overlap = sum(
+                1
+                for token in question_tokens
+                if token and token in text
+            )
+            bonus += 0.2 * overlap
+
+            rerank_score = getattr(
+                document,
+                "rerank_score",
+                None,
+            )
+            if rerank_score is None:
+                rerank_score = 0.0
+
+            return bonus + float(rerank_score)
+
+        return sorted(
+            documents,
+            key=lambda document: (
+                lexical_score(document),
+                float(
+                    getattr(
+                        document,
+                        "rerank_score",
+                        0.0,
+                    )
+                    or 0.0
+                ),
+                -(
+                    float(document.distance)
+                    if document.distance is not None
+                    else 0.0
+                ),
+            ),
+            reverse=True,
+        )
+
     # ============================================================
     # DEDUPLICATION
     # ============================================================

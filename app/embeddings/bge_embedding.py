@@ -64,7 +64,12 @@ class BGEEmbedding(BaseEmbedding):
         )
 
         # Determine embedding dimensionality once.
-        self.dimension = self.model.get_sentence_embedding_dimension()
+        # Newer sentence-transformers versions renamed this API;
+        # keep compatibility with both names.
+        if hasattr(self.model, "get_embedding_dimension"):
+            self.dimension = self.model.get_embedding_dimension()
+        else:
+            self.dimension = self.model.get_sentence_embedding_dimension()
 
         if self.dimension is None:
             raise RuntimeError(
