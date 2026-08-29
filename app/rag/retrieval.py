@@ -724,19 +724,40 @@ class DocumentRetriever:
                 else {}
             )
             source = str(metadata.get("source", "")).lower()
+            document_type = str(
+                metadata.get("document_type", "")
+            ).lower()
+            section = str(
+                metadata.get("section", "")
+            ).lower()
 
-            if not source:
+            if not source and not document_type:
                 return 0.0
 
-            if experience_query and "resume" in source:
-                return 5.0
-            if intro_query and "interview" in source:
-                return 5.0
+            if experience_query:
+                if document_type == "resume":
+                    return 5.0
+                if document_type == "interview":
+                    return -2.0
+                if "resume" in source:
+                    return 5.0
+                if "interview" in source:
+                    return -2.0
 
-            if experience_query and "interview" in source:
-                return -2.0
-            if intro_query and "resume" in source:
-                return -2.0
+            if intro_query:
+                if document_type == "interview":
+                    return 5.0
+                if document_type == "resume":
+                    return -2.0
+                if "interview" in source:
+                    return 5.0
+                if "resume" in source:
+                    return -2.0
+
+            if section == "experience" and experience_query:
+                return 3.0
+            if section == "intro" and intro_query:
+                return 3.0
 
             return 0.0
 

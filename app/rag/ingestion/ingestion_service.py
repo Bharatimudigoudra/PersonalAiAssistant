@@ -19,6 +19,59 @@ class DocumentIngestion:
     in the retrieval system.
     """
 
+    @staticmethod
+    def _infer_document_metadata(
+        file_path: str,
+        sample_text: str,
+    ) -> dict[str, str]:
+        """
+        Infer structured metadata from the file name and a sample of
+        the content so retrieval can reason about document type and
+        section without relying on fragile filename heuristics.
+        """
+
+        normalized_path = str(file_path or "").lower()
+        text = (sample_text or "").lower()
+
+        document_type = "general"
+        section = "general"
+
+        if "resume" in normalized_path or "cv" in normalized_path:
+            document_type = "resume"
+        elif "interview" in normalized_path:
+            document_type = "interview"
+
+        if "experience" in text or "work experience" in text:
+            section = "experience"
+        elif "introduce yourself" in text or "myself" in text:
+            section = "intro"
+        elif "education" in text:
+            section = "education"
+        elif "project" in text or "developed" in text:
+            section = "projects"
+
+        if document_type == "resume" and section == "general":
+            if any(
+                token in text
+                for token in {
+                    "work experience",
+                    "experience",
+                    "skill",
+                    "project",
+                    "education",
+                }
+            ):
+                section = "experience"
+
+        if document_type == "interview" and section == "general":
+            if "introduce yourself" in text or "myself" in text:
+                section = "intro"
+
+        return {
+            "document_type": document_type,
+            "section": section,
+        }
+
     def __init__(self) -> None:
 
         self.loader_factory = LoaderFactory()
@@ -101,6 +154,11 @@ class DocumentIngestion:
         # Prepare metadata
         # --------------------------------------------------
 
+        document_metadata = self._infer_document_metadata(
+            file_path,
+            text,
+        )
+
         ids: list[str] = []
         metadatas: list[dict] = []
 
@@ -116,6 +174,8 @@ class DocumentIngestion:
                 {
                     "source": file_path,
                     "chunk": index,
+                    "document_type": document_metadata["document_type"],
+                    "section": document_metadata["section"],
                 }
             )
 
