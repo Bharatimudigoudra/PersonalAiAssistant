@@ -252,6 +252,10 @@ class DocumentRetriever:
             question,
             candidates,
         )
+        candidates = self._boost_by_source_relevance(
+            question,
+            candidates,
+        )
 
         # --------------------------------------------------------
         # 5. Deduplicate
@@ -670,6 +674,78 @@ class DocumentRetriever:
                         "rerank_score",
                         0.0,
                     )
+                    or 0.0
+                ),
+                -(
+                    float(document.distance)
+                    if document.distance is not None
+                    else 0.0
+                ),
+            ),
+            reverse=True,
+        )
+
+    def _boost_by_source_relevance(
+        self,
+        query: str,
+        documents: list[RetrievedDocument],
+    ) -> list[RetrievedDocument]:
+        """
+        Prefer the document type that most naturally matches the question:
+        resume/pdf for work experience and internship questions, and
+        interview/pdf for self-introduction questions.
+        """
+
+        if not documents:
+            return []
+
+        question = self._normalize_question(query).lower()
+        if not question:
+            return documents
+
+        experience_query = any(
+            term in question
+            for term in {
+                "experience",
+                "internship",
+                "intern",
+                "role",
+                "work experience",
+                "professional experience",
+            }
+        )
+
+        intro_query = "yourself" in question or "introduce" in question
+
+        def source_priority(document: RetrievedDocument) -> float:
+            metadata = (
+                document.metadata
+                if isinstance(document.metadata, dict)
+                else {}
+            )
+            source = str(metadata.get("source", "")).lower()
+
+            if not source:
+                return 0.0
+
+            if experience_query and "resume" in source:
+                return 5.0
+            if intro_query and "interview" in source:
+                return 5.0
+
+            if experience_query and "interview" in source:
+                return -2.0
+            if intro_query and "resume" in source:
+                return -2.0
+
+            return 0.0
+
+        return sorted(
+            documents,
+            key=lambda document: (
+                source_priority(document),
+                float(
+                    getattr(document, "rerank_score", 0.0)
                     or 0.0
                 ),
                 -(
