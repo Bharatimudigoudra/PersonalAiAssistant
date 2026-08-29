@@ -139,3 +139,37 @@ def test_interview_assistant_uses_retrieved_context_in_prompt() -> None:
     assert answer.startswith("I worked")
     assert "ResourcePro" in fake_llm.prompt
     assert "DOCS=1" in fake_llm.prompt
+
+
+def test_interview_assistant_does_not_wrap_prompts_with_system_labels() -> None:
+    from app.assistant.interview_assistant import InterviewAssistant
+
+    class FakeLLM:
+        def __init__(self) -> None:
+            self.prompt = ""
+
+        def generate_rag(self, prompt: str) -> str:
+            self.prompt = prompt
+            return "I worked at ResourcePro on AI automation workflows."
+
+    class FakePromptBuilder:
+        def build(self, question: str, documents):
+            return (
+                "You are an interview answer generator.",
+                "<REFERENCE_DATA>Example answer context</REFERENCE_DATA>\n<INTERVIEW_QUESTION>Describe your experience</INTERVIEW_QUESTION>",
+            )
+
+    class FakeRetriever:
+        def retrieve(self, question: str):
+            return [RetrievedDocument(content="Experience context", metadata={})]
+
+    assistant = InterviewAssistant.__new__(InterviewAssistant)
+    assistant.retriever = FakeRetriever()
+    assistant.prompt_builder = FakePromptBuilder()
+    assistant.llm = FakeLLM()
+
+    assistant.answer_question("Describe your internship experience")
+
+    assert "SYSTEM INSTRUCTIONS" not in assistant.llm.prompt
+    assert "USER REQUEST" not in assistant.llm.prompt
+    assert "<REFERENCE_DATA>" in assistant.llm.prompt

@@ -128,11 +128,7 @@ class InterviewAssistant:
         if system_prompt:
 
             final_prompt = (
-                "SYSTEM INSTRUCTIONS\n"
-                "===================\n"
                 f"{system_prompt.strip()}\n\n"
-                "USER REQUEST\n"
-                "============\n"
                 f"{user_prompt.strip()}"
             )
 
