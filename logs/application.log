@@ -6303,3 +6303,373 @@
 2026-08-29 21:05:01.286 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
 2026-08-29 21:05:01.290 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
 2026-08-29 21:05:01.290 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:07:25.927 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-29 21:07:25.928 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-29 21:07:26.986 | INFO     | app.rag.chunking.text_chunker:__init__:30 - TextChunker initialized (chunk_size=1000, overlap=200)
+2026-08-29 21:07:26.987 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-29 21:07:26.987 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-29 21:07:26.987 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-29 21:07:26.987 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-29 21:07:32.469 | INFO     | app.embeddings.bge_embedding:__init__:79 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-29 21:07:32.470 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-29 21:07:32.470 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-29 21:07:32.470 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-29 21:07:32.470 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-29 21:07:32.472 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-29 21:07:32.609 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=36
+2026-08-29 21:07:32.609 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:07:32.609 | INFO     | app.rag.ingestion.ingestion_service:__init__:83 - DocumentIngestion initialized.
+2026-08-29 21:07:32.610 | INFO     | app.rag.ingestion.ingestion_service:ingest:95 - Starting ingestion: data/documents/resume.pdf
+2026-08-29 21:07:32.610 | INFO     | app.rag.loaders.pdf_loader:load:21 - Loading PDF: data/documents/resume.pdf
+2026-08-29 21:07:32.725 | INFO     | app.rag.loaders.pdf_loader:load:37 - Loaded 6020 characters.
+2026-08-29 21:07:32.726 | INFO     | app.rag.chunking.text_chunker:split:47 - Created 8 chunks.
+2026-08-29 21:07:32.726 | INFO     | app.rag.ingestion.ingestion_service:ingest:128 - Generated 8 chunks.
+2026-08-29 21:07:33.381 | INFO     | app.vectorstore.chroma_vectorstore:add:206 - Upserting 8 documents into ChromaDB | dimension=384
+2026-08-29 21:07:33.417 | INFO     | app.vectorstore.chroma_vectorstore:add:219 - ChromaDB upsert completed | total_documents=44
+2026-08-29 21:07:33.418 | INFO     | app.rag.ingestion.ingestion_service:ingest:193 - Stored 8 chunks in vector database.
+2026-08-29 21:07:33.418 | INFO     | app.rag.bm25.bm25_service:build_index:47 - Building BM25 index with 8 documents...
+2026-08-29 21:07:33.419 | INFO     | app.rag.bm25.bm25:build_index:43 - BM25 index built with 8 documents.
+2026-08-29 21:07:33.419 | INFO     | app.rag.bm25.bm25_service:build_index:56 - BM25 index successfully built.
+2026-08-29 21:07:33.419 | INFO     | app.rag.ingestion.ingestion_service:ingest:223 - BM25 index updated (8 chunks).
+2026-08-29 21:07:33.420 | INFO     | app.rag.ingestion.ingestion_service:ingest:228 - Document ingestion completed successfully.
+2026-08-29 21:07:33.420 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:07:33.429 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:07:33.429 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:07:33.432 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:07:33.432 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:07:33.433 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:07:33.433 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:07:33.434 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:07:40.180 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:07:40.180 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:07:40.181 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Tell me about yourself | final_k=3 | candidate_k=12
+2026-08-29 21:07:40.210 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:07:40.211 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:07:40.215 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.8881
+2026-08-29 21:07:40.215 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.8881
+2026-08-29 21:07:40.215 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=1.0166
+2026-08-29 21:07:40.216 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=1.0166
+2026-08-29 21:07:40.216 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=1.0286
+2026-08-29 21:07:40.216 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=1.0286
+2026-08-29 21:07:40.216 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=1.0339
+2026-08-29 21:07:40.217 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=1.0339
+2026-08-29 21:07:40.217 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=1.0362
+2026-08-29 21:07:40.217 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=1.0362
+2026-08-29 21:07:40.218 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=1.0472
+2026-08-29 21:07:40.218 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=1.0472
+2026-08-29 21:07:40.218 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:07:40.219 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 6 candidates.
+2026-08-29 21:07:40.219 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=6
+2026-08-29 21:07:40.220 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:07:40.220 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=1.0166 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=3 | preview=the user's question to the LLM, which generated an answer based only on the retrieved information. This RAG approach helped reduce hallucinations and improved response accuracy. Fo...
+2026-08-29 21:07:40.221 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=1.0286 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:07:40.222 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=1.0339 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:07:40.223 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=1.0362 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:07:40.224 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=6 | distance=1.0472 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:07:40.225 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 6 candidate documents.
+2026-08-29 21:07:40.225 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=6
+2026-08-29 21:07:40.225 | INFO     | app.rag.reranker:rerank:65 - Reranking 6 documents...
+2026-08-29 21:07:42.580 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=6 | returned=3
+2026-08-29 21:07:42.581 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0711 | distance=0.8881102800369263 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:07:42.581 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0291 | distance=1.0285894870758057 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:07:42.582 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0032 | distance=1.0471975803375244 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:07:42.582 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:07:42.583 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:07:42.583 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0711 | distance=0.8881 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:07:42.583 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0291 | distance=1.0286 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:07:42.584 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0032 | distance=1.0472 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:07:42.584 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:07:42.585 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.07112829387187958 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:07:42.585 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=1.0286 | rerank_score=0.029084844514727592 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:07:42.586 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=1.0472 | rerank_score=0.0031771287322044373 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:07:42.586 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=9.153s
+2026-08-29 21:07:42.591 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:07:42.592 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:07:42.592 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:07:42.592 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:07:42.593 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:07:49.858 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:07:49.859 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:07:49.859 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Describe your internship experience | final_k=3 | candidate_k=12
+2026-08-29 21:07:49.884 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:07:49.885 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:07:49.889 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.7894
+2026-08-29 21:07:49.889 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.7894
+2026-08-29 21:07:49.889 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.7894
+2026-08-29 21:07:49.889 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.7951
+2026-08-29 21:07:49.890 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.7951
+2026-08-29 21:07:49.890 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8725
+2026-08-29 21:07:49.891 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8725
+2026-08-29 21:07:49.892 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8725
+2026-08-29 21:07:49.892 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=0.8838
+2026-08-29 21:07:49.892 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=0.8838
+2026-08-29 21:07:49.893 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=0.8995
+2026-08-29 21:07:49.893 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=0.8995
+2026-08-29 21:07:49.893 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:07:49.894 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 5 candidates.
+2026-08-29 21:07:49.895 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=5
+2026-08-29 21:07:49.896 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:07:49.896 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=0.7951 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:07:49.897 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=0.8725 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:07:49.897 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=0.8838 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:07:49.898 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=0.8995 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:07:49.898 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 5 candidate documents.
+2026-08-29 21:07:49.899 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=5
+2026-08-29 21:07:49.899 | INFO     | app.rag.reranker:rerank:65 - Reranking 5 documents...
+2026-08-29 21:07:51.295 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=5 | returned=3
+2026-08-29 21:07:51.296 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0433 | distance=0.7950562238693237 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:07:51.296 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0028 | distance=0.7894431352615356 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:07:51.296 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0003 | distance=0.872469425201416 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:07:51.297 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:07:51.297 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:07:51.298 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0433 | distance=0.7951 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:07:51.298 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0028 | distance=0.7894 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:07:51.299 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0003 | distance=0.8725 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:07:51.300 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:07:51.300 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0027658932376652956 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:07:51.300 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.8725 | rerank_score=0.00033347043790854514 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:07:51.301 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.7951 | rerank_score=0.04327276349067688 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:07:51.301 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=8.709s
+2026-08-29 21:07:51.305 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:07:51.305 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:07:51.309 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:07:51.310 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:10:02.873 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-29 21:10:02.873 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-29 21:10:04.055 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:10:04.055 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:10:04.060 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:10:04.060 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:10:04.060 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-29 21:10:04.060 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-29 21:10:04.060 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-29 21:10:04.060 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-29 21:10:09.669 | INFO     | app.embeddings.bge_embedding:__init__:79 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-29 21:10:09.669 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-29 21:10:09.669 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-29 21:10:09.669 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-29 21:10:09.670 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-29 21:10:09.671 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-29 21:10:09.894 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=44
+2026-08-29 21:10:09.894 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:10:09.894 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:10:09.895 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:10:16.655 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:10:16.655 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:10:16.655 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Tell me about yourself | final_k=3 | candidate_k=12
+2026-08-29 21:10:16.940 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:10:16.942 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:10:16.954 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.8881
+2026-08-29 21:10:16.954 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.8881
+2026-08-29 21:10:16.955 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=1.0166
+2026-08-29 21:10:16.955 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=1.0166
+2026-08-29 21:10:16.956 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=1.0286
+2026-08-29 21:10:16.956 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=1.0286
+2026-08-29 21:10:16.956 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=1.0339
+2026-08-29 21:10:16.957 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=1.0339
+2026-08-29 21:10:16.957 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=1.0362
+2026-08-29 21:10:16.957 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=1.0362
+2026-08-29 21:10:16.958 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=1.0472
+2026-08-29 21:10:16.958 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=1.0472
+2026-08-29 21:10:16.959 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:10:16.959 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 6 candidates.
+2026-08-29 21:10:16.960 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=6
+2026-08-29 21:10:16.960 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:10:16.961 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=1.0166 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=3 | preview=the user's question to the LLM, which generated an answer based only on the retrieved information. This RAG approach helped reduce hallucinations and improved response accuracy. Fo...
+2026-08-29 21:10:16.962 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=1.0286 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:10:16.962 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=1.0339 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:10:16.963 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=1.0362 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:10:16.963 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=6 | distance=1.0472 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:10:16.964 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 6 candidate documents.
+2026-08-29 21:10:16.964 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=6
+2026-08-29 21:10:16.964 | INFO     | app.rag.reranker:rerank:65 - Reranking 6 documents...
+2026-08-29 21:10:19.175 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=6 | returned=3
+2026-08-29 21:10:19.176 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0711 | distance=0.8881102800369263 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:10:19.176 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0291 | distance=1.0285894870758057 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:10:19.177 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0032 | distance=1.0471975803375244 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:10:19.177 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:10:19.178 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:10:19.178 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0711 | distance=0.8881 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:10:19.178 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0291 | distance=1.0286 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:10:19.178 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0032 | distance=1.0472 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:10:19.179 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:10:19.180 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.07112829387187958 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:10:19.180 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=1.0286 | rerank_score=0.029084844514727592 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:10:19.180 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=1.0472 | rerank_score=0.0031771287322044373 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:10:19.181 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=15.121s
+2026-08-29 21:10:19.184 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:10:19.185 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:10:19.185 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:10:19.186 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:10:19.186 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:10:26.654 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:10:26.654 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:10:26.654 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Describe your internship experience | final_k=3 | candidate_k=12
+2026-08-29 21:10:26.765 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:10:26.766 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:10:26.769 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.7894
+2026-08-29 21:10:26.770 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.7894
+2026-08-29 21:10:26.770 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.7894
+2026-08-29 21:10:26.770 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.7951
+2026-08-29 21:10:26.771 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.7951
+2026-08-29 21:10:26.771 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8725
+2026-08-29 21:10:26.771 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8725
+2026-08-29 21:10:26.772 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8725
+2026-08-29 21:10:26.772 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=0.8838
+2026-08-29 21:10:26.772 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=0.8838
+2026-08-29 21:10:26.773 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=0.8995
+2026-08-29 21:10:26.773 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=0.8995
+2026-08-29 21:10:26.773 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:10:26.775 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 5 candidates.
+2026-08-29 21:10:26.776 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=5
+2026-08-29 21:10:26.776 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:10:26.777 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=0.7951 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:10:26.777 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=0.8725 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:10:26.777 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=0.8838 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:10:26.778 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=0.8995 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:10:26.779 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 5 candidate documents.
+2026-08-29 21:10:26.779 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=5
+2026-08-29 21:10:26.780 | INFO     | app.rag.reranker:rerank:65 - Reranking 5 documents...
+2026-08-29 21:10:28.277 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=5 | returned=3
+2026-08-29 21:10:28.277 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0433 | distance=0.7950562238693237 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:10:28.278 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0028 | distance=0.7894431352615356 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:10:28.278 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0003 | distance=0.872469425201416 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:10:28.279 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:10:28.280 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:10:28.280 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0433 | distance=0.7951 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:10:28.280 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0028 | distance=0.7894 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:10:28.281 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0003 | distance=0.8725 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:10:28.282 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:10:28.283 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0027658932376652956 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:10:28.283 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.8725 | rerank_score=0.00033347043790854514 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:10:28.283 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.7951 | rerank_score=0.04327276349067688 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:10:28.284 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=9.099s
+2026-08-29 21:10:28.289 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:10:28.289 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:10:28.295 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:10:28.295 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:11:38.352 | INFO     | app.rag.bm25.bm25:__init__:20 - BM25Retriever initialized.
+2026-08-29 21:11:38.352 | INFO     | app.rag.bm25.bm25_service:__init__:23 - BM25Service initialized.
+2026-08-29 21:11:39.543 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:11:39.543 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:11:39.546 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:11:39.546 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:11:39.547 | INFO     | app.embeddings.embedding_service:__init__:35 - Creating Embedding Model singleton.
+2026-08-29 21:11:39.547 | INFO     | app.embeddings.bge_embedding:__init__:31 - Loading embedding model: BAAI/bge-small-en-v1.5
+2026-08-29 21:11:39.547 | INFO     | app.embeddings.bge_embedding:__init__:36 - Embedding device: cpu
+2026-08-29 21:11:39.548 | INFO     | app.embeddings.bge_embedding:__init__:41 - Normalize embeddings: True
+2026-08-29 21:11:45.277 | INFO     | app.embeddings.bge_embedding:__init__:79 - Embedding model loaded successfully | model=BAAI/bge-small-en-v1.5 | dimension=384
+2026-08-29 21:11:45.278 | INFO     | app.embeddings.embedding_service:__init__:41 - Embedding provider created: BGEEmbedding
+2026-08-29 21:11:45.278 | INFO     | app.vectorstore.vectorstore_service:__init__:32 - Creating Vector Store singleton...
+2026-08-29 21:11:45.278 | INFO     | app.vectorstore.factory:create:29 - Selected Vector Store: chroma
+2026-08-29 21:11:45.278 | INFO     | app.vectorstore.chroma_vectorstore:__init__:29 - Initializing ChromaDB...
+2026-08-29 21:11:45.280 | INFO     | app.vectorstore.chroma_vectorstore:__init__:51 - ChromaDB persistence path: E:\AiProjects\PersonalAiAssistant\data\vectorstore
+2026-08-29 21:11:45.481 | INFO     | app.vectorstore.chroma_vectorstore:__init__:81 - ChromaDB collection loaded | name=personal_ai | count=44
+2026-08-29 21:11:45.482 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:11:45.482 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:11:45.482 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:11:51.949 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:11:51.949 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:11:51.950 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Tell me about yourself | final_k=3 | candidate_k=12
+2026-08-29 21:11:52.225 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:11:52.226 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:11:52.239 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.8881
+2026-08-29 21:11:52.239 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.8881
+2026-08-29 21:11:52.239 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=1.0166
+2026-08-29 21:11:52.239 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=1.0166
+2026-08-29 21:11:52.239 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=1.0286
+2026-08-29 21:11:52.240 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=1.0286
+2026-08-29 21:11:52.240 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=1.0339
+2026-08-29 21:11:52.240 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=1.0339
+2026-08-29 21:11:52.240 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=1.0362
+2026-08-29 21:11:52.241 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=1.0362
+2026-08-29 21:11:52.241 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=1.0472
+2026-08-29 21:11:52.241 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=1.0472
+2026-08-29 21:11:52.242 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:11:52.243 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 6 candidates.
+2026-08-29 21:11:52.243 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=6
+2026-08-29 21:11:52.244 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:11:52.245 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=1.0166 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=3 | preview=the user's question to the LLM, which generated an answer based only on the retrieved information. This RAG approach helped reduce hallucinations and improved response accuracy. Fo...
+2026-08-29 21:11:52.245 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=1.0286 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:11:52.246 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=1.0339 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:11:52.246 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=1.0362 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:11:52.247 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=6 | distance=1.0472 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:11:52.248 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 6 candidate documents.
+2026-08-29 21:11:52.248 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=6
+2026-08-29 21:11:52.248 | INFO     | app.rag.reranker:rerank:65 - Reranking 6 documents...
+2026-08-29 21:11:54.455 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=6 | returned=3
+2026-08-29 21:11:54.455 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0711 | distance=0.8881102800369263 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:11:54.455 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0291 | distance=1.0285894870758057 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:11:54.455 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0032 | distance=1.0471975803375244 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:11:54.455 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:11:54.456 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:11:54.456 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0711 | distance=0.8881 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:11:54.456 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0291 | distance=1.0286 | source=data\documents\interview.pdf | chunk=5
+2026-08-29 21:11:54.456 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0032 | distance=1.0472 | source=data\documents\interview.pdf | chunk=4
+2026-08-29 21:11:54.457 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:11:54.457 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.8881 | rerank_score=0.07112829387187958 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:11:54.458 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=1.0286 | rerank_score=0.029084844514727592 | source=data\documents\interview.pdf | chunk=5 | preview=onboarding new developers Explain your Book Recommendation System. Book Recommendation System this project recommends books based on a user's reading preferences using collaborativ...
+2026-08-29 21:11:54.458 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=1.0472 | rerank_score=0.0031771287322044373 | source=data\documents\interview.pdf | chunk=4 | preview=The system first parses Python files using the Abstract Syntax Tree (AST) module to extract structural information such as classes, functions, imports, variables, and their relatio...
+2026-08-29 21:11:54.459 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=14.913s
+2026-08-29 21:11:54.464 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:11:54.465 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:11:54.465 | INFO     | app.vectorstore.vectorstore_service:__init__:42 - VectorStoreService initialized | provider=ChromaVectorStore
+2026-08-29 21:11:54.465 | INFO     | app.rag.reranker_service:__init__:21 - Initializing RerankerService | model=BAAI/bge-reranker-base
+2026-08-29 21:11:54.466 | INFO     | app.rag.reranker:__init__:28 - Loading reranker model: BAAI/bge-reranker-base
+2026-08-29 21:12:01.617 | INFO     | app.rag.reranker:__init__:37 - Reranker model loaded successfully | model=BAAI/bge-reranker-base
+2026-08-29 21:12:01.617 | INFO     | app.rag.reranker_service:__init__:28 - RerankerService initialized successfully.
+2026-08-29 21:12:01.617 | INFO     | app.rag.retrieval:retrieve:161 - Retrieval started | question=Describe your internship experience | final_k=3 | candidate_k=12
+2026-08-29 21:12:01.651 | INFO     | app.rag.retrieval:retrieve:190 - Query embedding generated | dimensions=384
+2026-08-29 21:12:01.652 | INFO     | app.vectorstore.chroma_vectorstore:search:267 - Running ChromaDB vector search | requested_k=12 | actual_k=12 | collection_count=44
+2026-08-29 21:12:01.655 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=1 | cosine_distance=0.7894
+2026-08-29 21:12:01.656 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=2 | cosine_distance=0.7894
+2026-08-29 21:12:01.656 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=3 | cosine_distance=0.7894
+2026-08-29 21:12:01.656 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=4 | cosine_distance=0.7951
+2026-08-29 21:12:01.657 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=5 | cosine_distance=0.7951
+2026-08-29 21:12:01.657 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=6 | cosine_distance=0.8725
+2026-08-29 21:12:01.658 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=7 | cosine_distance=0.8725
+2026-08-29 21:12:01.658 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=8 | cosine_distance=0.8725
+2026-08-29 21:12:01.658 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=9 | cosine_distance=0.8838
+2026-08-29 21:12:01.658 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=10 | cosine_distance=0.8838
+2026-08-29 21:12:01.659 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=11 | cosine_distance=0.8995
+2026-08-29 21:12:01.659 | INFO     | app.vectorstore.chroma_vectorstore:search:297 - Vector result | rank=12 | cosine_distance=0.8995
+2026-08-29 21:12:01.660 | INFO     | app.vectorstore.chroma_vectorstore:search:303 - ChromaDB search completed | results=12
+2026-08-29 21:12:01.661 | INFO     | app.rag.retrieval:retrieve:214 - Dense retrieval returned 5 candidates.
+2026-08-29 21:12:01.661 | INFO     | app.rag.retrieval:_log_candidates:912 - DENSE RETRIEVAL RESULTS | count=5
+2026-08-29 21:12:01.662 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:12:01.662 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=2 | distance=0.7951 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:12:01.663 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=3 | distance=0.8725 | rerank_score=0.0 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:12:01.664 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=4 | distance=0.8838 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=9 | preview=from the Pinecone vector database. After retrieving the Top-K relevant medical documents, it passed both the retrieved context and the user's question to the LLM to generate a grou...
+2026-08-29 21:12:01.664 | INFO     | app.rag.retrieval:_log_candidates:961 - DENSE RETRIEVAL RESULTS | rank=5 | distance=0.8995 | rerank_score=0.0 | source=data\documents\interview.pdf | chunk=2 | preview=continuing to learn and grow as a genAI engineer. Explain about Medical Chatbot Medical Chatbot, This project i built using a Retrieval-Augmented Generation (RAG) architecture. The...
+2026-08-29 21:12:01.665 | INFO     | app.rag.retrieval:_rerank:509 - Reranking 5 candidate documents.
+2026-08-29 21:12:01.665 | INFO     | app.rag.reranker_service:rerank:54 - Running CrossEncoder reranking | candidates=5
+2026-08-29 21:12:01.666 | INFO     | app.rag.reranker:rerank:65 - Reranking 5 documents...
+2026-08-29 21:12:02.963 | INFO     | app.rag.reranker:rerank:137 - Reranking completed | candidates=5 | returned=3
+2026-08-29 21:12:02.964 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 1 | score=0.0433 | distance=0.7950562238693237 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:12:02.964 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 2 | score=0.0028 | distance=0.7894431352615356 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:12:02.965 | INFO     | app.rag.reranker:rerank:160 - RERANK RESULT 3 | score=0.0003 | distance=0.872469425201416 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:12:02.965 | INFO     | app.rag.reranker_service:rerank:65 - CrossEncoder reranking completed | results=3
+2026-08-29 21:12:02.966 | INFO     | app.rag.retrieval:_rerank:530 - Reranking completed. 3 documents remain.
+2026-08-29 21:12:02.966 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 1 | score=0.0433 | distance=0.7951 | source=data\documents\interview.pdf | chunk=0
+2026-08-29 21:12:02.967 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 2 | score=0.0028 | distance=0.7894 | source=data\documents\resume.pdf | chunk=2
+2026-08-29 21:12:02.967 | INFO     | app.rag.retrieval:_rerank:539 - RERANKED RESULT 3 | score=0.0003 | distance=0.8725 | source=data\documents\resume.pdf | chunk=4
+2026-08-29 21:12:02.968 | INFO     | app.rag.retrieval:_log_candidates:912 - FINAL RETRIEVAL RESULTS | count=3
+2026-08-29 21:12:02.968 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=1 | distance=0.7894 | rerank_score=0.0027658932376652956 | source=data\documents\resume.pdf | chunk=2 | preview=WORK EXPERIENCE AI Associate ResourcePro 06/2025 – 05/2026 | Bangalore •Developed AI-driven automation workflows to streamline insurance operations and reduce manual effort. •Perfo...
+2026-08-29 21:12:02.969 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=2 | distance=0.8725 | rerank_score=0.00033347043790854514 | source=data\documents\resume.pdf | chunk=4 | preview=EDUCATION MCA Bangalore University 01/2023 – 11/2024 | Bengaluru, India MCA was completed with distinction, achieving an overall CGPA of 8.05. BCA Kuvempu University 06/2019 – 11/2...
+2026-08-29 21:12:02.969 | INFO     | app.rag.retrieval:_log_candidates:961 - FINAL RETRIEVAL RESULTS | rank=3 | distance=0.7951 | rerank_score=0.04327276349067688 | source=data\documents\interview.pdf | chunk=0 | preview=Introduce yourself? Hi good afternoon. Myself Bharati mudi. Aspiring data scientist with 1.5 years of experience in developing end-to-end Solutions using generative AI, ML, CV and ...
+2026-08-29 21:12:02.969 | INFO     | app.rag.retrieval:retrieve:281 - Retrieval completed | results=3 | elapsed=8.504s
+2026-08-29 21:12:02.973 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:12:02.974 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:12:02.977 | INFO     | app.rag.retrieval:__init__:73 - Initializing DocumentRetriever...
+2026-08-29 21:12:02.977 | INFO     | app.rag.retrieval:__init__:98 - DocumentRetriever initialized | reranker_enabled=True | candidate_multiplier=4 | max_rerank_candidates=16
+2026-08-29 21:12:03.280 | INFO     | app.memory.memory_service:__init__:25 - MemoryService initialized (max history=20).
+2026-08-29 21:12:06.291 | INFO     | app.speech.whisper_service:__init__:37 - Loading Whisper model: base
+2026-08-29 21:12:07.236 | INFO     | app.speech.whisper_service:__init__:52 - Whisper model loaded in 0.94 sec.
+2026-08-29 21:12:07.236 | INFO     | app.assistant.interview_assistant:answer_question:78 - Question: Describe your internship experience
+2026-08-29 21:12:07.237 | INFO     | app.assistant.interview_assistant:answer_question:87 - Starting document retrieval...
+2026-08-29 21:12:07.237 | INFO     | app.assistant.interview_assistant:answer_question:97 - Retrieved 1 documents.
+2026-08-29 21:12:07.237 | INFO     | app.assistant.interview_assistant:answer_question:106 - Building interview prompt...
+2026-08-29 21:12:07.237 | INFO     | app.assistant.interview_assistant:answer_question:117 - Interview prompt built successfully.
+2026-08-29 21:12:07.238 | INFO     | app.assistant.interview_assistant:answer_question:145 - Final LLM prompt length=215 characters
+2026-08-29 21:12:07.238 | INFO     | app.assistant.interview_assistant:answer_question:154 - Generating interview answer...
+2026-08-29 21:12:07.239 | INFO     | app.assistant.interview_assistant:answer_question:186 - Interview pipeline completed in 0.00 sec.

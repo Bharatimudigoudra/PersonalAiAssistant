@@ -96,3 +96,46 @@ def test_document_ingestion_sets_explicit_document_metadata() -> None:
     assert resume_metadata["section"] == "experience"
     assert interview_metadata["document_type"] == "interview"
     assert interview_metadata["section"] == "intro"
+
+
+def test_interview_assistant_uses_retrieved_context_in_prompt() -> None:
+    from app.assistant.interview_assistant import InterviewAssistant
+
+    class FakeLLM:
+        def __init__(self) -> None:
+            self.prompt = ""
+
+        def generate_rag(self, prompt: str) -> str:
+            self.prompt = prompt
+            return "I worked at ResourcePro on AI automation workflows."
+
+    class FakePromptBuilder:
+        def build(self, question: str, documents):
+            return (
+                "SYSTEM",
+                f"QUESTION={question}\nDOCS={len(documents)}\nFIRST={documents[0].content}",
+            )
+
+    class FakeRetriever:
+        def retrieve(self, question: str):
+            return [
+                RetrievedDocument(
+                    content="WORK EXPERIENCE AI Associate ResourcePro. Developed AI-driven automation workflows.",
+                    metadata={"source": "data/documents/resume.pdf", "document_type": "resume"},
+                )
+            ]
+
+    fake_llm = FakeLLM()
+    fake_builder = FakePromptBuilder()
+    fake_retriever = FakeRetriever()
+
+    assistant = InterviewAssistant.__new__(InterviewAssistant)
+    assistant.retriever = fake_retriever
+    assistant.prompt_builder = fake_builder
+    assistant.llm = fake_llm
+
+    answer = assistant.answer_question("Describe your internship experience")
+
+    assert answer.startswith("I worked")
+    assert "ResourcePro" in fake_llm.prompt
+    assert "DOCS=1" in fake_llm.prompt
