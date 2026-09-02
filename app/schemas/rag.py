@@ -16,7 +16,7 @@ class RAGRequest(BaseModel):
         max_length=4000,
         description="Question to answer using retrieved documents.",
         examples=[
-            ""
+            "What projects has Bharati worked on?"
         ],
     )
 
