@@ -21,7 +21,7 @@ class RAGRequest(BaseModel):
     )
 
 
-class RAGResponse(BaseModel):
+class r(BaseModel):
     """
     Response model for Retrieval-Augmented Generation.
     """
